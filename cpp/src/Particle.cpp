@@ -1,18 +1,18 @@
 #include "Particle.h"
+#include <iostream>
 
-Particle::Particle(Vector2 pos, double m)
-    : position(pos), mass(m), velocity(0,0), forceAccum(0,0) {}
+Particle::Particle(Vector2 pos, float m)
+    : position(pos), mass(m), radius(1.), prev_position(pos), forceAccum(0,0) {}
 
-void Particle::applyForce(Vector2& f) {
+void Particle::applyForce(const Vector2& f) {
     forceAccum += f;
 }
 
 void Particle::update(double dt) {
-    // acceleration = F/m
-    Vector2 acceleration = forceAccum / mass;
-    velocity += acceleration * dt;
-    position += velocity * dt;
-
-    // reset forces
-    forceAccum = {0,0};
+    Vector2 temp = position;
+    Vector2 acceleration = forceAccum/mass;
+    position += (position - prev_position) + acceleration * dt * dt;
+    prev_position = temp;
+    forceAccum = {};
+    std::cout << position.y << "\n";
 }

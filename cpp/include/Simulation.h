@@ -1,16 +1,15 @@
 #pragma once
-#include <vector>
-#include <memory>
-#include "Body.h"
+#include "SoftBody.h"
 
 class Simulation {
 public:
-    void addBody(std::unique_ptr<Body> body);
-    void resolveCollision(Body& a, Body& b);
+    void addBody(SoftBody body);
     void step(double dt);
 
-    const std::vector<std::unique_ptr<Body>>& getBodies() const { return bodies; }
-
 private:
-    std::vector<std::unique_ptr<Body>> bodies;
+    std::vector<SoftBody> bodies;
+
+    //TODO add other solvers
+    void applyGravity();
+    void updateObjects(double dt);
 };
