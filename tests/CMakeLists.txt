@@ -8,7 +8,7 @@ FetchContent_MakeAvailable(googletest)
 
 enable_testing()
 
-add_executable(test_runner test_utils.cpp)
+add_executable(test_runner TestUtils.cpp)
 target_link_libraries(test_runner my_lib gtest_main)
 
 include(GoogleTest)
