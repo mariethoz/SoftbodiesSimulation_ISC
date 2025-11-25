@@ -7,11 +7,13 @@ struct Vector2 {
     Vector2(float x = 0.0, float y = 0.0) : x(x), y(y) {}
 
     Vector2 operator+(const Vector2& other) const { return {x + other.x, y + other.y}; }
+    Vector2 operator-() const { return {-x, -y}; }
     Vector2 operator-(const Vector2& other) const { return {x - other.x, y - other.y}; }
     Vector2 operator*(float scalar) const { return {x * scalar, y * scalar}; }
     Vector2 operator/(float scalar) const { return {x / scalar, y / scalar}; }
 
     Vector2& operator+=(const Vector2& other) { x += other.x; y += other.y; return *this; }
+    Vector2& operator-=(const Vector2& other) { x -= other.x; y -= other.y; return *this; }
     Vector2& operator*=(float scalar) { x *= scalar; y *= scalar; return *this; }
 
     float dot(const Vector2& other) const { return x * other.x + y * other.y; }

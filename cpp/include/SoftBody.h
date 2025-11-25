@@ -12,7 +12,6 @@ public:
     // Core function
     void applyForce(const Vector2& f);
     void update(double dt);
-    void collision();
 
 protected:
     std::vector<Particle> particles;

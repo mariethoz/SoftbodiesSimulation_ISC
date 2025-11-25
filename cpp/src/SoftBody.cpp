@@ -14,6 +14,3 @@ void SoftBody::update(double dt) {
         p.update(dt);
     }
 }
-
-void SoftBody::collision() {
-}
