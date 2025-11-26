@@ -14,5 +14,4 @@ void Particle::update(double dt) {
     position += (position - prev_position) + acceleration * dt * dt;
     prev_position = temp;
     force_accum = {};
-    std::cout << position.x << " , " << position.y << "\n";
 }

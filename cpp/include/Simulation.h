@@ -8,7 +8,8 @@ public:
     void addBody(SoftBody body);
     void step(double dt);
 
-    // configure world bounds
+    // --- Accessors & mutators ----
+    std::vector<SoftBody> getBodies() { return bodies; }
     void setWorldBounds(const Vector2& min, const Vector2& max) { worldMin = min; worldMax = max; }
 
 private:
