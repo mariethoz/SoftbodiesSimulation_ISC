@@ -10,10 +10,12 @@ public:
 
     // --- Accessors & mutators ----
     std::vector<SoftBody> getBodies() { return bodies; }
+    void setGravity(const Vector2 gravity) { this->gravity = gravity; }
     void setWorldBounds(const Vector2& min, const Vector2& max) { worldMin = min; worldMax = max; }
 
 private:
     std::vector<SoftBody> bodies;
+    Vector2 gravity = Vector2();
 
     // world bounds
     Vector2 worldMin{ -10.0f, -10.0f };
@@ -31,7 +33,4 @@ private:
     void collisionsBodies();
     void updateObjects(double dt);
 
-    // helpers
-    struct AABB { Vector2 min, max; };
-    AABB computeBodyAABB(SoftBody& b) const;
 };

@@ -19,7 +19,6 @@ void Simulation::step(double dt) {
 }
 
 void Simulation::applyGravity() {
-    Vector2 gravity(0.0f, -10.0f);
     for (auto& body : bodies)
         body.applyForce(gravity);
 }
@@ -55,7 +54,7 @@ void Simulation::collisionsBodies() {
             // Average friction coefficient
             float mu = 0.5f * (obj1.getFriction() + obj2.getFriction());
             // Average restitution (elasticity)
-            float restitution = 0.0f; // tweak as needed
+            float restitution = std::min(obj1.getRestitution(), obj2.getRestitution());
 
             for (auto& part1 : obj1.getParticles()) {
                 for (auto& part2 : obj2.getParticles()) {
@@ -84,8 +83,8 @@ void Simulation::collisionsBodies() {
 
                         // Normal impulse (restitution)
                         float vn = rel_v.dot(n);
+                        float impulse = -(1.0f + restitution) * vn;
                         if (vn < 0) { // only resolve if moving toward each other
-                            float impulse = -(1.0f + restitution) * vn;
                             impulse /= (f1 + f2);
 
                             v1 += n * impulse * f1;
@@ -100,7 +99,9 @@ void Simulation::collisionsBodies() {
                             float vt = rel_v.dot(tangent);
 
                             // Friction impulse
-                            float frictionImpulse = mu * vt;
+                            float maxFriction = mu * fabs(impulse);
+                            float frictionImpulse = std::clamp(vt, -maxFriction, maxFriction);
+
                             v1 -= tangent * frictionImpulse * f1;
                             v2 += tangent * frictionImpulse * f2;
                         }
