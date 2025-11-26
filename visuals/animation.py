@@ -11,9 +11,12 @@ steps = len(df)
 
 fig, ax = plt.subplots()
 
-# Add black circle at (0,3) with radius 8
-circle = patches.Circle((0, 3), 8, edgecolor='black', facecolor='none', linewidth=2)
+# Add world
+circle = patches.Circle((0, -10), 5, edgecolor='black', facecolor='none', linewidth=2)
+circleI = patches.Circle((0, 0), 15, edgecolor='green', facecolor='none', linewidth=2)
 ax.add_patch(circle)
+ax.add_patch(circleI)
+ax.plot([-30, 30], [-10, -10], color='black', linewidth=2)  # extend line across x-range
 
 # Skip first column (step index)
 coord_cols = df.columns[1:]

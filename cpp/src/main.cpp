@@ -3,24 +3,29 @@
 #include "utils.h"
 #include "Simulation.h"
 #include <fstream>
+#include "PlaneWorldCollider.h"
+#include "CircleWorldCollider.h"
 
 int main() {
     float step = 0.001;
     Simulation sim;
     sim.setGravity(Vector2(0,-10/step));
+    sim.addCollider(new PlaneCollider( Vector2(0,1), -10.0f ));
+    sim.addCollider(new OuterCircleCollider( Vector2(0,-10), 5.0f ));
+    sim.addCollider(new InnerCircleCollider( Vector2( 0,0), 15.0f ));
 
     // Define positions for each particle
     std::vector<Vector2> positions = {
         {  2.0f, -1.1f },
         {  2.0f,  1.1f },
         { -2.0f,  1.1f },
-        {  0.0f, -2.0f },
-        {  1.5f,  2.0f },
-        { -3.0f,  0.5f },
-        {  4.0f,  1.0f },
-        { -1.5f, -1.5f },
-        {  0.0f,  4.5f },
-        {  2.5f, -3.0f }
+        // {  0.0f, -2.0f },
+        // {  1.5f,  2.0f },
+        // { -3.0f,  0.5f },
+        // {  4.0f,  1.0f },
+        // { -1.5f, -1.5f },
+        // {  0.0f,  4.5f },
+        // {  2.5f, -3.0f }
     };
 
 
@@ -33,6 +38,7 @@ int main() {
     }
     
     std::ofstream out("visuals/positions.csv");
+    out << 0;
     for (SoftBody& b: sim.getBodies()) {
         for (Particle& p: b.getParticles()) {
             Vector2 pos = p.getPosition();

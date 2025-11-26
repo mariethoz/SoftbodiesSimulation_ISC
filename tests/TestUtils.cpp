@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "Utils.h"
+#include "utils.h"
 
 TEST(UtilsTest, AddPositiveNumbers) {
     EXPECT_EQ(add(2, 3), 5);

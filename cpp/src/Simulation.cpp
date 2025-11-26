@@ -18,6 +18,10 @@ void Simulation::step(double dt) {
     updateObjects(dt);
 }
 
+void Simulation::addCollider(WorldCollider *col) {
+    colliders.push_back(col);
+}
+
 void Simulation::applyGravity() {
     for (auto& body : bodies)
         body.applyForce(gravity);
@@ -29,19 +33,26 @@ void Simulation::resolveCollisions() {
 }
 
 void Simulation::collisionsWorld() {
-    const Vector2 position = {0,3};
-    const float radius = 8;
-    for(auto& b: bodies){
-        for(auto& p: b.getParticles()){
-            const Vector2 to_p = p.getPosition() - position;
-            const float dist = to_p.length();
-            const float maxDist = radius - p.getRadius();
-            if (dist > maxDist) {
-                const Vector2 n = to_p / dist; // normalized direction
-                p.setPosition(position + n * maxDist);
+    for (auto& body : bodies) {
+        for (auto& p : body.getParticles()) {
+            for (auto collider : colliders) {
+                collider->collide(p);
             }
         }
     }
+    // const Vector2 position = {0,3};
+    // const float radius = 8;
+    // for(auto& b: bodies){
+    //     for(auto& p: b.getParticles()){
+    //         const Vector2 to_p = p.getPosition() - position;
+    //         const float dist = to_p.length();
+    //         const float maxDist = radius - p.getRadius();
+    //         if (dist > maxDist) {
+    //             const Vector2 n = to_p / dist; // normalized direction
+    //             p.setPosition(position + n * maxDist);
+    //         }
+    //     }
+    // }
 }
 
 void Simulation::collisionsBodies() {
