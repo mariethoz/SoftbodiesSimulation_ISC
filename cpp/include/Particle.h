@@ -5,10 +5,11 @@ class Particle {
 public:
     Particle(Vector2 pos, float mass = 1.0f);
 
+    // Core function
     void applyForce(const Vector2& f);
     void update(double dt);
 
-    // --- Accessors & mutators needed for collision resolution ----
+    // --- Accessors & mutators ----
     const Vector2& getPosition() const { return position; }
     const Vector2& getPrevPosition() const { return prev_position; }
     void setPosition(const Vector2& p) { position = p; }

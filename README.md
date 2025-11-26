@@ -15,3 +15,18 @@ Then depending of the compilator used looking for the `my_project.exe` file and 
 ```bash
 .\build\Debug\my_project.exe
 ```
+
+## Python visualisation
+
+After running `main.cpp` you should have a **CSV** file. First step, you need to have the virtual environement to run the python script.
+
+```bash
+uv venv
+```
+
+The you can run the `animation.py` using;
+
+```bash
+uv run python ./visuals/animation.py
+```
+
