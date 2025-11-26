@@ -5,20 +5,34 @@
 #include <fstream>
 
 int main() {
+    float step = 0.001;
     Simulation sim;
+    sim.setGravity(Vector2(0,-10/step));
 
-    std::vector<Particle> p1;
-    p1.emplace_back(Vector2(2, -1.1), 1.0f);
-    std::vector<Particle> p2;
-    p2.emplace_back(Vector2(2, 1.1), 1.0f);
+    // Define positions for each particle
+    std::vector<Vector2> positions = {
+        {  2.0f, -1.1f },
+        {  2.0f,  1.1f },
+        { -2.0f,  1.1f },
+        {  0.0f, -2.0f },
+        {  1.5f,  2.0f },
+        { -3.0f,  0.5f },
+        {  4.0f,  1.0f },
+        { -1.5f, -1.5f },
+        {  0.0f,  4.5f },
+        {  2.5f, -3.0f }
+    };
 
-    SoftBody body1 = SoftBody(p1, 0.0);
-    sim.addBody(body1);
-    SoftBody body2 = SoftBody(p2, 0.0);
-    sim.addBody(body2);
+
+    // Create one SoftBody per particle
+    for (auto& pos : positions) {
+        std::vector<Particle> p;
+        p.emplace_back(pos, 1.0f);   // single particle
+        SoftBody body(p, 0.5f, 0.5f);
+        sim.addBody(body);
+    }
     
     std::ofstream out("visuals/positions.csv");
-    out << "0";
     for (SoftBody& b: sim.getBodies()) {
         for (Particle& p: b.getParticles()) {
             Vector2 pos = p.getPosition();
@@ -27,8 +41,8 @@ int main() {
     }
     out << "\n";
 
-    for (int i = 1; i < 10000; i++) {
-        sim.step(0.01);
+    for (int i = 1; i < 1000; i++) {
+        sim.step(step);
         out << i;
         for (SoftBody& b: sim.getBodies()) {
             for (Particle& p: b.getParticles()) {

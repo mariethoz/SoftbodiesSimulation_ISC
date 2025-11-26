@@ -3,8 +3,10 @@ import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 import matplotlib.patches as patches
 
-# Load your data
-df = pd.read_csv("visuals/positions.csv", names=["x","y","x1","y1"])
+# Load CSV without headers
+# Example row: step, x1, y1, x2, y2, ...
+df = pd.read_csv("visuals/positions.csv", header=None)
+
 steps = len(df)
 
 fig, ax = plt.subplots()
@@ -13,22 +15,37 @@ fig, ax = plt.subplots()
 circle = patches.Circle((0, 3), 8, edgecolor='black', facecolor='none', linewidth=2)
 ax.add_patch(circle)
 
-ax.set_xlim(df[["x","x1"]].min().min() - 2, df[["x","x1"]].max().max() + 2)
-ax.set_ylim(df[["y","y1"]].min().min() - 2, df[["y","y1"]].max().max() + 2)
+# Skip first column (step index)
+coord_cols = df.columns[1:]
 
-# Create particle circles with radius = 1 unit
-particle1 = patches.Circle((df["x"].iloc[0], df["y"].iloc[0]), 1, color='r', alpha=0.6, label="Particle 1")
-particle2 = patches.Circle((df["x1"].iloc[0], df["y1"].iloc[0]), 1, color='g', alpha=0.6, label="Particle 2")
-ax.add_patch(particle1)
-ax.add_patch(particle2)
+# Split into x/y pairs
+x_cols = coord_cols[::2]  # even indices after step
+y_cols = coord_cols[1::2] # odd indices after step
 
-ax.legend()
+# Compute global limits
+ax.set_xlim(df[x_cols].min().min() - 2, df[x_cols].max().max() + 2)
+ax.set_ylim(df[y_cols].min().min() - 2, df[y_cols].max().max() + 2)
 
+# Create particles dynamically
+particles = []
+colors = ['r', 'g', 'b', 'm', 'c', 'y']  # cycle through colors
+for i, (xcol, ycol) in enumerate(zip(x_cols, y_cols)):
+    particle = patches.Circle(
+        (df[xcol].iloc[0], df[ycol].iloc[0]),
+        1,
+        color=colors[i % len(colors)],
+        alpha=0.6,
+        label=f"Particle {i+1}"
+    )
+    ax.add_patch(particle)
+    particles.append((particle, xcol, ycol))
+
+# Update function
 def update(frame):
-    particle1.center = (df["x"].iloc[frame], df["y"].iloc[frame])
-    particle2.center = (df["x1"].iloc[frame], df["y1"].iloc[frame])
-    return particle1, particle2
+    for particle, xcol, ycol in particles:
+        particle.center = (df[xcol].iloc[frame], df[ycol].iloc[frame])
+    return [p[0] for p in particles]
 
-ani = FuncAnimation(fig, update, frames=steps, interval=10, blit=True)
+ani = FuncAnimation(fig, update, frames=steps, interval=25, blit=True)
 
 plt.show()
