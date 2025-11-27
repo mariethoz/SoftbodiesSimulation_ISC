@@ -1,5 +1,7 @@
 #include "SoftBody.h"
 
+using namespace sim;
+
 SoftBody::SoftBody(const std::vector<Particle> &part)
     : particles(part), friction(0.5), restitution(0.5) {};
 

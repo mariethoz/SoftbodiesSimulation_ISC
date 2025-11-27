@@ -1,5 +1,7 @@
 #include "PlaneWorldCollider.h"
 
+using namespace sim;
+
 PlaneCollider::PlaneCollider(Vector2 normal, float d)
     : normal(normal.normalized()), d(d) {};
 

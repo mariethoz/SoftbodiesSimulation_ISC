@@ -1,6 +1,8 @@
 #include "Particle.h"
 #include <iostream>
 
+using namespace sim;
+
 Particle::Particle(Vector2 pos, float m)
     : position(pos), mass(m), radius(1.), prev_position(pos), force_accum(0,0) {}
 

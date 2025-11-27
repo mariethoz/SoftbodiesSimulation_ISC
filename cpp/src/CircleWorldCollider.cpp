@@ -1,5 +1,7 @@
 #include "CircleWorldCollider.h"
 
+using namespace sim;
+
 InnerCircleCollider::InnerCircleCollider(Vector2 center, float radius)
     : center(center), radius(radius) {}
 

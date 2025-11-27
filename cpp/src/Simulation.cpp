@@ -3,6 +3,8 @@
 #include <algorithm>
 #include <iostream>
 
+using namespace sim;
+
 void Simulation::addBody(SoftBody body) {
     bodies.push_back(std::move(body));
 }

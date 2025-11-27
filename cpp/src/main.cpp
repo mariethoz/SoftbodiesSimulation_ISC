@@ -6,6 +6,8 @@
 #include "PlaneWorldCollider.h"
 #include "CircleWorldCollider.h"
 
+using namespace sim;
+
 int main() {
     float step = 0.001;
     Simulation sim;
