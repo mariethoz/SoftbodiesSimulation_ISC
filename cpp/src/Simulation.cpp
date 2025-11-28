@@ -9,7 +9,16 @@ void Simulation::addBody(SoftBody body) {
     bodies.push_back(std::move(body));
 }
 
-void Simulation::step(double dt) {
+void Simulation::addCollider(WorldCollider *col) {
+    colliders.push_back(col);
+}
+
+sim::Simulation::~Simulation(){
+    clear();
+}
+
+void Simulation::step(double dt)
+{
     // 1. Apply global forces (gravity)
     applyGravity();
 
@@ -20,9 +29,12 @@ void Simulation::step(double dt) {
     updateObjects(dt);
 }
 
-void Simulation::addCollider(WorldCollider *col) {
-    colliders.push_back(col);
+void Simulation::clear() {
+    bodies.clear();
+    for (auto *c : colliders) delete c;
+    colliders.clear();
 }
+
 
 void Simulation::applyGravity() {
     for (auto& body : bodies)
@@ -42,19 +54,6 @@ void Simulation::collisionsWorld() {
             }
         }
     }
-    // const Vector2 position = {0,3};
-    // const float radius = 8;
-    // for(auto& b: bodies){
-    //     for(auto& p: b.getParticles()){
-    //         const Vector2 to_p = p.getPosition() - position;
-    //         const float dist = to_p.length();
-    //         const float maxDist = radius - p.getRadius();
-    //         if (dist > maxDist) {
-    //             const Vector2 n = to_p / dist; // normalized direction
-    //             p.setPosition(position + n * maxDist);
-    //         }
-    //     }
-    // }
 }
 
 void Simulation::collisionsBodies() {

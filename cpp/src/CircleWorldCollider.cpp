@@ -2,8 +2,11 @@
 
 using namespace sim;
 
-InnerCircleCollider::InnerCircleCollider(Vector2 center, float radius)
+sim::CircleCollider::CircleCollider(Vector2 center, float radius)
     : center(center), radius(radius) {}
+
+InnerCircleCollider::InnerCircleCollider(Vector2 center, float radius)
+    : CircleCollider(center, radius) {}
 
 bool InnerCircleCollider::collide(Particle &p) {
     Vector2 toP = p.getPosition() - center;
@@ -19,7 +22,7 @@ bool InnerCircleCollider::collide(Particle &p) {
 }
 
 OuterCircleCollider::OuterCircleCollider(Vector2 center, float radius)
-    : center(center), radius(radius) {}
+    : CircleCollider(center, radius) {}
 
 bool OuterCircleCollider::collide(Particle &p) {
     Vector2 toP = p.getPosition() - center;

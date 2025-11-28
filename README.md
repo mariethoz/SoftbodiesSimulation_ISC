@@ -30,3 +30,16 @@ The you can run the `animation.py` using;
 uv run python ./visuals/animation.py
 ```
 
+## Godot plugin
+### Build api
+Into `godot-cpp` folder which contain the GDExtension code from Godot;
+
+```bash
+scons platform=windows
+```
+
+Then into the root
+
+```bash
+scons platform=windows
+```

@@ -1,4 +1,32 @@
-build
 .vscode
 .venv
 *.csv
+
+godot-cpp
+godot-demo
+
+# Godot project files
+.import/
+export.cfg
+export_presets.cfg
+
+# Build artifacts from godot-cpp / scons
+*.obj
+*.o
+*.os
+*.a
+*.so
+*.dll
+*.dylib
+*.exe
+*.exp
+*.lib
+*.pdb
+
+# SCons build directories
+.sconsign.dblite
+.sconsign.*
+.sconsign
+.cache/
+bin/
+build/

@@ -3,25 +3,27 @@
 #include "Vector2.h"
 
 namespace sim {
-    class InnerCircleCollider : public WorldCollider {
+    class CircleCollider : public WorldCollider {
+        public:
+            CircleCollider(Vector2 center, float radius);
+            Vector2 getCenter() { return center; }
+            float getRadius() { return radius; }
+        protected:
+            Vector2 center;
+            float radius;
+    };
+
+    class InnerCircleCollider : public CircleCollider {
     public:
         InnerCircleCollider(Vector2 center, float radius);
         
         bool collide(Particle& p) override;
-
-    private:
-        Vector2 center;
-        float radius;
     };
 
-    class OuterCircleCollider : public WorldCollider {
+    class OuterCircleCollider : public CircleCollider {
     public:
         OuterCircleCollider(Vector2 center, float radius);
         
         bool collide(Particle& p) override;
-
-    private:
-        Vector2 center;
-        float radius;
     };
 }

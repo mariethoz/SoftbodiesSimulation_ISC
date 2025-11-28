@@ -7,12 +7,15 @@
 namespace sim {
     class Simulation {
     public:
-        void addBody(SoftBody body);
+        ~Simulation();
         void step(double dt);
+        void addBody(SoftBody body);
         void addCollider(WorldCollider* col);
 
         // --- Accessors & mutators ----
+        void clear();
         std::vector<SoftBody> getBodies() { return bodies; }
+        std::vector<WorldCollider*> getColliders() { return colliders; }
         void setGravity(const Vector2 gravity) { this->gravity = gravity; }
 
     private:
