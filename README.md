@@ -42,4 +42,5 @@ Then into the root
 
 ```bash
 scons platform=windows
+scons -c
 ```

@@ -6,10 +6,10 @@
 using namespace sim;
 
 void Simulation::addBody(SoftBody body) {
-    bodies.push_back(std::move(body));
+    bodies.push_back(body);
 }
 
-void Simulation::addCollider(WorldCollider *col) {
+void Simulation::addCollider(WorldCollider* col) {
     colliders.push_back(col);
 }
 
@@ -22,16 +22,15 @@ void Simulation::step(double dt)
     // 1. Apply global forces (gravity)
     applyGravity();
 
-    // 2. Resolve Collision (broad & narrow)
-    resolveCollisions();
-
-    // 3. Integrate particles (Verlet)
+    // 2. Integrate particles (Verlet)
     updateObjects(dt);
+
+    // 1. Resolve Collision (broad & narrow)
+    resolveCollisions();
 }
 
 void Simulation::clear() {
     bodies.clear();
-    for (auto *c : colliders) delete c;
     colliders.clear();
 }
 

@@ -1,7 +1,7 @@
 #include "GDSimulation.h"
+#include "GDVector2.h"
 #include "CircleWorldCollider.h"
 #include "PlaneWorldCollider.h"
-#include "GDVector2.h"
 
 using namespace godot;
 using namespace convert;
@@ -9,15 +9,11 @@ using namespace convert;
 const int SCALE_DRAW = 20;
 
 void GDParticleSimulation::_bind_methods() {
-    ClassDB::bind_method(D_METHOD("set_time_step", "step"), &GDParticleSimulation::set_time_step);
-    ClassDB::bind_method(D_METHOD("get_time_step"), &GDParticleSimulation::get_time_step);
-
     ClassDB::bind_method(D_METHOD("set_particles", "particles"), &GDParticleSimulation::set_particles);
     ClassDB::bind_method(D_METHOD("get_particles"), &GDParticleSimulation::get_particles);
 
     ClassDB::bind_method(D_METHOD("reset_simulation"), &GDParticleSimulation::reset_simulation);
 
-    ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "time_step"), "set_time_step", "get_time_step");
     ADD_PROPERTY(PropertyInfo(Variant::PACKED_VECTOR2_ARRAY, "particles"), "set_particles", "get_particles");
 }
 
@@ -35,10 +31,10 @@ void GDParticleSimulation::reset_simulation() {
 void GDParticleSimulation::_ready() {
 
     // Same setup as your main.cpp
-    simulation.setGravity(sim::Vector2(0, -10 / step));
-    simulation.addCollider(new sim::PlaneCollider(sim::Vector2(0,1), -10.0f));
-    simulation.addCollider(new sim::OuterCircleCollider(sim::Vector2(0,-10), 5.0f));
-    simulation.addCollider(new sim::InnerCircleCollider(sim::Vector2(0,0), 15.0f));
+    simulation.setGravity(sim::Vector2(0, -10));
+    simulation.addCollider(&c1);
+    simulation.addCollider(&c2);
+    simulation.addCollider(&c3);
 
     // Particles
     if (particles.size() == 0) {
@@ -72,13 +68,13 @@ void GDParticleSimulation::_ready() {
 }
 
 void GDParticleSimulation::_process(double delta) {
-    simulation.step(step);
+    simulation.step(delta);
     queue_redraw();
 }
 
 void GDParticleSimulation::_draw() {
-    for (auto &body : simulation.getBodies()) {
-        for (auto &p : body.getParticles()) {
+    for (auto body : simulation.getBodies()) {
+        for (auto p : body.getParticles()) {
             Vector2 pos = convert::to_godot(p.getPosition()) * SCALE_DRAW;
             float radius = p.getRadius() * SCALE_DRAW;
             draw_circle(pos, radius, Color(1,1,1));
