@@ -1,8 +1,7 @@
 // main.cpp
 #include <iostream>
-#include "utils.h"
-#include "Simulation.h"
 #include <fstream>
+#include "Simulation.h"
 #include "PlaneWorldCollider.h"
 #include "CircleWorldCollider.h"
 
@@ -64,6 +63,5 @@ int main() {
     out.close();
 
     std::cout << "Hello from MyProject!" << std::endl;
-    std::cout << "2 + 3 = " << add(2, 3) << std::endl;
     return 0;
 }

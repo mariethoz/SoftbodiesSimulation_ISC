@@ -1,4 +1,6 @@
-# Download GoogleTest using CMake's FetchContent
+# tests/CMakeLists.txt
+
+# GoogleTest
 include(FetchContent)
 FetchContent_Declare(
   googletest
@@ -6,10 +8,20 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(googletest)
 
-enable_testing()
+# Always recommended
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 
-add_executable(test_runner TestUtils.cpp)
-target_link_libraries(test_runner my_lib gtest_main)
+# ------------------------
+# Test executable
+# ------------------------
 
+file(GLOB TEST_SOURCES CONFIGURE_DEPENDS cpp/*.cpp)
+
+add_executable(test_runner ${TEST_SOURCES})
+target_link_libraries(test_runner PRIVATE my_lib gtest_main)
+
+# ------------------------
+# Register Google Tests
+# ------------------------
 include(GoogleTest)
 gtest_discover_tests(test_runner)

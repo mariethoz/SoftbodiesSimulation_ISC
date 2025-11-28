@@ -19,11 +19,11 @@ jobs:
     - name: Install dependencies
       run: sudo apt-get update && sudo apt-get install -y cmake g++
 
-    - name: Configure CMake
-      run: cmake -S . -B build
+    - name: Configure (CMake)
+      run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
 
     - name: Build
-      run: cmake --build build
+      run: cmake --build build --config Release
 
     - name: Run tests
-      run: ctest --test-dir build
+      run: ctest --test-dir build --output-on-failure
