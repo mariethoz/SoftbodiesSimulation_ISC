@@ -33,7 +33,20 @@ void Simulation::step(double dt)
 }
 
 void Simulation::clear() {
+    for (auto& b: bodies) {
+        for (auto& p: b->getParticles()) {
+            delete p;
+        }
+        for (auto& c: b->getConstraints()) {
+            delete c;
+        }
+        delete b;
+    }
     bodies.clear();
+
+    for (auto& c: colliders) {
+        delete c;
+    }
     colliders.clear();
 }
 

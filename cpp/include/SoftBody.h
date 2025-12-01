@@ -18,6 +18,7 @@ namespace sim {
 
         // --- Accessors & mutators ----
         std::vector<Particle*> getParticles() { return particles; }
+        std::vector<Constraint*> getConstraints() { return constraints; }
         float getFriction() { return friction; }
         float getRestitution() { return restitution; }
 

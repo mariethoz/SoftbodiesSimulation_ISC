@@ -2,6 +2,8 @@
 #include "GDVector2.h"
 #include "CircleWorldCollider.h"
 #include "PlaneWorldCollider.h"
+#include "Particle.h"
+#include "SoftBody.h"
 
 using namespace godot;
 using namespace convert;
@@ -21,6 +23,7 @@ GDParticleSimulation::GDParticleSimulation() {
 }
 
 GDParticleSimulation::~GDParticleSimulation() {
+    simulation.clear();
 }
 
 void GDParticleSimulation::reset_simulation() {
@@ -32,9 +35,12 @@ void GDParticleSimulation::_ready() {
 
     // Same setup as your main.cpp
     simulation.setGravity(sim::Vector2(0, -10));
-    simulation.addCollider(&c1);
-    simulation.addCollider(&c2);
-    simulation.addCollider(&c3);
+    sim::PlaneCollider* c1 = new sim::PlaneCollider(sim::Vector2(0,1), -10.0f);
+    sim::OuterCircleCollider* c2 = new sim::OuterCircleCollider(sim::Vector2(0,-10), 5.0f);
+    sim::InnerCircleCollider* c3 = new sim::InnerCircleCollider(sim::Vector2(0,0), 15.0f);
+    simulation.addCollider(c1);
+    simulation.addCollider(c2);
+    simulation.addCollider(c3);
 
     // Particles
     if (particles.size() == 0) {
@@ -51,18 +57,18 @@ void GDParticleSimulation::_ready() {
             {  2.5f, -3.0f }
         };
 
-        for (auto &pos : positions) {
-            std::vector<sim::Particle> p;
-            p.emplace_back(pos, 1.0f);
-            sim::SoftBody body(p, 0.5f, 0.5f);
-            simulation.addBody(body);
+        
+        // Create one SoftBody per particle
+        std::vector<sim::Particle*> particles;
+        for (auto& pos : positions) {
+            particles.push_back(new sim::Particle(pos, 1.0f));  // allocate particles
         }
+        simulation.addBody(new sim::SoftBody(particles, 0.5f, 0.5f));
     } else {
         for (auto &part : particles) {
-            std::vector<sim::Particle> p;
-            p.emplace_back(convert::from_godot(part), 1.0f);
-            sim::SoftBody body(p, 0.5f, 0.5f);
-            simulation.addBody(body);
+            std::vector<sim::Particle*> p;
+            p.emplace_back(new sim::Particle(convert::from_godot(part), 1.0f));
+            simulation.addBody(new sim::SoftBody(p, 0.5f, 0.5f));
         }
     }
 }
@@ -74,9 +80,9 @@ void GDParticleSimulation::_process(double delta) {
 
 void GDParticleSimulation::_draw() {
     for (auto body : simulation.getBodies()) {
-        for (auto p : body.getParticles()) {
-            Vector2 pos = convert::to_godot(p.getPosition()) * SCALE_DRAW;
-            float radius = p.getRadius() * SCALE_DRAW;
+        for (auto p : body->getParticles()) {
+            Vector2 pos = convert::to_godot(p->getPosition()) * SCALE_DRAW;
+            float radius = p->getRadius() * SCALE_DRAW;
             draw_circle(pos, radius, Color(1,1,1));
         }
     }

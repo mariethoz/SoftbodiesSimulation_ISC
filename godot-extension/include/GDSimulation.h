@@ -14,9 +14,6 @@ namespace godot {
     private:
         sim::Simulation simulation;
         PackedVector2Array particles;
-        sim::PlaneCollider c1 = sim::PlaneCollider(sim::Vector2(0,1), -10.0f);
-        sim::OuterCircleCollider c2 = sim::OuterCircleCollider(sim::Vector2(0,-10), 5.0f);
-        sim::InnerCircleCollider c3 = sim::InnerCircleCollider(sim::Vector2(0,0), 15.0f);
 
     protected:
         static void _bind_methods();

@@ -62,12 +62,6 @@ int main() {
     }
 
     out.close();
-    for (auto& b: sim.getBodies()) {
-        for (auto& p: b->getParticles()) {
-            delete p;
-        }
-        delete b;
-    }
 
     std::cout << "Hello from MyProject!" << std::endl;
     std::cout << "It is the Particules example for the animation." << std::endl;
