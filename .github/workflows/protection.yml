@@ -8,7 +8,11 @@ jobs:
   block:
     runs-on: ubuntu-latest
     steps:
-      - name: Fail if not a PR
+      - name: Check if commit is a merge commit
         run: |
-          echo "Direct pushes to main are not allowed."
-          exit 1
+          if [[ "$(git log -1 --pretty=%P)" == *" "* ]]; then
+            echo "This is a merge commit from a PR. Allowed."
+          else
+            echo "❌ Direct pushes to main are not allowed."
+            exit 1
+          fi
