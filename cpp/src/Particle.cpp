@@ -1,10 +1,9 @@
 #include "Particle.h"
-#include <iostream>
 
 using namespace sim;
 
-Particle::Particle(Vector2 pos, float m)
-    : position(pos), mass(m), radius(1.), prev_position(pos), force_accum(0,0) {}
+Particle::Particle(Vector2 pos, float m, bool p)
+    : position(pos), mass(m), radius(1.), prev_position(pos), force_accum(0,0), pinned(p) {}
 
 void Particle::applyForce(const Vector2& f) {
     force_accum += f;

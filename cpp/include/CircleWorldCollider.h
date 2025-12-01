@@ -17,13 +17,13 @@ namespace sim {
     public:
         InnerCircleCollider(Vector2 center, float radius);
         
-        bool collide(Particle& p) override;
+        bool collide(Particle* p) override;
     };
 
     class OuterCircleCollider : public CircleCollider {
     public:
         OuterCircleCollider(Vector2 center, float radius);
         
-        bool collide(Particle& p) override;
+        bool collide(Particle* p) override;
     };
 }

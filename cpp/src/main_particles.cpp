@@ -8,42 +8,36 @@
 using namespace sim;
 
 int main() {
-    float step = 0.01;
+    float step = 0.001;
     Simulation sim;
-    sim.setGravity(Vector2(0,-10));
+    sim.setGravity(Vector2(0,-10/step));
     sim.addCollider(new PlaneCollider( Vector2(0,1), -10.0f ));
     sim.addCollider(new OuterCircleCollider( Vector2(0,-10), 5.0f ));
     sim.addCollider(new InnerCircleCollider( Vector2( 0,0), 15.0f ));
 
-    
     // Define positions for each particle
     std::vector<Vector2> positions = {
-        { -2.0f, -2.0f },  // bottom-left
-        {  2.0f, -2.0f },  // bottom-right
-        {  2.0f,  2.0f },  // top-right
-        { -2.0f,  2.0f }   // top-left
+        {  2.0f, -1.1f },
+        {  2.0f,  1.1f },
+        { -2.0f,  1.1f },
+        {  0.0f, -2.0f },
+        {  1.5f,  2.0f },
+        { -3.0f,  0.5f },
+        {  4.0f,  1.0f },
+        { -1.5f, -1.5f },
+        {  0.0f,  4.5f },
+        {  2.5f, -3.0f }
     };
 
 
-    // Create one SoftBody with 4 particles
-    std::vector<Particle*> particles;
+    // Create one SoftBody per particle
     for (auto& pos : positions) {
-        particles.push_back(new Particle(pos, 1.0f));  // allocate particles
+        std::vector<Particle*> p;
+        p.push_back(new Particle(pos, 1.0f));  // allocate particles
+        SoftBody* body = new SoftBody(p, 0.5f, 0.5f);
+        sim.addBody(body);
     }
 
-    std::vector<Constraint*> constraints;
-    // Edge constraints
-    constraints.push_back(new Constraint(particles[0], particles[1]));
-    constraints.push_back(new Constraint(particles[1], particles[2]));
-    constraints.push_back(new Constraint(particles[2], particles[3]));
-    constraints.push_back(new Constraint(particles[3], particles[0]));
-    // Diagonal constraints
-    constraints.push_back(new Constraint(particles[0], particles[2]));
-    constraints.push_back(new Constraint(particles[1], particles[3]));
-
-    // Build the square body
-    SoftBody square(particles, constraints, 0.5f, 0.5f);
-    sim.addBody(&square);
     
     std::ofstream out("visuals/positions.csv");
     out << 0;
@@ -67,15 +61,15 @@ int main() {
         out << "\n";
     }
 
-    for (auto& p:particles) {
-        delete p;
-    }
-    for (auto& c: constraints) {
-        delete c;
-    }
     out.close();
+    for (auto& b: sim.getBodies()) {
+        for (auto& p: b->getParticles()) {
+            delete p;
+        }
+        delete b;
+    }
 
     std::cout << "Hello from MyProject!" << std::endl;
-    std::cout << "It is the Constraints example for the animation." << std::endl;
+    std::cout << "It is the Particules example for the animation." << std::endl;
     return 0;
 }

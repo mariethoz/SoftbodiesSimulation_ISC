@@ -8,14 +8,14 @@ sim::CircleCollider::CircleCollider(Vector2 center, float radius)
 InnerCircleCollider::InnerCircleCollider(Vector2 center, float radius)
     : CircleCollider(center, radius) {}
 
-bool InnerCircleCollider::collide(Particle &p) {
-    Vector2 toP = p.getPosition() - center;
+bool InnerCircleCollider::collide(Particle* p) {
+    Vector2 toP = p->getPosition() - center;
     float dist = toP.length();
-    float maxDist = radius - p.getRadius();
+    float maxDist = radius - p->getRadius();
 
     if (dist > maxDist) {
         Vector2 n = toP / dist; // normalized
-        p.setPosition(center + n * maxDist);
+        p->setPosition(center + n * maxDist);
         return true;
     }
     return false;
@@ -24,14 +24,14 @@ bool InnerCircleCollider::collide(Particle &p) {
 OuterCircleCollider::OuterCircleCollider(Vector2 center, float radius)
     : CircleCollider(center, radius) {}
 
-bool OuterCircleCollider::collide(Particle &p) {
-    Vector2 toP = p.getPosition() - center;
+bool OuterCircleCollider::collide(Particle* p) {
+    Vector2 toP = p->getPosition() - center;
     float dist = toP.length();
-    float maxDist = radius + p.getRadius();
+    float maxDist = radius + p->getRadius();
 
     if (dist < maxDist) {
         Vector2 n = toP / dist; // normalized
-        p.setPosition(center + n * maxDist);
+        p->setPosition(center + n * maxDist);
         return true;
     }
     return false;

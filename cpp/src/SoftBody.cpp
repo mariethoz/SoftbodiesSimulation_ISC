@@ -2,20 +2,32 @@
 
 using namespace sim;
 
-SoftBody::SoftBody(const std::vector<Particle> &part)
-    : particles(part), friction(0.5), restitution(0.5) {};
+SoftBody::SoftBody(std::vector<Particle*> particles)
+    : SoftBody(particles, std::vector<Constraint*>(), 0.5, 0.5){}
 
-SoftBody::SoftBody(const std::vector<Particle> &part, const float f, const float r)
-    : particles(part), friction(f), restitution(r) {};
+SoftBody::SoftBody(std::vector<Particle*> particles, float friction, float restitution)
+    : SoftBody(particles, std::vector<Constraint*>(), friction, restitution){}
+
+SoftBody::SoftBody(std::vector<Particle*> part, std::vector<Constraint*> consts)
+    : SoftBody(part, consts, 0.5, 0.5) {};
+
+SoftBody::SoftBody(std::vector<Particle*> part , std::vector<Constraint*> consts, float f, float r)
+    : particles(part), constraints(consts), friction(f), restitution(r) {};
 
 void SoftBody::applyForce(const Vector2 &f) {
     for (auto& p : particles) {
-        p.applyForce(f);
+        p->applyForce(f);
+    }
+}
+
+void SoftBody::solveConstaint() {
+    for (auto& c: constraints) {
+        c->applyConstraint();
     }
 }
 
 void SoftBody::update(double dt) {
     for (auto& p : particles) {
-        p.update(dt);
+        p->update(dt);
     }
 }
