@@ -7,6 +7,8 @@ import matplotlib.patches as patches
 # Example row: step, x1, y1, x2, y2, ...
 df = pd.read_csv("visuals/positions.csv", header=None)
 
+# Simulation parameters
+delta_time = 0.01  # seconds per step
 steps = len(df)
 
 fig, ax = plt.subplots()
@@ -43,12 +45,24 @@ for i, (xcol, ycol) in enumerate(zip(x_cols, y_cols)):
     ax.add_patch(particle)
     particles.append((particle, xcol, ycol))
 
+# Add time display
+time_text = ax.text(0.02, 0.95, '', transform=ax.transAxes)
+
 # Update function
 def update(frame):
     for particle, xcol, ycol in particles:
         particle.center = (df[xcol].iloc[frame], df[ycol].iloc[frame])
-    return [p[0] for p in particles]
+    sim_time = frame * delta_time
+    time_text.set_text(f"t = {sim_time:.3f} s")
+    return [p[0] for p in particles] + [time_text]
 
-ani = FuncAnimation(fig, update, frames=steps, interval=25, blit=True)
+# Animation
+ani = FuncAnimation(
+    fig,
+    update,
+    frames=steps,
+    interval=delta_time*1000,  # convert seconds to ms
+    blit=True
+)
 
 plt.show()
