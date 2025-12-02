@@ -10,7 +10,7 @@ using namespace sim;
 // Helper to build a square soft body
 SoftBody* createSquareBody(Vector2 center, double stiffness, double damping) {
     std::vector<Particle*> particles;
-    double half = 1.0;
+    double half = 2.0;
 
     // Define positions relative to center
     std::vector<Vector2> positions = {
@@ -66,14 +66,20 @@ int main() {
     double step = 0.01;
     Simulation sim;
     sim.setGravity(Vector2(0,-10));
-    sim.addCollider(new PlaneCollider(Vector2(0,1), -10.0f));
-    sim.addCollider(new OuterCircleCollider( Vector2(0,-10), 5.0f ));
-    sim.addCollider(new InnerCircleCollider( Vector2( 0,0), 15.0f ));
+    sim.addCollider(new PlaneCollider(Vector2(0,1), -100.0f));
 
     // Add multiple squares with different stiffness/damping
-    sim.addBody(createSquareBody(Vector2( 5, 0), 0.9, 0.1)); // very rigid, springs back quickly (snappy, little energy loss)
-    sim.addBody(createSquareBody(Vector2( 0, 5), 0.5, 0.5)); // balanced: moderate rigidity and moderate damping (steady, natural motion)
-    sim.addBody(createSquareBody(Vector2(-5, 0), 0.2, 0.8)); // floppy but heavily damped (soft, sluggish, resists oscillation)
+    sim.addBody(createSquareBody(Vector2(0, 0), 0.9, 0.1)); // very rigid, springs back quickly (snappy, little energy loss)
+    sim.addBody(createSquareBody(Vector2(0, 0), 0.5, 0.5)); // balanced: moderate rigidity and moderate damping (steady, natural motion)
+    sim.addBody(createSquareBody(Vector2(0, 0), 0.2, 0.8)); // floppy but heavily damped (soft, sluggish, resists oscillation)
+    sim.addBody(createSquareBody(Vector2(0, 0), 0.9, 0.8)); // rigid but heavily damped (stiff, settles quickly without bouncing)
+    sim.addBody(createSquareBody(Vector2(0, 0), 0.5, 0.1)); // medium rigidity, low damping (springy, tends to oscillate)
+    sim.addBody(createSquareBody(Vector2(0, 0), 0.2, 0.5)); // soft with medium damping (loose, but doesn’t wobble too much)
+    sim.addBody(createSquareBody(Vector2(0, 0), 0.9, 0.5)); // rigid with medium damping (firm, settles after a few oscillations)
+    sim.addBody(createSquareBody(Vector2(0, 0), 0.5, 0.8)); // medium rigidity, high damping (steady, resists bouncing)
+    sim.addBody(createSquareBody(Vector2(0, 0), 0.2, 0.1)); // very soft, low damping (floppy, jiggles a lot before settling)
+
+
 
     std::ofstream out("visuals/positions.csv");
     out << 0;
@@ -85,7 +91,7 @@ int main() {
     }
     out << "\n";
 
-    for (int i = 1; i < 1001; i++) {
+    for (int i = 1; i < 2001; i++) {
         sim.step(step);
         out << i;
         for (auto& b: sim.getBodies()) {

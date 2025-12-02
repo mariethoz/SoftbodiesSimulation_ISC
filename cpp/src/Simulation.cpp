@@ -71,7 +71,7 @@ void Simulation::applyConstraints() {
 
 void Simulation::resolveCollisions() {
     collisionsWorld();
-    //collisionsBodies(); // body vs body collisions (particle-particle cross-body)
+    collisionsBodies(); // body vs body collisions (particle-particle cross-body)
 }
 
 void Simulation::collisionsWorld() {
