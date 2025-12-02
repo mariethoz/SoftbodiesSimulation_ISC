@@ -37,6 +37,31 @@ SoftBody* createSquareBody(Vector2 center, double stiffness, double damping) {
     return new SoftBody(particles, constraints);
 }
 
+// Helper to build a triangle soft body
+SoftBody* createTriangleBody(Vector2 center, double stiffness, double damping) {
+    std::vector<Particle*> particles;
+    double half = 2.0;
+
+    // Define positions relative to center
+    std::vector<Vector2> positions = {
+        { center.x - half, center.y - half }, // bottom-left
+        { center.x + half, center.y - half }, // bottom-right
+        { center.x       , center.y + half }, // top
+    };
+
+    for (auto& pos : positions) {
+        particles.push_back(new Particle(pos, 1.0f));
+    }
+
+    std::vector<Constraint*> constraints;
+    // Edges
+    constraints.push_back(new Constraint(particles[0], particles[1], stiffness, damping));
+    constraints.push_back(new Constraint(particles[0], particles[2], stiffness, damping));
+    constraints.push_back(new Constraint(particles[1], particles[2], stiffness, damping));
+
+    return new SoftBody(particles, constraints);
+}
+
 int main() {
     double step = 0.01;
     Simulation sim;
@@ -64,7 +89,7 @@ int main() {
     }
     out << "\n";
 
-    for (int i = 1; i < 1001; i++) {
+    for (int i = 1; i < 2001; i++) {
         sim.step(step);
         out << i;
         for (auto& b: sim.getBodies()) {

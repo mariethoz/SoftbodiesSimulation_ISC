@@ -26,7 +26,7 @@ namespace sim {
         // main steps
         void applyGravity();
         void updateObjects(double dt);
-        void applyConstaints();
+        void applyConstraints();
         void resolveCollisions();
         void collisionsWorld();
         void collisionsBodies();

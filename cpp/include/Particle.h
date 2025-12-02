@@ -17,6 +17,8 @@ namespace sim {
         void setPosition(const Vector2& p) { position = p; }
         void setPrevPosition(const Vector2& p) { prev_position = p; }
 
+        void corrPosition(const Vector2& p) { corr_position += p; }
+
         double getRadius() const { return radius; }
         double getMass() const { return mass; }
         // inverse mass: 0 means immovable
@@ -27,6 +29,7 @@ namespace sim {
     private:
         Vector2 position;
         Vector2 prev_position;
+        Vector2 corr_position;
         Vector2 force_accum;
         double radius;
         double mass;

@@ -17,7 +17,7 @@ namespace sim {
 
         // Core function
         void applyForce(const Vector2& f);
-        void solveConstaint();
+        void solveConstraint();
         void update(double dt);
 
         // --- Accessors & mutators ----

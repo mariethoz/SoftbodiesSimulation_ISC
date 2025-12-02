@@ -20,7 +20,9 @@ namespace sim {
         Vector2& operator*=(double scalar) { x *= scalar; y *= scalar; return *this; }
         Vector2& operator/=(double scalar) { x /= scalar; y /= scalar; return *this; }
 
-        bool operator==(const Vector2& other) const { return x == other.x && y == other.y; }
+        bool operator==(const Vector2& other) const {
+            return std::abs(x - other.x) < 1e-8 && std::abs(y - other.y) < 1e-8;
+        }
         bool operator!=(const Vector2& other) const { return !(*this == other); }
 
         double dot(const Vector2& other) const { return x * other.x + y * other.y; }

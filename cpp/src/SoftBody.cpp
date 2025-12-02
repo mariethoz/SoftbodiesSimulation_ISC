@@ -16,7 +16,7 @@ void SoftBody::applyForce(const Vector2 &f) {
     }
 }
 
-void SoftBody::solveConstaint() {
+void SoftBody::solveConstraint() {
     for (auto& c : constraints) {
         c->applyConstraint();
     }

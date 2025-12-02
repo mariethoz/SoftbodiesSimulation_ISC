@@ -23,11 +23,11 @@ void Simulation::step(double dt)
     // 1. Apply global forces (gravity, wind, etc.)
     applyGravity();
 
-    // 2. Integrate particles (Verlet integration)
-    updateObjects(dt);
+    // 2. Satisfy constraints (distance constraints, springs, etc.)
+    applyConstraints();
 
-    // 3. Satisfy constraints (distance constraints, springs, etc.)
-    applyConstaints();
+    // 3. Integrate particles (Verlet integration)
+    updateObjects(dt);
 
     // 4. Resolve collisions (world boundaries, objects, etc.)
     resolveCollisions();
@@ -63,9 +63,9 @@ void Simulation::updateObjects(double dt) {
     }
 }
 
-void Simulation::applyConstaints() {
+void Simulation::applyConstraints() {
     for (auto& b: bodies) {
-        b->solveConstaint();
+        b->solveConstraint();
     }
 }
 
