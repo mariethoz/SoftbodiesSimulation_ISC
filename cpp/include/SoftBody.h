@@ -6,10 +6,12 @@
 namespace sim {
     class SoftBody {
     public:
-        SoftBody(std::vector<Particle*> particles);
-        SoftBody(std::vector<Particle*> particles, float friction, float restitution);
-        SoftBody(std::vector<Particle*> particles, std::vector<Constraint*> constraints);
-        SoftBody(std::vector<Particle*> particles, std::vector<Constraint*> constraints, float friction, float restitution);
+        SoftBody(
+            std::vector<Particle*> particles,
+            std::vector<Constraint*> constraints = std::vector<Constraint*>(),
+            double friction = 0.5,
+            double restitution = 0.5
+        );
 
         ~SoftBody();
 
@@ -21,13 +23,13 @@ namespace sim {
         // --- Accessors & mutators ----
         std::vector<Particle*> getParticles() { return particles; }
         std::vector<Constraint*> getConstraints() { return constraints; }
-        float getFriction() { return friction; }
-        float getRestitution() { return restitution; }
+        double getFriction() { return friction; }
+        double getRestitution() { return restitution; }
 
     protected:
         std::vector<Particle*> particles;
         std::vector<Constraint*> constraints;
-        float friction;    // smooth 0 < 1 rough
-        float restitution; // sticky 0 < 1 bounce
+        double friction;    // smooth 0 < 1 rough
+        double restitution; // sticky 0 < 1 bounce
     };
 }

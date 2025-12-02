@@ -2,7 +2,7 @@
 
 using namespace sim;
 
-Particle::Particle(Vector2 pos, float m, bool p)
+Particle::Particle(Vector2 pos, double m, bool p)
     : position(pos), mass(m), radius(1.), prev_position(pos), force_accum(0,0), pinned(p) {}
 
 Particle::~Particle() {

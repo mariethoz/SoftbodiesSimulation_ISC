@@ -2,7 +2,7 @@
 
 using namespace sim;
 
-PlaneCollider::PlaneCollider(Vector2 normal, float d)
+PlaneCollider::PlaneCollider(Vector2 normal, double d)
     : normal(normal.normalized()), d(d) {}
 
 PlaneCollider::~PlaneCollider() {
@@ -10,11 +10,11 @@ PlaneCollider::~PlaneCollider() {
 };
 
 bool PlaneCollider::collide(Particle* p) {
-    float dist = p->getPosition().dot(normal) - d;
+    double dist = p->getPosition().dot(normal) - d;
 
     if (dist > p->getRadius()) return false;
 
-    float penetration = dist - p->getRadius();
+    double penetration = dist - p->getRadius();
 
     if (penetration < 0.0f) {
         p->setPosition(p->getPosition() - normal * penetration);

@@ -5,7 +5,7 @@
 namespace sim {
     class Constraint {
     public:
-        Constraint(Particle* part1, Particle* part2, float stiffness = 0.8);
+        Constraint(Particle* part1, Particle* part2, double stiffness = 0.8, double damping = 0.1);
         ~Constraint();
         
         // Core function
@@ -14,13 +14,13 @@ namespace sim {
         // --- Accessors & mutators ----
         Vector2 getPart1() { return part1->getPosition(); }
         Vector2 getPart2() { return part2->getPosition(); }
-        float getRestLength() { return restLength; }
+        double getRestLength() { return restLength; }
 
     private:
         Particle* part1;
         Particle* part2;
-        float restLength;
-        float stiffness;
-        float damping;
+        double restLength;
+        double stiffness;   // flexible 0 < 1 rigid
+        double damping;     // oscilling 0 < 1 freezing
     };
 }
