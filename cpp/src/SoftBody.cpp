@@ -12,7 +12,11 @@ SoftBody::SoftBody(std::vector<Particle*> part, std::vector<Constraint*> consts)
     : SoftBody(part, consts, 0.5, 0.5) {};
 
 SoftBody::SoftBody(std::vector<Particle*> part , std::vector<Constraint*> consts, float f, float r)
-    : particles(part), constraints(consts), friction(f), restitution(r) {};
+    : particles(part), constraints(consts), friction(f), restitution(r) {}
+
+SoftBody::~SoftBody() {
+    std::cout << "SoftBody destroyed\n";
+};
 
 void SoftBody::applyForce(const Vector2 &f) {
     for (auto& p : particles) {

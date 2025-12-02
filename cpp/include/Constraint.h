@@ -5,9 +5,9 @@
 namespace sim {
     class Constraint {
     public:
-        Constraint(Particle* part1, Particle* part2);
-        Constraint(Particle* part1, Particle* part2, float distance, float stiffness = 0.2);
-
+        Constraint(Particle* part1, Particle* part2, float stiffness = 0.8);
+        ~Constraint();
+        
         // Core function
         void applyConstraint();
 
@@ -21,5 +21,6 @@ namespace sim {
         Particle* part2;
         float restLength;
         float stiffness;
+        float damping;
     };
 }

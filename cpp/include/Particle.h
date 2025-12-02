@@ -5,6 +5,7 @@ namespace sim {
     class Particle {
     public:
         Particle(Vector2 pos, float mass = 1.0f, bool pinned = false);
+        ~Particle();
 
         // Core function
         void applyForce(const Vector2& f);

@@ -10,6 +10,7 @@ namespace sim {
 
         Vector2 operator+(const Vector2& other) const { return {x + other.x, y + other.y}; }
         Vector2 operator-() const { return {-x, -y}; }
+        Vector2 operator-(float scalar) const { return {x-scalar, y-scalar}; }
         Vector2 operator-(const Vector2& other) const { return {x - other.x, y - other.y}; }
         Vector2 operator*(float scalar) const { return {x * scalar, y * scalar}; }
         Vector2 operator/(float scalar) const { return {x / scalar, y / scalar}; }
@@ -30,6 +31,11 @@ namespace sim {
         Vector2 normalized() const {
             float len = length();
             return (len != 0.0f) ? (*this / len) : Vector2(0.0f, 0.0f);
+        }
+
+        Vector2 abs() const {
+            Vector2 out(std::abs(x),std::abs(y));
+            return out;
         }
 
         friend Vector2 operator*(float scalar, const Vector2& v) { return {v.x * scalar, v.y * scalar}; }

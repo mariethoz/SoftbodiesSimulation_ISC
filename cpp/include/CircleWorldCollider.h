@@ -6,6 +6,7 @@ namespace sim {
     class CircleCollider : public WorldCollider {
         public:
             CircleCollider(Vector2 center, float radius);
+            ~CircleCollider();
             Vector2 getCenter() { return center; }
             float getRadius() { return radius; }
         protected:

@@ -2,8 +2,12 @@
 
 using namespace sim;
 
-sim::CircleCollider::CircleCollider(Vector2 center, float radius)
+CircleCollider::CircleCollider(Vector2 center, float radius)
     : center(center), radius(radius) {}
+
+CircleCollider::~CircleCollider() {
+    std::cout << "CircleCollider destroyed\n";
+}
 
 InnerCircleCollider::InnerCircleCollider(Vector2 center, float radius)
     : CircleCollider(center, radius) {}

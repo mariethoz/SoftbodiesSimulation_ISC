@@ -32,18 +32,18 @@ int main() {
     }
 
     std::vector<Constraint*> constraints;
+    float stiffness = 0.2;
     // Edge constraints
-    constraints.push_back(new Constraint(particles[0], particles[1]));
-    constraints.push_back(new Constraint(particles[1], particles[2]));
-    constraints.push_back(new Constraint(particles[2], particles[3]));
-    constraints.push_back(new Constraint(particles[3], particles[0]));
+    constraints.push_back(new Constraint(particles[0], particles[1], stiffness));
+    constraints.push_back(new Constraint(particles[1], particles[2], stiffness));
+    constraints.push_back(new Constraint(particles[2], particles[3], stiffness));
+    constraints.push_back(new Constraint(particles[3], particles[0], stiffness));
     // Diagonal constraints
-    constraints.push_back(new Constraint(particles[0], particles[2]));
-    constraints.push_back(new Constraint(particles[1], particles[3]));
+    constraints.push_back(new Constraint(particles[0], particles[2], stiffness));
+    constraints.push_back(new Constraint(particles[1], particles[3], stiffness));
 
     // Build the square body
-    SoftBody square(particles, constraints, 0.5f, 0.5f);
-    sim.addBody(&square);
+    sim.addBody(new SoftBody(particles, constraints, 0.5f, 0.5f));
     
     std::ofstream out("visuals/positions.csv");
     out << 0;
@@ -55,7 +55,7 @@ int main() {
     }
     out << "\n";
 
-    for (int i = 1; i < 1000; i++) {
+    for (int i = 1; i < 1001; i++) {
         sim.step(step);
         out << i;
         for (auto& b: sim.getBodies()) {
@@ -65,14 +65,9 @@ int main() {
             }
         }
         out << "\n";
+        if (i % 100 == 0) std::cout << "Step " << i << " completed\n";
     }
 
-    for (auto& p:particles) {
-        delete p;
-    }
-    for (auto& c: constraints) {
-        delete c;
-    }
     out.close();
 
     std::cout << "Hello from MyProject!" << std::endl;

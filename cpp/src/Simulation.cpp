@@ -15,6 +15,7 @@ void Simulation::addCollider(WorldCollider* col) {
 
 Simulation::~Simulation(){
     clear();
+    std::cout << "Simulation destroyed\n";
 }
 
 void Simulation::step(double dt)
@@ -62,7 +63,7 @@ void Simulation::updateObjects(double dt) {
     }
 }
 
-void sim::Simulation::applyConstaints() {
+void Simulation::applyConstaints() {
     for (auto& b: bodies) {
         b->solveConstaint();
     }

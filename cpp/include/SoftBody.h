@@ -11,6 +11,8 @@ namespace sim {
         SoftBody(std::vector<Particle*> particles, std::vector<Constraint*> constraints);
         SoftBody(std::vector<Particle*> particles, std::vector<Constraint*> constraints, float friction, float restitution);
 
+        ~SoftBody();
+
         // Core function
         void applyForce(const Vector2& f);
         void solveConstaint();

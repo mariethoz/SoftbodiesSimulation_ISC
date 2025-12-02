@@ -3,7 +3,11 @@
 using namespace sim;
 
 PlaneCollider::PlaneCollider(Vector2 normal, float d)
-    : normal(normal.normalized()), d(d) {};
+    : normal(normal.normalized()), d(d) {}
+
+PlaneCollider::~PlaneCollider() {
+    std::cout << "PlaneCollider destroyed\n";
+};
 
 bool PlaneCollider::collide(Particle* p) {
     float dist = p->getPosition().dot(normal) - d;
