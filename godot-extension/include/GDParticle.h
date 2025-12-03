@@ -41,6 +41,11 @@ namespace godot {
 
         // Access to the sim object
         sim::Particle* get_sim_particle() const { return particle; }
+        sim::Particle* take_sim_particle() {
+            sim::Particle* p = particle;
+            particle = nullptr;
+            return p;
+        }
     };
 
 }

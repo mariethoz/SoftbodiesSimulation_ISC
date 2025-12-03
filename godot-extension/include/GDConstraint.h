@@ -45,6 +45,11 @@ namespace godot {
 
         // Access to the sim object
         sim::Constraint* get_sim_constraint() const { return constraint; }
+        sim::Constraint* take_sim_constraint() {
+            sim::Constraint* c = constraint;
+            constraint = nullptr;
+            return c;
+        }
     };
 
 }

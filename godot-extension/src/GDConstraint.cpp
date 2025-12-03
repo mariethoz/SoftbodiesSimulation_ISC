@@ -23,6 +23,7 @@ void GDConstraint::_bind_methods() {
 
 GDConstraint::~GDConstraint() {
     if (constraint) {
+        delete constraint;
         constraint = nullptr;
     }
 }
@@ -44,6 +45,7 @@ void GDConstraint::build() {
 
 void godot::GDConstraint::reset() {
     if (constraint) {
+        delete constraint;
         constraint = nullptr;
     }
 }

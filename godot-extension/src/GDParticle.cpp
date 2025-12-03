@@ -19,6 +19,7 @@ void GDParticle::_bind_methods() {
 
 GDParticle::~GDParticle() {
     if (particle) {
+        delete particle;
         particle = nullptr;
     }
 }
@@ -31,6 +32,7 @@ void GDParticle::build() {
 
 void godot::GDParticle::reset() {
     if (particle) {
+        delete particle;
         particle = nullptr;
     }
 }

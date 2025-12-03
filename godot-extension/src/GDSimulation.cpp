@@ -123,7 +123,7 @@ void GDSoftBodySimulation::build() {
         sb->build();  // creates sim::SoftBody* internally
 
         if (sb->get_sim_softbody()){
-            simulation.addBody(sb->get_sim_softbody());
+            simulation.addBody(sb->take_sim_softbody());
         }
     }
 }

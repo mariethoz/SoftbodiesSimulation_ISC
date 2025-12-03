@@ -46,6 +46,11 @@ namespace godot {
 
         // Access to the sim object
         sim::SoftBody* get_sim_softbody() const { return soft_body; }
+        sim::SoftBody* take_sim_softbody() {
+            sim::SoftBody* sb = soft_body;
+            soft_body = nullptr;
+            return sb;
+        }
     };
 
 }

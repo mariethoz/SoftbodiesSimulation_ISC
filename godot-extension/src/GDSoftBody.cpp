@@ -33,6 +33,7 @@ void GDSoftBody::_bind_methods() {
 
 GDSoftBody::~GDSoftBody() {
     if (soft_body) {
+        delete soft_body;
         soft_body = nullptr;
     }
 }
@@ -40,22 +41,30 @@ GDSoftBody::~GDSoftBody() {
 void GDSoftBody::build() {
     if (soft_body) return;
 
+    // Build the particles
     std::vector<sim::Particle*> sim_particles;
     sim_particles.reserve(particles.size());
     for (int i = 0; i < particles.size(); ++i) {
         Ref<GDParticle> gp = particles[i];
         if (!gp.is_valid()) continue;
         gp->build();
-        sim_particles.push_back(gp->get_sim_particle());
     }
 
+    // Build and take the constraints
     std::vector<sim::Constraint*> sim_constraints;
     sim_constraints.reserve(constraints.size());
     for (int i = 0; i < constraints.size(); ++i) {
         Ref<GDConstraint> gc = constraints[i];
         if (!gc.is_valid()) continue;
         gc->build();
-        sim_constraints.push_back(gc->get_sim_constraint());
+        sim_constraints.push_back(gc->take_sim_constraint());
+    }
+    
+    // Take the particles
+    for (int i = 0; i < particles.size(); ++i) {
+        Ref<GDParticle> gp = particles[i];
+        if (!gp.is_valid()) continue;
+        sim_particles.push_back(gp->take_sim_particle());
     }
 
     soft_body = new sim::SoftBody(sim_particles, sim_constraints, friction, restitution);
@@ -73,6 +82,7 @@ void GDSoftBody::reset() {
         gc->reset();
     }
     if (soft_body) {
+        delete soft_body;
         soft_body = nullptr;
     }
 }
