@@ -3,7 +3,6 @@
 *.csv
 
 godot-cpp
-godot_demo
 
 # Godot project files
 .import/

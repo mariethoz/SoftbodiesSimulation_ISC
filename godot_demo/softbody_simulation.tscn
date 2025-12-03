@@ -1,0 +1,59 @@
+[gd_scene load_steps=12 format=3 uid="uid://bqip242y4v3d1"]
+
+[sub_resource type="GDParticle" id="GDParticle_mgf0h"]
+position = Vector2(1, 1)
+
+[sub_resource type="GDParticle" id="GDParticle_obxss"]
+position = Vector2(-1, 1)
+
+[sub_resource type="GDConstraint" id="GDConstraint_se6rb"]
+part1 = SubResource("GDParticle_mgf0h")
+part2 = SubResource("GDParticle_obxss")
+
+[sub_resource type="GDParticle" id="GDParticle_8gypb"]
+position = Vector2(1, -1)
+
+[sub_resource type="GDConstraint" id="GDConstraint_mgf0h"]
+part1 = SubResource("GDParticle_obxss")
+part2 = SubResource("GDParticle_8gypb")
+
+[sub_resource type="GDParticle" id="GDParticle_klxxq"]
+position = Vector2(-1, -1)
+
+[sub_resource type="GDConstraint" id="GDConstraint_obxss"]
+part1 = SubResource("GDParticle_8gypb")
+part2 = SubResource("GDParticle_klxxq")
+
+[sub_resource type="GDConstraint" id="GDConstraint_8gypb"]
+part1 = SubResource("GDParticle_klxxq")
+part2 = SubResource("GDParticle_mgf0h")
+
+[sub_resource type="GDConstraint" id="GDConstraint_klxxq"]
+part1 = SubResource("GDParticle_mgf0h")
+part2 = SubResource("GDParticle_8gypb")
+
+[sub_resource type="GDConstraint" id="GDConstraint_jj60e"]
+part1 = SubResource("GDParticle_obxss")
+part2 = SubResource("GDParticle_klxxq")
+
+[sub_resource type="GDSoftBody" id="GDSoftBody_jj60e"]
+particles = [SubResource("GDParticle_mgf0h"), SubResource("GDParticle_obxss"), SubResource("GDParticle_8gypb"), SubResource("GDParticle_klxxq")]
+constraints = [SubResource("GDConstraint_se6rb"), SubResource("GDConstraint_mgf0h"), SubResource("GDConstraint_obxss"), SubResource("GDConstraint_8gypb"), SubResource("GDConstraint_klxxq"), SubResource("GDConstraint_jj60e")]
+
+[node name="GDSoftBodyTest" type="Node2D"]
+
+[node name="GDSoftBodySimulation" type="GDSoftBodySimulation" parent="."]
+bodies = [SubResource("GDSoftBody_jj60e")]
+
+[node name="Button" type="Button" parent="."]
+offset_left = 507.0
+offset_top = -307.0
+offset_right = 558.0
+offset_bottom = -276.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Reset"
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[connection signal="pressed" from="Button" to="GDSoftBodySimulation" method="reset_simulation"]

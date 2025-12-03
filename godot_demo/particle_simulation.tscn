@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://cw08rt6lu0ulv"]
+
+[node name="GDParticleTest" type="Node2D"]
+
+[node name="GDParticleSimulation" type="GDParticleSimulation" parent="."]
+
+[node name="Button" type="Button" parent="."]
+offset_left = 507.0
+offset_top = -307.0
+offset_right = 558.0
+offset_bottom = -276.0
+text = "Reset"
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[connection signal="pressed" from="Button" to="GDParticleSimulation" method="reset_simulation"]

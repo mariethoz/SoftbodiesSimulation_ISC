@@ -14,7 +14,7 @@ groups = [
     ("Square1 s=0.2, d=0.1", 4),
 ]
 X_min = 400
-X_max = -1
+X_max = 1500
 
 # Load CSV without headers
 df = pd.read_csv("visuals/positions.csv", header=None)
@@ -94,14 +94,14 @@ for row, (group_name, (xcol, ycol)) in enumerate(first_particles):
     axes[row][1].grid(True)
 
     # --- X variation relative to final value ---
-    x_final = df[xcol].iloc[-1]
+    x_final = df_cut[xcol].iloc[-1]
     x_var = abs(x - x_final)
     axes[row][2].plot(time, x_var, color=color)
     axes[row][2].set_yscale("symlog", linthresh=1e-2)
     axes[row][2].grid(True)
 
     # --- Y variation relative to final value ---
-    y_final = df[ycol].iloc[-1]
+    y_final = df_cut[ycol].iloc[-1]
     y_var = abs(y - y_final)
     axes[row][3].plot(time, y_var, color=color)
     axes[row][3].set_yscale("symlog", linthresh=1e-2)
