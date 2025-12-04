@@ -3,12 +3,6 @@
 using namespace godot;
 
 void GDSoftBody::_bind_methods() {
-    ClassDB::bind_method(D_METHOD("set_particles","particles"), &GDSoftBody::set_particles);
-    ClassDB::bind_method(D_METHOD("get_particles"), &GDSoftBody::get_particles);
-
-    ClassDB::bind_method(D_METHOD("set_constraints","constraints"), &GDSoftBody::set_constraints);
-    ClassDB::bind_method(D_METHOD("get_constraints"), &GDSoftBody::get_constraints);
-
     ClassDB::bind_method(D_METHOD("set_friction","friction"), &GDSoftBody::set_friction);
     ClassDB::bind_method(D_METHOD("get_friction"), &GDSoftBody::get_friction);
 
@@ -17,16 +11,6 @@ void GDSoftBody::_bind_methods() {
 
     ClassDB::bind_method(D_METHOD("build"), &GDSoftBody::build);
 
-    ADD_PROPERTY(
-        PropertyInfo(Variant::ARRAY, "particles", PROPERTY_HINT_ARRAY_TYPE,
-        String::num(Variant::OBJECT) + "/" + String::num(PROPERTY_HINT_RESOURCE_TYPE) + ":GDParticle"),
-        "set_particles", "get_particles"
-    );
-    ADD_PROPERTY(
-        PropertyInfo(Variant::ARRAY, "constraints", PROPERTY_HINT_ARRAY_TYPE,
-        String::num(Variant::OBJECT) + "/" + String::num(PROPERTY_HINT_RESOURCE_TYPE) + ":GDConstraint"),
-        "set_constraints", "get_constraints"
-    );
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "friction"), "set_friction", "get_friction");
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "restitution"), "set_restitution", "get_restitution");
 }
@@ -85,4 +69,126 @@ void GDSoftBody::reset() {
         delete soft_body;
         soft_body = nullptr;
     }
+}
+
+void GDSoftBodyCustom::_bind_methods() {
+    ClassDB::bind_method(D_METHOD("set_particles","particles"), &GDSoftBodyCustom::set_particles);
+    ClassDB::bind_method(D_METHOD("get_particles"), &GDSoftBodyCustom::get_particles);
+
+    ClassDB::bind_method(D_METHOD("set_constraints","constraints"), &GDSoftBodyCustom::set_constraints);
+    ClassDB::bind_method(D_METHOD("get_constraints"), &GDSoftBodyCustom::get_constraints);
+
+    ADD_PROPERTY(
+        PropertyInfo(Variant::ARRAY, "particles", PROPERTY_HINT_ARRAY_TYPE,
+        String::num(Variant::OBJECT) + "/" + String::num(PROPERTY_HINT_RESOURCE_TYPE) + ":GDParticle"),
+        "set_particles", "get_particles"
+    );
+    ADD_PROPERTY(
+        PropertyInfo(Variant::ARRAY, "constraints", PROPERTY_HINT_ARRAY_TYPE,
+        String::num(Variant::OBJECT) + "/" + String::num(PROPERTY_HINT_RESOURCE_TYPE) + ":GDConstraint"),
+        "set_constraints", "get_constraints"
+    );
+}
+
+void GDSoftBodyTriange::_bind_methods() {
+    ClassDB::bind_method(D_METHOD("set_corner_1","Vector2"), &GDSoftBodyTriange::set_corner_1);
+    ClassDB::bind_method(D_METHOD("get_corner_1"), &GDSoftBodyTriange::get_corner_1);
+    ClassDB::bind_method(D_METHOD("set_corner_2","Vector2"), &GDSoftBodyTriange::set_corner_2);
+    ClassDB::bind_method(D_METHOD("get_corner_2"), &GDSoftBodyTriange::get_corner_2);
+    ClassDB::bind_method(D_METHOD("set_corner_3","Vector2"), &GDSoftBodyTriange::set_corner_3);
+    ClassDB::bind_method(D_METHOD("get_corner_3"), &GDSoftBodyTriange::get_corner_3);
+
+    ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "corner_1"), "set_corner_1", "get_corner_1");
+    ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "corner_2"), "set_corner_2", "get_corner_2");
+    ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "corner_3"), "set_corner_3", "get_corner_3");
+}
+
+void GDSoftBodyTriange::build() {
+    // 1) Create particles
+    particles.clear();
+    constraints.clear();
+
+    Ref<GDParticle> p1 = memnew(GDParticle);
+    Ref<GDParticle> p2 = memnew(GDParticle);
+    Ref<GDParticle> p3 = memnew(GDParticle);
+
+    p1->set_position(corner_1);
+    p2->set_position(corner_2);
+    p3->set_position(corner_3);
+
+    particles.push_back(p1);
+    particles.push_back(p2);
+    particles.push_back(p3);
+
+    // 2) Create constraints
+    auto make_constraint = [&](Ref<GDParticle> a, Ref<GDParticle> b) {
+        Ref<GDConstraint> c = memnew(GDConstraint);
+        c->set_part1(a);
+        c->set_part2(b);
+        constraints.push_back(c);
+    };
+
+    make_constraint(p1, p2);
+    make_constraint(p2, p3);
+    make_constraint(p3, p1);
+
+    // 3) Run normal soft-body build
+    GDSoftBody::build();
+}
+
+void GDSoftBodySquare::_bind_methods() {
+    ClassDB::bind_method(D_METHOD("set_corner_1","Vector2"), &GDSoftBodySquare::set_corner_1);
+    ClassDB::bind_method(D_METHOD("get_corner_1"), &GDSoftBodySquare::get_corner_1);
+    ClassDB::bind_method(D_METHOD("set_corner_2","Vector2"), &GDSoftBodySquare::set_corner_2);
+    ClassDB::bind_method(D_METHOD("get_corner_2"), &GDSoftBodySquare::get_corner_2);
+    ClassDB::bind_method(D_METHOD("set_corner_3","Vector2"), &GDSoftBodySquare::set_corner_3);
+    ClassDB::bind_method(D_METHOD("get_corner_3"), &GDSoftBodySquare::get_corner_3);
+    ClassDB::bind_method(D_METHOD("set_corner_4","Vector2"), &GDSoftBodySquare::set_corner_4);
+    ClassDB::bind_method(D_METHOD("get_corner_4"), &GDSoftBodySquare::get_corner_4);
+
+    ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "corner_1"), "set_corner_1", "get_corner_1");
+    ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "corner_2"), "set_corner_2", "get_corner_2");
+    ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "corner_3"), "set_corner_3", "get_corner_3");
+    ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "corner_4"), "set_corner_4", "get_corner_4");
+}
+
+void GDSoftBodySquare::build() {
+    // 1) Create particles
+    particles.clear();
+    constraints.clear();
+
+    Ref<GDParticle> p1 = memnew(GDParticle);
+    Ref<GDParticle> p2 = memnew(GDParticle);
+    Ref<GDParticle> p3 = memnew(GDParticle);
+    Ref<GDParticle> p4 = memnew(GDParticle);
+
+    p1->set_position(corner_1);
+    p2->set_position(corner_2);
+    p3->set_position(corner_3);
+    p3->set_position(corner_4);
+
+    particles.push_back(p1);
+    particles.push_back(p2);
+    particles.push_back(p3);
+    particles.push_back(p4);
+
+    // 2) Create constraints
+    auto make_constraint = [&](Ref<GDParticle> a, Ref<GDParticle> b) {
+        Ref<GDConstraint> c = memnew(GDConstraint);
+        c->set_part1(a);
+        c->set_part2(b);
+        constraints.push_back(c);
+    };
+
+    // Edges
+    make_constraint(p1, p2);
+    make_constraint(p2, p3);
+    make_constraint(p3, p4);
+    make_constraint(p4, p1);
+    // Diagonals
+    make_constraint(p1, p3);
+    make_constraint(p2, p4);
+
+    // 3) Run normal soft-body build
+    GDSoftBody::build();
 }

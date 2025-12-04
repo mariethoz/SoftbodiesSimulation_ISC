@@ -65,4 +65,5 @@ ani = FuncAnimation(
     blit=True
 )
 
+#ani.save("*_animation.gif", writer="pillow", fps=int(1/delta_time))
 plt.show()

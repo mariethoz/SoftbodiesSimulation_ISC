@@ -100,8 +100,9 @@ void GDSoftBodySimulation::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_bodies"), &GDSoftBodySimulation::get_bodies);
 
     ADD_PROPERTY(
-        PropertyInfo(Variant::ARRAY, "bodies", PROPERTY_HINT_ARRAY_TYPE, 
-        String::num(Variant::OBJECT) + "/" + String::num(PROPERTY_HINT_RESOURCE_TYPE) + ":GDSoftBody"),
+        PropertyInfo(Variant::ARRAY, "bodies", PROPERTY_HINT_ARRAY_TYPE,
+            String::num(Variant::OBJECT) + "/" + String::num(PROPERTY_HINT_RESOURCE_TYPE) + ":GDSoftBody"
+        ),
         "set_bodies","get_bodies"
     );
 }
