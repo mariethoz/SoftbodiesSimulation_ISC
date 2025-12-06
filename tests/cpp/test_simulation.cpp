@@ -22,8 +22,7 @@ TEST(SimulationTest, AddBodyAndCollider) {
     particles.push_back(new Particle(Vector2(0.0f, 0.0f), 1.0f));
     sim.addBody(new SoftBody(particles));
 
-    PlaneCollider plane(Vector2(0.0f, 1.0f), 0.0f);
-    sim.addCollider(&plane);
+    sim.addCollider(new PlaneCollider(Vector2(0.0f, 1.0f), 0.0f));
 
     EXPECT_EQ(sim.getBodies().size(), 1u);
     EXPECT_EQ(sim.getColliders().size(), 1u);
@@ -36,8 +35,7 @@ TEST(SimulationTest, ClearRemovesBodiesAndColliders) {
     particles.push_back(new Particle(Vector2(0.0f, 0.0f), 1.0f));
     sim.addBody(new SoftBody(particles));
 
-    PlaneCollider plane(Vector2(0.0f, 1.0f), 0.0f);
-    sim.addCollider(&plane);
+    sim.addCollider(new PlaneCollider(Vector2(0.0f, 1.0f), 0.0f));
 
     sim.clear();
 
@@ -70,8 +68,7 @@ TEST(SimulationTest, CollisionsWithPlane) {
     particles_1.push_back(new Particle(Vector2(0.0f, -1.0f), 1.0f));
     sim.addBody(new SoftBody(particles_1));
 
-    PlaneCollider plane(Vector2(0.0f, 1.0f), 0.0f); // y=0 plane
-    sim.addCollider(&plane);
+    sim.addCollider(new PlaneCollider(Vector2(0.0f, 1.0f), 0.0f));
 
     sim.step(1.0);
 
@@ -87,9 +84,8 @@ TEST(SimulationTest, CollisionsWithInnerCircle) {
     std::vector<Particle*> particles;
     particles.push_back(new Particle(Vector2(10.0f, 0.0f), 1.0f));
     sim.addBody(new SoftBody(particles));
-
-    InnerCircleCollider circle(Vector2(0.0f, 0.0f), 5.0f);
-    sim.addCollider(&circle);
+    
+    sim.addCollider(new InnerCircleCollider(Vector2(0.0f, 0.0f), 5.0f));
 
     sim.step(1.0);
 
@@ -99,4 +95,75 @@ TEST(SimulationTest, CollisionsWithInnerCircle) {
     double dist = std::sqrt(ps[0]->getPosition().x * ps[0]->getPosition().x +
                             ps[0]->getPosition().y * ps[0]->getPosition().y);
     EXPECT_LE(dist, 5.0);
+}
+
+TEST(SimulationTest, DestructorPrintsMessage) {
+    testing::internal::CaptureStdout();
+    {
+        Simulation* sim = new Simulation();
+        delete sim;
+    }
+    std::string output = testing::internal::GetCapturedStdout();
+    EXPECT_NE(output.find("Simulation destroyed"), std::string::npos);
+}
+
+TEST(SimulationTest, CollisionsBetweenTwoBodies) {
+    Simulation sim;
+
+    // Body 1: particle at origin
+    std::vector<Particle*> particles1;
+    particles1.push_back(new Particle(Vector2(0.0f, 0.0f), 1.0f));
+    sim.addBody(new SoftBody(particles1));
+
+    // Body 2: particle overlapping with body 1
+    std::vector<Particle*> particles2;
+    particles2.push_back(new Particle(Vector2(0.5f, 0.0f), 1.0f));
+    sim.addBody(new SoftBody(particles2));
+
+    sim.step(1.0);
+
+    auto ps1 = sim.getBodies()[0]->getParticles();
+    auto ps2 = sim.getBodies()[1]->getParticles();
+
+    // After collision resolution, particles should be separated
+    double dist = (ps1[0]->getPosition() - ps2[0]->getPosition()).length();
+    EXPECT_GE(dist, ps1[0]->getRadius() + ps2[0]->getRadius());
+}
+
+TEST(SimulationTest, CollisionsWithOuterCircle) {
+    Simulation sim;
+
+    std::vector<Particle*> particles;
+    particles.push_back(new Particle(Vector2(0.0f, 0.0f), 1.0f));
+    sim.addBody(new SoftBody(particles));
+
+    sim.addCollider(new OuterCircleCollider(Vector2(0.0f, 0.0f), 5.0f));
+
+    sim.step(1.0);
+
+    auto ps = sim.getBodies()[0]->getParticles();
+    double dist = ps[0]->getPosition().length();
+    // Expect particle corrected to outside circle
+    EXPECT_GE(dist, 5.0);
+}
+
+TEST(SimulationTest, ApplyConstraintsIsCalled) {
+    Simulation sim;
+
+    std::vector<Particle*> particles;
+    particles.push_back(new Particle(Vector2(0.0f, 0.0f), 1.0f));
+    particles.push_back(new Particle(Vector2(2.0f, 0.0f), 1.0f));
+
+    // Add a simple constraint
+    std::vector<Constraint*> constraints;
+    constraints.push_back(new Constraint(particles[0], particles[1]));
+
+    SoftBody* body = new SoftBody(particles, constraints);
+    sim.addBody(body);
+
+    sim.step(1.0);
+
+    // After constraints, particles should be closer to rest length
+    double dist = (particles[0]->getPosition() - particles[1]->getPosition()).length();
+    EXPECT_NEAR(dist, body->getConstraints()[0]->getRestLength(), 1e-3);
 }

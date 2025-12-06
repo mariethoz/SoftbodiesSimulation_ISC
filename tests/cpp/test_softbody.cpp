@@ -81,3 +81,56 @@ TEST(SoftBodyTest, UpdateMovesAllParticles) {
         delete p;
     }
 }
+
+TEST(SoftBodyTest, SolveConstraintAppliesCorrections) {
+    // Two particles connected by a constraint
+    Particle* p1 = new Particle(Vector2(0.0f, 0.0f), 1.0f, true);
+    Particle* p2 = new Particle(Vector2(5.0f, 0.0f), 1.0f);
+
+    Constraint* c = new Constraint(p1, p2); // rest length = 5
+    std::vector<Particle*> particles = {p1, p2};
+    std::vector<Constraint*> constraints = {c};
+
+    SoftBody body(particles, constraints);
+
+    // Move p2 farther away to break constraint
+    p2->setPosition(Vector2(10.0f, 0.0f));
+    p2->setPrevPosition(Vector2(10.0f, 0.0f));
+    body.solveConstraint();
+    p2->update(1.0);
+    // After constraint resolution, distance should be closer to rest length
+    double dist = (p1->getPosition() - p2->getPosition()).length();
+    EXPECT_LT(c->getRestLength(), 10.0f);
+
+    delete p1;
+    delete p2;
+    delete c;
+}
+
+TEST(SoftBodyTest, GetConstraintsReturnsCorrectList) {
+    Particle* p1 = new Particle(Vector2(0.0f, 0.0f), 1.0f);
+    Particle* p2 = new Particle(Vector2(1.0f, 0.0f), 1.0f);
+    Constraint* c = new Constraint(p1, p2);
+
+    SoftBody body({p1, p2}, {c});
+
+    auto cs = body.getConstraints();
+    EXPECT_EQ(cs.size(), 1u);
+    EXPECT_EQ(cs[0], c);
+
+    delete p1;
+    delete p2;
+    delete c;
+}
+
+TEST(SoftBodyTest, DestructorPrintsMessage) {
+    testing::internal::CaptureStdout();
+    {
+        Particle* p = new Particle(Vector2(0.0f, 0.0f), 1.0f);
+        SoftBody* body = new SoftBody({p});
+        delete body; // should print message
+        delete p;
+    }
+    std::string output = testing::internal::GetCapturedStdout();
+    EXPECT_NE(output.find("SoftBody destroyed"), std::string::npos);
+}

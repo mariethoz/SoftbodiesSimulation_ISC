@@ -32,6 +32,10 @@ bool OuterCircleCollider::collide(Particle* p) {
     Vector2 toP = p->getPosition() - center;
     double dist = toP.length();
     double maxDist = radius + p->getRadius();
+    if (dist == 0) {
+        toP = Vector2(0,1e-8);
+        dist = 1e-8;
+    }
 
     if (dist < maxDist) {
         Vector2 n = toP / dist; // normalized

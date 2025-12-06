@@ -38,6 +38,7 @@ void Simulation::clear() {
         for (auto& p: b->getParticles()) {
             delete p;
         }
+        b->getParticles().clear();
         for (auto& c: b->getConstraints()) {
             delete c;
         }
