@@ -91,6 +91,7 @@ for row, (group_name, (xcol, ycol)) in enumerate(first_particles):
     axes[row][0].grid(True)
     
     axes[row][1].plot(time, y, color=color)
+    axes[row][1].set_ylim(bottom=-100)
     axes[row][1].grid(True)
 
     # --- X variation relative to final value ---

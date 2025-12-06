@@ -1,5 +1,6 @@
 //GDSimulation.h
 #pragma once
+#include <godot_cpp/classes/engine.hpp>
 #include <godot_cpp/classes/node2d.hpp>
 #include <godot_cpp/core/binder_common.hpp>
 
@@ -31,6 +32,11 @@ namespace godot {
         void reset_simulation() { build(); }
 
         void _process(double delta) override {
+            if (Engine::get_singleton()->is_editor_hint()) {
+                // Running inside the editor → skip gameplay logic
+                queue_redraw();
+                return;
+            }
             step_simulation(delta);
             queue_redraw();
         }

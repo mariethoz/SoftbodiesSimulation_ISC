@@ -9,6 +9,12 @@ void GDSoftBody::_bind_methods() {
     ClassDB::bind_method(D_METHOD("set_restitution","restitution"), &GDSoftBody::set_restitution);
     ClassDB::bind_method(D_METHOD("get_restitution"), &GDSoftBody::get_restitution);
 
+    ClassDB::bind_method(D_METHOD("set_Stiffness","stiffness"), &GDSoftBody::set_Stiffness);
+    ClassDB::bind_method(D_METHOD("get_stiffness"), &GDSoftBody::get_stiffness);
+
+    ClassDB::bind_method(D_METHOD("set_damping","damping"), &GDSoftBody::set_damping);
+    ClassDB::bind_method(D_METHOD("get_damping"), &GDSoftBody::get_damping);
+
     ClassDB::bind_method(D_METHOD("build"), &GDSoftBody::build);
 
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "friction"), "set_friction", "get_friction");
@@ -39,6 +45,8 @@ void GDSoftBody::build() {
     sim_constraints.reserve(constraints.size());
     for (int i = 0; i < constraints.size(); ++i) {
         Ref<GDConstraint> gc = constraints[i];
+        gc->set_stiffness(stiffness);
+        gc->set_damping(damping);
         if (!gc.is_valid()) continue;
         gc->build();
         sim_constraints.push_back(gc->take_sim_constraint());

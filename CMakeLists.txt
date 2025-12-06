@@ -1,5 +1,5 @@
-cmake_minimum_required(VERSION 3.20)
-project(SoftbodiesSimulation_ISC VERSION 0.0.0 LANGUAGES CXX)
+cmake_minimum_required(VERSION 3.13)
+project(SoftbodiesSimulation_ISC VERSION 0.1.0 LANGUAGES CXX)
 
 # Require C++17
 set(CMAKE_CXX_STANDARD 17)
@@ -12,9 +12,14 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 # Build simulation library
 # ------------------------
 
-# Collect all .cpp sources EXCEPT main.cpp
 file(GLOB SRC_FILES CONFIGURE_DEPENDS cpp/src/*.cpp)
-list(REMOVE_ITEM SRC_FILES "${CMAKE_CURRENT_SOURCE_DIR}/cpp/src/main.cpp")
+
+# Remove all demo mains from the library
+list(REMOVE_ITEM SRC_FILES
+     "${CMAKE_CURRENT_SOURCE_DIR}/cpp/src/main.cpp"
+     "${CMAKE_CURRENT_SOURCE_DIR}/cpp/src/main_particles.cpp"
+     "${CMAKE_CURRENT_SOURCE_DIR}/cpp/src/main_constraint_animation.cpp"
+     "${CMAKE_CURRENT_SOURCE_DIR}/cpp/src/main_constraint_plots copy.cpp")
 
 add_library(my_lib ${SRC_FILES})
 target_include_directories(my_lib PUBLIC cpp/include)
@@ -29,5 +34,6 @@ target_link_libraries(my_project PRIVATE my_lib)
 # ------------------------
 # Testing
 # ------------------------
+include(CTest)
 enable_testing()
 add_subdirectory(tests)

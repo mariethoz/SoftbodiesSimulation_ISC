@@ -21,6 +21,8 @@ namespace godot {
         Array constraints;
         double friction = 0.5;
         double restitution = 0.5;
+        double stiffness = 0.8;
+        double damping = 0.1;
 
         static void _bind_methods();
 
@@ -37,6 +39,12 @@ namespace godot {
 
         void set_restitution(double r) { restitution = r; }
         double get_restitution() const { return restitution; }
+        
+        void set_Stiffness(double s) { stiffness = s; }
+        double get_stiffness() const { return stiffness; }
+
+        void set_damping(double d) { damping = d; }
+        double get_damping() const { return damping; }
 
         // Access to the sim object
         sim::SoftBody* get_sim_softbody() const { return soft_body; }
