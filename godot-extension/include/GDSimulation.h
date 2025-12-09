@@ -8,6 +8,7 @@
 #include "PlaneWorldCollider.h"
 
 #include "Simulation.h"
+#include "SoftBody.h"
 
 #include "GDSoftBody.h"
 
@@ -82,6 +83,28 @@ namespace godot {
 
         void set_bodies(const Array &p_bodies) { bodies = p_bodies; }
         Array get_bodies() const { return bodies; }
+
+        void _ready() override;
+    };
+
+    class GDSoftBodySimulationBtn : public GDSimulation {
+        GDCLASS(GDSoftBodySimulationBtn, GDSimulation);
+
+    private:
+        Array bodies;
+
+    protected:
+        static void _bind_methods();
+        void build();
+
+    public:
+        GDSoftBodySimulationBtn() {}
+        ~GDSoftBodySimulationBtn() {}
+
+        void set_bodies(const Array &p_bodies) { bodies = p_bodies; }
+        Array get_bodies() const { return bodies; }
+
+        void add_body(Ref<GDSoftBodyPolygone> body);
 
         void _ready() override;
     };

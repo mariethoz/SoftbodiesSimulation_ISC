@@ -1,5 +1,7 @@
 #include "GDSoftBody.h"
 #include "GDVector2.h"
+#include <vector>
+#include <corecrt_math_defines.h>
 using namespace godot;
 
 void GDSoftBody::_bind_methods() {
@@ -199,4 +201,31 @@ void GDSoftBodySquare::build() {
 
     // 3) Run normal soft-body build
     GDSoftBody::build();
+}
+
+void GDSoftBodyPolygone::_bind_methods() {
+    ClassDB::bind_method(D_METHOD("set_unit","double"), &GDSoftBodyPolygone::set_unit);
+    ClassDB::bind_method(D_METHOD("get_unit"), &GDSoftBodyPolygone::get_unit);
+    ClassDB::bind_method(D_METHOD("set_sides","int"), &GDSoftBodyPolygone::set_sides);
+    ClassDB::bind_method(D_METHOD("get_sides"), &GDSoftBodyPolygone::get_sides);
+    ClassDB::bind_method(D_METHOD("set_radius","double"), &GDSoftBodyPolygone::set_radius);
+    ClassDB::bind_method(D_METHOD("get_radius"), &GDSoftBodyPolygone::get_radius);
+    ClassDB::bind_method(D_METHOD("set_center","Vector2"), &GDSoftBodyPolygone::set_center);
+    ClassDB::bind_method(D_METHOD("get_center"), &GDSoftBodyPolygone::get_center);
+
+    ADD_PROPERTY(PropertyInfo(Variant::INT, "unit"), "set_unit", "get_unit");
+    ADD_PROPERTY(PropertyInfo(Variant::INT, "sides"), "set_sides", "get_sides");
+    ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "radius"), "set_radius", "get_radius");
+    ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "center"), "set_center", "get_center");
+}
+
+void GDSoftBodyPolygone::build() {
+    std::vector<sim::Vector2> polygone;
+
+    Vector2 b = Vector2(radius,radius);
+    for (int s = 0; s < sides; s++){
+        polygone.push_back(convert::from_godot(b.rotated(-2*M_PI * s / sides) + center));
+    }
+
+    soft_body = sim::SoftBody::createFromPolygon(polygone, convert::from_godot(center), unit);
 }

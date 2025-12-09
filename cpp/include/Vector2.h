@@ -69,4 +69,7 @@ namespace sim {
         }
         return out;
     };
+    inline Vector2 perpendicular(const Vector2& v, bool clockwise = false) {
+        return clockwise ? Vector2(v.y, -v.x) : Vector2(-v.y, v.x);
+    }
 }

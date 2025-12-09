@@ -11,11 +11,9 @@ namespace godot {
     class GDSoftBody : public Resource {
         GDCLASS(GDSoftBody, Resource)
 
-    private:
+    protected:
         // Internal simulation object (allocated on build)
         sim::SoftBody* soft_body = nullptr;
-
-    protected:
         // Editor-facing parameters
         Array particles;
         Array constraints;
@@ -121,4 +119,29 @@ namespace godot {
         Vector2 get_corner_4() const { return corner_4; }
     };
 
+    class GDSoftBodyPolygone : public GDSoftBody {
+        GDCLASS(GDSoftBodyPolygone, GDSoftBody)
+    
+    private:
+        int unit = 10;
+        int sides = 4;
+        double radius = 50;
+        Vector2 center = Vector2(0,0);    
+
+    protected:
+        static void _bind_methods();
+
+    public:
+        void build() override;
+
+        
+        void set_unit(const double u) { unit = u; }
+        double get_unit() const { return unit; }
+        void set_sides(const int s) { sides = s; }
+        int get_sides() const { return sides; }
+        void set_radius(const double r) { radius = r; }
+        double get_radius() const { return radius; }
+        void set_center(const Vector2 c) { center = c; }
+        Vector2 get_center() const { return center; }
+    };
 }
