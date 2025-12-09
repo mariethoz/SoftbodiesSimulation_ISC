@@ -19,7 +19,7 @@ list(REMOVE_ITEM SRC_FILES
      "${CMAKE_CURRENT_SOURCE_DIR}/cpp/src/main.cpp"
      "${CMAKE_CURRENT_SOURCE_DIR}/cpp/src/main_particles.cpp"
      "${CMAKE_CURRENT_SOURCE_DIR}/cpp/src/main_constraint_animation.cpp"
-     "${CMAKE_CURRENT_SOURCE_DIR}/cpp/src/main_constraint_plots copy.cpp")
+     "${CMAKE_CURRENT_SOURCE_DIR}/cpp/src/main_constraint_plots.cpp")
 
 add_library(my_lib ${SRC_FILES})
 target_include_directories(my_lib PUBLIC cpp/include)

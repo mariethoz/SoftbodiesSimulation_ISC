@@ -4,7 +4,7 @@
 namespace sim {
     class Particle {
     public:
-        Particle(Vector2 pos, double mass = 1.0f, bool pinned = false);
+        Particle(Vector2 pos, double mass = 1.0, double radius = 1.0, bool pinned = false);
         ~Particle();
 
         // Core function

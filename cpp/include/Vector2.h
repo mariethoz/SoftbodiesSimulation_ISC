@@ -1,12 +1,13 @@
 #pragma once
 #include <cmath>
 #include <iostream>
+#include <vector>
 
 namespace sim {
     struct Vector2 {
         double x, y;
 
-        Vector2(double x = 0.0f, double y = 0.0f) : x(x), y(y) {}
+        Vector2(double x = 0.0, double y = 0.0) : x(x), y(y) {}
 
         Vector2 operator+(const Vector2& other) const { return {x + other.x, y + other.y}; }
         Vector2 operator-() const { return {-x, -y}; }
@@ -36,13 +37,36 @@ namespace sim {
         }
 
         Vector2 abs() const {
-            Vector2 out(std::abs(x),std::abs(y));
-            return out;
+            return {std::abs(x), std::abs(y)};
         }
 
         friend Vector2 operator*(double scalar, const Vector2& v) { return {v.x * scalar, v.y * scalar}; }
         friend std::ostream& operator<<(std::ostream& os, const Vector2& v) {
             return os << "(" << v.x << ", " << v.y << ")";
         }
+    };
+    static double dist(const Vector2& a, const Vector2& b) {
+        return (a-b).length();
+    };
+
+    static Vector2 interpolate(const Vector2& A, const Vector2& B, double t) {
+        return A + (B - A) * t;
+    };
+
+    static Vector2 nearestPoint(const Vector2& target, const std::vector<Vector2>& list) {
+        double best = std::numeric_limits<double>::max();
+        Vector2 out = list[0];
+
+        for (const Vector2& p : list) {
+            double d = dist(target, p);
+            if (d < best) {
+                best = d;
+                out = p;
+            }
+        }
+        if (list.empty()) {
+            throw std::invalid_argument("nearestPoint: list is empty");
+        }
+        return out;
     };
 }

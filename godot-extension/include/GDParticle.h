@@ -14,6 +14,7 @@ namespace godot {
         // Editor-facing parameters
         Vector2 position_gd;
         double mass = 1.0;
+        double radius = 1.0;
         bool pinned = false;
 
         // Internal simulation object (allocated on build)
@@ -35,6 +36,9 @@ namespace godot {
 
         void set_mass(double m) { mass = m; }
         double get_mass() const { return mass; }
+        
+        void set_radius(double r) { radius = r; }
+        double get_radius() const { return radius; }
 
         void set_pinned(bool b) { pinned = b; }
         bool is_pinned() const { return pinned; }

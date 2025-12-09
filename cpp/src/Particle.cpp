@@ -2,8 +2,8 @@
 
 using namespace sim;
 
-Particle::Particle(Vector2 pos, double m, bool p)
-    : position(pos), mass(m), radius(1.), prev_position(pos), force_accum(0,0), pinned(p) {
+Particle::Particle(Vector2 pos, double m, double radius, bool p)
+    : position(pos), mass(m), radius(radius), prev_position(pos), force_accum(0,0), pinned(p) {
         corr_position = Vector2(0,0);
     }
 
@@ -16,6 +16,7 @@ void Particle::applyForce(const Vector2& f) {
 }
 
 void Particle::update(double dt) {
+    if (pinned) return;
     Vector2 temp = position;
     Vector2 acceleration = force_accum / mass;
 

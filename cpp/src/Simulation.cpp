@@ -19,7 +19,7 @@ Simulation::~Simulation(){
 }
 
 void Simulation::step(double dt)
-{
+{   
     // 1. Apply global forces (gravity, wind, etc.)
     applyGravity();
 
@@ -35,13 +35,13 @@ void Simulation::step(double dt)
 
 void Simulation::clear() {
     for (auto& b: bodies) {
+        for (auto& c: b->getConstraints()) {
+            delete c;
+        }
         for (auto& p: b->getParticles()) {
             delete p;
         }
         b->getParticles().clear();
-        for (auto& c: b->getConstraints()) {
-            delete c;
-        }
         delete b;
     }
     bodies.clear();
