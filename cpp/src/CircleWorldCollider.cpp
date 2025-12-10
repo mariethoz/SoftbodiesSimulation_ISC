@@ -2,36 +2,40 @@
 
 using namespace sim;
 
-sim::CircleCollider::CircleCollider(Vector2 center, float radius)
+CircleCollider::CircleCollider(Vector2 center, double radius)
     : center(center), radius(radius) {}
 
-InnerCircleCollider::InnerCircleCollider(Vector2 center, float radius)
+CircleCollider::~CircleCollider() {
+    std::cout << "CircleCollider destroyed\n";
+}
+
+InnerCircleCollider::InnerCircleCollider(Vector2 center, double radius)
     : CircleCollider(center, radius) {}
 
-bool InnerCircleCollider::collide(Particle &p) {
-    Vector2 toP = p.getPosition() - center;
-    float dist = toP.length();
-    float maxDist = radius - p.getRadius();
+bool InnerCircleCollider::collide(Particle* p) {
+    Vector2 toP = p->getPosition() - center;
+    double dist = toP.length();
+    double maxDist = radius - p->getRadius();
 
     if (dist > maxDist) {
         Vector2 n = toP / dist; // normalized
-        p.setPosition(center + n * maxDist);
+        p->setPosition(center + n * maxDist);
         return true;
     }
     return false;
 }
 
-OuterCircleCollider::OuterCircleCollider(Vector2 center, float radius)
+OuterCircleCollider::OuterCircleCollider(Vector2 center, double radius)
     : CircleCollider(center, radius) {}
 
-bool OuterCircleCollider::collide(Particle &p) {
-    Vector2 toP = p.getPosition() - center;
-    float dist = toP.length();
-    float maxDist = radius + p.getRadius();
+bool OuterCircleCollider::collide(Particle* p) {
+    Vector2 toP = p->getPosition() - center;
+    double dist = toP.length();
+    double maxDist = radius + p->getRadius();
 
     if (dist < maxDist) {
         Vector2 n = toP / dist; // normalized
-        p.setPosition(center + n * maxDist);
+        p->setPosition(center + n * maxDist);
         return true;
     }
     return false;

@@ -2,18 +2,22 @@
 
 using namespace sim;
 
-PlaneCollider::PlaneCollider(Vector2 normal, float d)
-    : normal(normal.normalized()), d(d) {};
+PlaneCollider::PlaneCollider(Vector2 normal, double d)
+    : normal(normal.normalized()), d(d) {}
 
-bool PlaneCollider::collide(Particle &p) {
-    float dist = p.getPosition().dot(normal) - d;
+PlaneCollider::~PlaneCollider() {
+    std::cout << "PlaneCollider destroyed\n";
+};
 
-    if (dist > p.getRadius()) return false;
+bool PlaneCollider::collide(Particle* p) {
+    double dist = p->getPosition().dot(normal) - d;
 
-    float penetration = dist - p.getRadius();
+    if (dist > p->getRadius()) return false;
+
+    double penetration = dist - p->getRadius();
 
     if (penetration < 0.0f) {
-        p.setPosition(p.getPosition() - normal * penetration);
+        p->setPosition(p->getPosition() - normal * penetration);
         return true;
     }
     return false;

@@ -1,40 +1,65 @@
+//GDSimulation.cpp
 #include "GDSimulation.h"
 #include "GDVector2.h"
 #include "CircleWorldCollider.h"
 #include "PlaneWorldCollider.h"
+#include "Particle.h"
+#include "SoftBody.h"
 
 using namespace godot;
 using namespace convert;
 
 const int SCALE_DRAW = 20;
 
+
+void GDSimulation::_bind_methods() {
+    ClassDB::bind_method(D_METHOD("reset_simulation"), &GDSimulation::reset_simulation);
+}
+
+void GDSimulation::draw_simulation() {
+    for (auto body : simulation.getBodies()) {
+        for (auto p : body->getParticles()) {
+            Vector2 pos = convert::to_godot(p->getPosition()) * SCALE_DRAW;
+            float radius = p->getRadius() * SCALE_DRAW;
+            draw_circle(pos, radius, Color(1,0,0));
+        }
+        for (auto c: body->getConstraints()) {
+            Vector2 p1 = convert::to_godot(c->getPart1()) * SCALE_DRAW;
+            Vector2 p2 = convert::to_godot(c->getPart2()) * SCALE_DRAW;
+            draw_line(p1,p2,Color(1,1,1), 3.0);
+        }
+    }
+    for (auto* col: simulation.getColliders()) {
+        if (auto* plane = dynamic_cast<sim::PlaneCollider*>(col)) {
+            Vector2 n = to_godot(plane->getNormal());
+            Vector2 origin = Vector2(0, -plane->getDistance()) * 20;
+
+            draw_line(origin - n.rotated(Math_PI/2) * 500,
+                    origin + n.rotated(Math_PI/2) * 500,
+                    Color(0,0,1), 2);
+        }
+        if (auto* c = dynamic_cast<sim::CircleCollider*>(col)) {
+            Vector2 center = convert::to_godot(c->getCenter()) * SCALE_DRAW;
+            float radius = c->getRadius() * SCALE_DRAW;
+
+            draw_arc(center, radius, 0, Math_TAU, 64, Color(0,0,1), 2);
+        }
+    }
+}
+
 void GDParticleSimulation::_bind_methods() {
     ClassDB::bind_method(D_METHOD("set_particles", "particles"), &GDParticleSimulation::set_particles);
     ClassDB::bind_method(D_METHOD("get_particles"), &GDParticleSimulation::get_particles);
 
-    ClassDB::bind_method(D_METHOD("reset_simulation"), &GDParticleSimulation::reset_simulation);
-
     ADD_PROPERTY(PropertyInfo(Variant::PACKED_VECTOR2_ARRAY, "particles"), "set_particles", "get_particles");
 }
 
-GDParticleSimulation::GDParticleSimulation() {
-}
-
-GDParticleSimulation::~GDParticleSimulation() {
-}
-
-void GDParticleSimulation::reset_simulation() {
+void GDParticleSimulation::build() {
     simulation.clear();
-    _ready();
-}
-
-void GDParticleSimulation::_ready() {
-
-    // Same setup as your main.cpp
     simulation.setGravity(sim::Vector2(0, -10));
-    simulation.addCollider(&c1);
-    simulation.addCollider(&c2);
-    simulation.addCollider(&c3);
+    simulation.addCollider(new sim::PlaneCollider(sim::Vector2(0,1), -10.0f));
+    simulation.addCollider(new sim::OuterCircleCollider(sim::Vector2(0,-10), 5.0f));
+    simulation.addCollider(new sim::InnerCircleCollider(sim::Vector2(0,0), 15.0f));
 
     // Particles
     if (particles.size() == 0) {
@@ -51,49 +76,59 @@ void GDParticleSimulation::_ready() {
             {  2.5f, -3.0f }
         };
 
-        for (auto &pos : positions) {
-            std::vector<sim::Particle> p;
-            p.emplace_back(pos, 1.0f);
-            sim::SoftBody body(p, 0.5f, 0.5f);
-            simulation.addBody(body);
+        // Create one SoftBody per particle
+        for (auto& pos : positions) {
+            std::vector<sim::Particle*> particles;
+            particles.push_back(new sim::Particle(pos, 1.0f));  // allocate particles
+            simulation.addBody(new sim::SoftBody(particles));
         }
     } else {
         for (auto &part : particles) {
-            std::vector<sim::Particle> p;
-            p.emplace_back(convert::from_godot(part), 1.0f);
-            sim::SoftBody body(p, 0.5f, 0.5f);
-            simulation.addBody(body);
+            std::vector<sim::Particle*> p;
+            p.emplace_back(new sim::Particle(convert::from_godot(part), 1.0f));
+            simulation.addBody(new sim::SoftBody(p));
         }
     }
 }
 
-void GDParticleSimulation::_process(double delta) {
-    simulation.step(delta);
-    queue_redraw();
+void GDParticleSimulation::_ready() {
+    build();
 }
 
-void GDParticleSimulation::_draw() {
-    for (auto body : simulation.getBodies()) {
-        for (auto p : body.getParticles()) {
-            Vector2 pos = convert::to_godot(p.getPosition()) * SCALE_DRAW;
-            float radius = p.getRadius() * SCALE_DRAW;
-            draw_circle(pos, radius, Color(1,1,1));
+void GDSoftBodySimulation::_bind_methods() {
+    ClassDB::bind_method(D_METHOD("set_bodies", "bodies"), &GDSoftBodySimulation::set_bodies);
+    ClassDB::bind_method(D_METHOD("get_bodies"), &GDSoftBodySimulation::get_bodies);
+
+    ADD_PROPERTY(
+        PropertyInfo(Variant::ARRAY, "bodies", PROPERTY_HINT_ARRAY_TYPE,
+            String::num(Variant::OBJECT) + "/" + String::num(PROPERTY_HINT_RESOURCE_TYPE) + ":GDSoftBody"
+        ),
+        "set_bodies","get_bodies"
+    );
+}
+
+void GDSoftBodySimulation::build() {
+    simulation.clear();
+    simulation.setGravity(sim::Vector2(0, -10));
+    simulation.addCollider(new sim::PlaneCollider(sim::Vector2(0,1), -10.0f));
+    simulation.addCollider(new sim::OuterCircleCollider(sim::Vector2(0,-10), 5.0f));
+    simulation.addCollider(new sim::InnerCircleCollider(sim::Vector2(0,0), 15.0f));
+
+    // Load GDSoftBody resources into the simulation
+    for (int i = 0; i < bodies.size(); i++) {
+        Ref<GDSoftBody> sb = bodies[i];
+        if (!sb.is_valid())
+            continue;
+
+        sb->reset();  // clear the previous sim::SoftBody*
+        sb->build();  // creates sim::SoftBody* internally
+
+        if (sb->get_sim_softbody()){
+            simulation.addBody(sb->take_sim_softbody());
         }
     }
-    for (auto* col: simulation.getColliders()) {
-        if (auto* plane = dynamic_cast<sim::PlaneCollider*>(col)) {
-            Vector2 n = to_godot(plane->getNormal());
-            Vector2 origin = Vector2(0, -plane->getDistance()) * 20;
+}
 
-            draw_line(origin - n.rotated(Math_PI/2) * 500,
-                    origin + n.rotated(Math_PI/2) * 500,
-                    Color(1,0,0), 2);
-        }
-        if (auto* c = dynamic_cast<sim::CircleCollider*>(col)) {
-            Vector2 center = convert::to_godot(c->getCenter()) * SCALE_DRAW;
-            float radius = c->getRadius() * SCALE_DRAW;
-
-            draw_arc(center, radius, 0, Math_TAU, 64, Color(0,1,0), 2);
-        }
-    }
+void GDSoftBodySimulation::_ready() {
+    build();
 }

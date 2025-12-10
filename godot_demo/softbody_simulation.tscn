@@ -1,0 +1,39 @@
+[gd_scene load_steps=5 format=3 uid="uid://cbtrn7o4v5gm6"]
+
+[sub_resource type="GDSoftBodyTriange" id="GDSoftBodyTriange_mgf0h"]
+corner_1 = Vector2(-5, -5)
+corner_2 = Vector2(-3, -3)
+corner_3 = Vector2(-1, -5)
+
+[sub_resource type="GDSoftBodySquare" id="GDSoftBodySquare_mgf0h"]
+corner_1 = Vector2(4, 4)
+corner_2 = Vector2(4, 0)
+corner_4 = Vector2(0, 4)
+
+[sub_resource type="GDSoftBodySquare" id="GDSoftBodySquare_obxss"]
+corner_1 = Vector2(4.7, 4)
+corner_2 = Vector2(4, 0)
+corner_4 = Vector2(0, 4)
+
+[sub_resource type="GDSoftBodySquare" id="GDSoftBodySquare_se6rb"]
+corner_1 = Vector2(4, 4.7)
+corner_2 = Vector2(4, 0)
+corner_4 = Vector2(0, 4)
+
+[node name="GDSoftBodyTest" type="Node2D"]
+
+[node name="GDSoftBodySimulation" type="GDSoftBodySimulation" parent="."]
+bodies = [SubResource("GDSoftBodyTriange_mgf0h"), SubResource("GDSoftBodySquare_mgf0h"), SubResource("GDSoftBodySquare_obxss"), SubResource("GDSoftBodySquare_se6rb")]
+
+[node name="Button" type="Button" parent="."]
+offset_left = 507.0
+offset_top = -307.0
+offset_right = 558.0
+offset_bottom = -276.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Reset"
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[connection signal="pressed" from="Button" to="GDSoftBodySimulation" method="reset_simulation"]

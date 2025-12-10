@@ -3,7 +3,6 @@
 *.csv
 
 godot-cpp
-godot-demo
 
 # Godot project files
 .import/
@@ -30,3 +29,5 @@ export_presets.cfg
 .cache/
 bin/
 build/
+
+!*.gdextension

@@ -20,12 +20,12 @@ TEST(PlaneColliderTest, ParticleAbovePlaneNoCollision) {
     PlaneCollider plane(Vector2(0.0f, 1.0f), 0.0f);
     Particle p(Vector2(0.0f, 1.0f), 1.0f);
 
-    EXPECT_FALSE(plane.collide(p));
+    EXPECT_FALSE(plane.collide(&p));
 }
 
 TEST(PlaneColliderTest, ParticleBelowPlaneCollides) {
     PlaneCollider plane(Vector2(0.0f, 1.0f), 0.0f);
     Particle p(Vector2(0.0f, -1.0f), 1.0f);
 
-    EXPECT_TRUE(plane.collide(p));
+    EXPECT_TRUE(plane.collide(&p));
 }

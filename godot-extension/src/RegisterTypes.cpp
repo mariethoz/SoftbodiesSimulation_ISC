@@ -6,7 +6,15 @@ using namespace godot;
 
 void initialize_extension(ModuleInitializationLevel level) {
     if (level == MODULE_INITIALIZATION_LEVEL_SCENE) {
+        ClassDB::register_abstract_class<GDSimulation>();
         ClassDB::register_class<GDParticleSimulation>();
+        ClassDB::register_class<GDSoftBodySimulation>();
+        ClassDB::register_abstract_class<GDSoftBody>();
+        ClassDB::register_class<GDSoftBodyCustom>();
+        ClassDB::register_class<GDSoftBodyTriange>();
+        ClassDB::register_class<GDSoftBodySquare>();
+        ClassDB::register_class<GDParticle>();
+        ClassDB::register_class<GDConstraint>();
     }
 }
 

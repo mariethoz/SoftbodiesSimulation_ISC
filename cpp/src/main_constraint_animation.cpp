@@ -10,7 +10,7 @@ using namespace sim;
 // Helper to build a square soft body
 SoftBody* createSquareBody(Vector2 center, double stiffness, double damping) {
     std::vector<Particle*> particles;
-    double half = 1.0;
+    double half = 2.0;
 
     // Define positions relative to center
     std::vector<Vector2> positions = {
@@ -72,7 +72,7 @@ int main() {
 
     // Add multiple squares with different stiffness/damping
     sim.addBody(createSquareBody(Vector2( 5, 0), 0.9, 0.1)); // very rigid, springs back quickly (snappy, little energy loss)
-    sim.addBody(createSquareBody(Vector2( 0, 5), 0.5, 0.5)); // balanced: moderate rigidity and moderate damping (steady, natural motion)
+    sim.addBody(createSquareBody(Vector2( 0, 0), 0.5, 0.5)); // balanced: moderate rigidity and moderate damping (steady, natural motion)
     sim.addBody(createSquareBody(Vector2(-5, 0), 0.2, 0.8)); // floppy but heavily damped (soft, sluggish, resists oscillation)
 
     std::ofstream out("visuals/positions.csv");
@@ -85,7 +85,7 @@ int main() {
     }
     out << "\n";
 
-    for (int i = 1; i < 1001; i++) {
+    for (int i = 1; i < 2001; i++) {
         sim.step(step);
         out << i;
         for (auto& b: sim.getBodies()) {
