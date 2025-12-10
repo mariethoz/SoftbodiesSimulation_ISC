@@ -26,40 +26,23 @@ bool InnerCircleCollider::collide(Particle *p, double friction, double restituti
     }
 
     if (dist > maxDist) {
-        Vector2 n = toP / dist; // collision normal
+        Vector2 vel = p->getPosition() - p->getPrevPosition();
+        Vector2 n = toP / dist; // Collision normal
 
         // --- Positional correction ---
         p->setPosition(center + n * maxDist);
 
-        // --- Effective coefficients ---
         double effectiveFriction    = 0.5 * (worldFriction + friction);
         double effectiveRestitution = std::min(worldRestitution, restitution);
 
-        // --- Velocity response (Verlet displacement) ---
-        Vector2 vel = p->getPosition() - p->getPrevPosition();
         double velAlongNormal = vel.dot(n);
+        Vector2 tangentVel = vel - velAlongNormal * n;
 
-        if (velAlongNormal < 0) {
-            // Bounce with restitution
-            Vector2 normalImpulse = -(1.0 + effectiveRestitution) * velAlongNormal * n;
-            p->setPrevPosition(p->getPrevPosition() + normalImpulse);
-        }
+        Vector2 correctedNormal = effectiveRestitution * velAlongNormal * n;
+        Vector2 correctedTangent = (1.0 - effectiveFriction) * tangentVel;
 
-        // Friction along tangent
-        Vector2 tangent = vel - velAlongNormal * n;
-        if (tangent.length() > 1e-8) {
-            tangent = tangent.normalized();
-            double velAlongTangent = vel.dot(tangent);
-
-            double frictionImpulseMag = std::clamp(
-                velAlongTangent,
-                -effectiveFriction * fabs(velAlongNormal),
-                effectiveFriction * fabs(velAlongNormal)
-            );
-            Vector2 frictionImpulse = -frictionImpulseMag * tangent;
-
-            p->setPrevPosition(p->getPrevPosition() + frictionImpulse);
-        }
+        Vector2 correctedVel = correctedNormal + correctedTangent;
+        p->setPrevPosition(p->getPosition() - correctedVel);
 
         return true;
     }
@@ -83,40 +66,23 @@ bool OuterCircleCollider::collide(Particle* p, double friction, double restituti
     }
 
     if (dist < maxDist) {
-        Vector2 n = toP / dist; // collision normal
+        Vector2 vel = p->getPosition() - p->getPrevPosition();
+        Vector2 n = toP / dist; // Collision normal
 
         // --- Positional correction ---
         p->setPosition(center + n * maxDist);
 
-        // --- Effective coefficients ---
         double effectiveFriction    = 0.5 * (worldFriction + friction);
         double effectiveRestitution = std::min(worldRestitution, restitution);
 
-        // --- Velocity response (Verlet displacement) ---
-        Vector2 vel = p->getPosition() - p->getPrevPosition();
         double velAlongNormal = vel.dot(n);
+        Vector2 tangentVel = vel - velAlongNormal * n;
 
-        if (velAlongNormal < 0) {
-            // Bounce with restitution
-            Vector2 normalImpulse = -(1.0 + effectiveRestitution) * velAlongNormal * n;
-            p->setPrevPosition(p->getPrevPosition() + normalImpulse);
-        }
+        Vector2 correctedNormal = effectiveRestitution * velAlongNormal * n;
+        Vector2 correctedTangent = (1.0 - effectiveFriction) * tangentVel;
 
-        // Friction along tangent
-        Vector2 tangent = vel - velAlongNormal * n;
-        if (tangent.length() > 1e-8) {
-            tangent = tangent.normalized();
-            double velAlongTangent = vel.dot(tangent);
-
-            double frictionImpulseMag = std::clamp(
-                velAlongTangent,
-                -effectiveFriction * fabs(velAlongNormal),
-                effectiveFriction * fabs(velAlongNormal)
-            );
-            Vector2 frictionImpulse = -frictionImpulseMag * tangent;
-
-            p->setPrevPosition(p->getPrevPosition() + frictionImpulse);
-        }
+        Vector2 correctedVel = correctedNormal + correctedTangent;
+        p->setPrevPosition(p->getPosition() - correctedVel);
 
         return true;
     }

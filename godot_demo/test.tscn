@@ -1,46 +1,74 @@
-[gd_scene load_steps=4 format=3 uid="uid://diji4t1552sjm"]
+[gd_scene load_steps=6 format=3 uid="uid://diji4t1552sjm"]
 
 [ext_resource type="Script" uid="uid://d1klbqgfeha5d" path="res://gd_soft_body_simulation_btn.gd" id="1_37kl0"]
 [ext_resource type="Script" uid="uid://6qou3ho0gmav" path="res://label.gd" id="2_8uh7m"]
+[ext_resource type="Script" uid="uid://p54ovnvmq676" path="res://label_2.gd" id="3_6uqi0"]
 
 [sub_resource type="GDSoftBodyPolygone" id="GDSoftBodyPolygone_37kl0"]
 radius = 20.0
 center = Vector2(0, -50)
+
+[sub_resource type="GDSoftBodyPolygone" id="GDSoftBodyPolygone_8uh7m"]
+sides = 30
+center = Vector2(0, -20)
+friction = 0.0
+restitution = 1.0
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_37kl0")
 default = SubResource("GDSoftBodyPolygone_37kl0")
 
 [node name="GDSoftBodySimulationBtn" type="GDSoftBodySimulationBtn" parent="."]
+bodies = [SubResource("GDSoftBodyPolygone_8uh7m")]
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(0.5, 0.5)
 
-[node name="Button" type="Button" parent="."]
-offset_left = 814.0
-offset_top = -585.0
-offset_right = 865.0
-offset_bottom = -554.0
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="Button" type="Button" parent="CanvasLayer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
 theme_override_font_sizes/font_size = 50
 text = "Reset"
 
-[node name="Button2" type="Button" parent="."]
-offset_left = 1000.0
-offset_top = -586.0
-offset_right = 1039.0
-offset_bottom = -555.0
+[node name="Button2" type="Button" parent="CanvasLayer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
 theme_override_font_sizes/font_size = 50
 text = "Add
 "
 
-[node name="Label" type="Label" parent="."]
-offset_left = 633.0
-offset_top = 510.0
-offset_right = 1152.0
-offset_bottom = 643.0
+[node name="Label" type="Label" parent="CanvasLayer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
 theme_override_font_sizes/font_size = 50
 text = "FPS:"
 script = ExtResource("2_8uh7m")
 
-[connection signal="pressed" from="Button" to="GDSoftBodySimulationBtn" method="reset_simulation"]
-[connection signal="pressed" from="Button2" to="." method="_on_button_2_pressed"]
+[node name="Label2" type="Label" parent="CanvasLayer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+theme_override_font_sizes/font_size = 50
+text = "Nb"
+script = ExtResource("3_6uqi0")
+
+[connection signal="pressed" from="CanvasLayer/MarginContainer/Button" to="GDSoftBodySimulationBtn" method="reset_simulation"]
+[connection signal="pressed" from="CanvasLayer/MarginContainer/Button" to="CanvasLayer/MarginContainer/Label2" method="_on_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/MarginContainer/Button2" to="." method="_on_button_2_pressed"]
+[connection signal="pressed" from="CanvasLayer/MarginContainer/Button2" to="CanvasLayer/MarginContainer/Label2" method="_on_button_2_pressed"]

@@ -1,14 +1,13 @@
 #include "SoftBody.h"
 
-
 #include <unordered_set>
 #include <unordered_map>
 #include <functional>
-#include <corecrt_math_defines.h>
 #include <algorithm>
 
 using namespace sim;
 
+static double PI = 3.14;
 
 // ---------------------------------------------------------------------------
 // Hashing for deduplication
@@ -169,7 +168,7 @@ static void meshPolygone(
             double angle = std::acos(dot);
 
             // Example: stop if angle < 120 degrees
-            double maxAngle = 120.0 * M_PI / 180.0; // convert to radians
+            double maxAngle = 120.0 * PI / 180.0; // convert to radians
             if (angle < maxAngle) {
                 int A1 = getID(a, idmap, pts);
                 int A2 = getID(c, idmap, pts);

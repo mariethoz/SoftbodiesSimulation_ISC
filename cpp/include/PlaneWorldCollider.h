@@ -5,7 +5,7 @@
 namespace sim {
     class PlaneCollider : public WorldCollider {
     public:
-        PlaneCollider(Vector2 normal, double d, double friction = 0.5, double restitution = 0.5);
+        PlaneCollider(Vector2 normal, double d, double friction = 0.9, double restitution = 0.1);
         ~PlaneCollider();
 
         bool collide(Particle* p, double friction, double restitution) override;

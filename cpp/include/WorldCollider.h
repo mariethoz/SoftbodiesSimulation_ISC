@@ -5,7 +5,7 @@ namespace sim {
     class WorldCollider {
     public:
         // Constructor with default values
-        WorldCollider(double friction = 0.5, double restitution = 0.5)
+        WorldCollider(double friction = 1.0, double restitution = 0.1)
             : worldFriction(friction), worldRestitution(restitution) {}
 
         virtual ~WorldCollider() = default;
