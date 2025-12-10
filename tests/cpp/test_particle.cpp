@@ -93,36 +93,47 @@ TEST(ParticleTest, CorrPositionAccumulatesAndResetsAfterUpdate) {
 
     // Correction should reset after update
     p.update(1.0);
+    pos = p.getPosition();
     Vector2 prevPos = p.getPrevPosition();
     p.update(1.0);
 
     // No new forces or corrections, so position should equal prev_position
-    expectVecNear(p.getPosition(), prevPos);
+    expectVecNear(p.getPosition(), pos + (pos - prevPos));
 }
 
 TEST(ParticleTest, PinnedParticleFlagWorks) {
     Vector2 pos(0.0f, 0.0f);
-    Particle p(pos, 1.0f, true);
+    Vector2 gravity(0,-10);
+    Particle p(pos, 1.0f, 1.0f, true);
+    Particle q(pos, 1.0f, 1.0f, false);
 
     EXPECT_TRUE(p.isPinned());
-
-    Particle q(pos, 1.0f, false);
     EXPECT_FALSE(q.isPinned());
+
+    p.applyForce(gravity);
+    q.applyForce(gravity);
+    p.update(1.0);
+    q.update(1.0);
+
+    expectVecNear(p.getPosition(), p.getPrevPosition());
+    expectVecNear(p.getPosition(), pos);
+    expectVecNear(q.getPosition(), gravity);
 }
 
-TEST(ParticleTest, ForceAndCorrectionResetAfterUpdate) {
+TEST(ParticleTest, ForceResetAfterUpdate) {
     Vector2 pos(0.0f, 0.0f);
     Particle p(pos, 1.0f);
 
     p.applyForce(Vector2(5.0f, 0.0f));
-    p.corrPosition(Vector2(2.0f, 0.0f));
 
     p.update(1.0);
 
-    // ApplyForce and corrPosition should reset internally
+    // ApplyForce should reset internally
+    pos = p.getPosition();
     Vector2 prevPos = p.getPrevPosition();
     p.update(1.0);
+
     // No new forces or corrections, so particle should continue moving
-    expectVecNear(Vector2(12.0f, 0.0f), p.getPosition());
-    expectVecNear(Vector2(7.0f, 0.0f), p.getPrevPosition());
+    expectVecNear(p.getPrevPosition(), pos);
+    expectVecNear(p.getPosition(), pos + (pos-prevPos));
 }
