@@ -134,8 +134,8 @@ void GDSoftBodySimulation::_ready() {
 }
 
 void GDSoftBodySimulationBtn::_bind_methods() {
-    ClassDB::bind_method(D_METHOD("set_bodies", "bodies"), &GDSoftBodySimulation::set_bodies);
-    ClassDB::bind_method(D_METHOD("get_bodies"), &GDSoftBodySimulation::get_bodies);
+    ClassDB::bind_method(D_METHOD("set_bodies", "bodies"), &GDSoftBodySimulationBtn::set_bodies);
+    ClassDB::bind_method(D_METHOD("get_bodies"), &GDSoftBodySimulationBtn::get_bodies);
     ClassDB::bind_method(D_METHOD("add_body", "body"), &GDSoftBodySimulationBtn::add_body);
 
     ADD_PROPERTY(
