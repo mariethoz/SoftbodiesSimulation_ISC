@@ -8,7 +8,7 @@
 using namespace sim;
 
 int main() {
-    double step = 0.001;
+    double step = 0.01;
     Simulation sim;
     sim.setGravity(Vector2(0,-10/step));
     sim.addCollider(new PlaneCollider( Vector2(0,1), -10.0f ));
@@ -33,7 +33,7 @@ int main() {
     // Create one SoftBody per particle
     for (auto& pos : positions) {
         std::vector<Particle*> p;
-        p.push_back(new Particle(pos, 1.0f));  // allocate particles
+        p.push_back(new Particle(pos));  // allocate particles
         sim.addBody(new SoftBody(p, {}, 0.5f, 0.5f));
     }
 

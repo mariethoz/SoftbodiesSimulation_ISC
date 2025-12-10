@@ -27,9 +27,9 @@ namespace sim {
         void applyGravity();
         void updateObjects(double dt);
         void applyConstraints();
-        void resolveCollisions();
+        void resolveCollisions(double dt);
         void collisionsWorld();
-        void collisionsBodies();
+        void collisionsBodies(double dt);
 
     };
 }

@@ -4,9 +4,16 @@
 namespace sim {
     class WorldCollider {
     public:
+        // Constructor with default values
+        WorldCollider(double friction = 0.5, double restitution = 0.5)
+            : worldFriction(friction), worldRestitution(restitution) {}
+
         virtual ~WorldCollider() = default;
 
-        // Returns true if collision happened
-        virtual bool collide(Particle* p) = 0;
+        virtual bool collide(Particle* p, double friction, double restitution) = 0;
+
+    protected:
+        double worldFriction;    // smooth 0 < 1 rough
+        double worldRestitution; // sticky 0 < 1 bounce
     };
 }
