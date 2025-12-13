@@ -18,15 +18,15 @@ void GDSimulation::_bind_methods() {
 
 void GDSimulation::draw_simulation() {
     for (auto body : simulation.getBodies()) {
-        for (auto p : body->getParticles()) {
-            Vector2 pos = convert::to_godot(p->getPosition()) * SCALE_DRAW;
-            float radius = p->getRadius() * SCALE_DRAW;
-            draw_circle(pos, radius, Color(1,0,0));
-        }
         for (auto c: body->getConstraints()) {
             Vector2 p1 = convert::to_godot(c->getPart1()) * SCALE_DRAW;
             Vector2 p2 = convert::to_godot(c->getPart2()) * SCALE_DRAW;
             draw_line(p1,p2,Color(1,1,1), 3.0);
+        }
+        for (auto p : body->getParticles()) {
+            Vector2 pos = convert::to_godot(p->getPosition()) * SCALE_DRAW;
+            float radius = p->getRadius() * SCALE_DRAW;
+            draw_circle(pos, radius, Color(1,0,0));
         }
     }
     for (auto* col: simulation.getColliders()) {

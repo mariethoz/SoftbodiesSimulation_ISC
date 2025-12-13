@@ -1,6 +1,10 @@
 #include <godot_cpp/godot.hpp>
 #include <godot_cpp/core/class_db.hpp>
+
 #include "GDSimulation.h"
+#include "2_GDSimulation.h"
+#include "2_GDSoftBody.h"
+#include "2_GDCollider.h"
 
 using namespace godot;
 
@@ -17,6 +21,10 @@ void initialize_extension(ModuleInitializationLevel level) {
         ClassDB::register_class<GDSoftBodyPolygone>();
         ClassDB::register_class<GDParticle>();
         ClassDB::register_class<GDConstraint>();
+
+        ClassDB::register_class<GDSimulation_2>();
+        ClassDB::register_class<GDSoftBody_2>();
+        ClassDB::register_class<GDCollider>();
     }
 }
 

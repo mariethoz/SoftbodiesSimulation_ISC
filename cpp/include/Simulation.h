@@ -17,6 +17,7 @@ namespace sim {
         std::vector<SoftBody*> getBodies() { return bodies; }
         std::vector<WorldCollider*> getColliders() { return colliders; }
         void setGravity(const Vector2 gravity) { this->gravity = gravity; }
+        Vector2 getGravity() { return gravity; }
 
     private:
         std::vector<SoftBody*> bodies;

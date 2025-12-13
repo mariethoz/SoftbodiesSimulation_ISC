@@ -45,6 +45,7 @@ namespace sim {
             return os << "(" << v.x << ", " << v.y << ")";
         }
     };
+    
     static double dist(const Vector2& a, const Vector2& b) {
         return (a-b).length();
     };

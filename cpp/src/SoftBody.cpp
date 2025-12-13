@@ -4,8 +4,21 @@
 
 using namespace sim;
 
-SoftBody::SoftBody(std::vector<Particle *> particles, std::vector<Constraint *> constraints, double friction, double restitution)
-    : particles(particles), constraints(constraints),
+SoftBody::SoftBody(
+        std::vector<Particle *> particles,
+        std::vector<Constraint *> constraints,
+        double friction, double restitution
+    )
+    : border({}), particles(particles), constraints(constraints),
+      friction(friction), restitution(restitution) {}
+
+SoftBody::SoftBody(
+        std::vector<Particle *> border,
+        std::vector<Particle *> particles,
+        std::vector<Constraint *> constraints,
+        double friction, double restitution
+    )
+    : border(border), particles(particles), constraints(constraints),
       friction(friction), restitution(restitution) {}
 
 SoftBody::~SoftBody() {

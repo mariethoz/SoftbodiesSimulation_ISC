@@ -133,7 +133,7 @@ void Simulation::collisionsBodies(double dt) {
 
                     Vector2 delta = part1->getPosition() - part2->getPosition();
                     double dist = delta.length();
-                    double min_dist = part1->getRadius() + part2->getRadius();
+                    double min_dist = (part1->getRadius() + part2->getRadius());
 
                     if (dist > 0 && dist < min_dist) {
                         Vector2 n = delta / dist; // Collision normal
