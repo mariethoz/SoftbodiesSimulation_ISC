@@ -1,136 +1,169 @@
-#include "SoftBody.h"
-#include "Vector2.h"
 #include <gtest/gtest.h>
 
-using namespace sim;
+#include "SoftBody.h"
 
-// Helper: equality check for Vector2 with tolerance
-static void expectVecNear(const Vector2& a, const Vector2& b, float tol = 1e-5f) {
-    EXPECT_NEAR(a.x, b.x, tol);
-    EXPECT_NEAR(a.y, b.y, tol);
+using sim::SoftBody;
+using sim::Particle;
+using sim::Constraint;
+using sim::Vector2;
+using sim::divideSegment;
+
+// --------------------------------------------------
+// divideSegment
+// --------------------------------------------------
+
+TEST(DivideSegmentTest, SamePointReturnsSinglePoint) {
+    Vector2 p(1, 1);
+    auto pts = divideSegment(p, p, 5);
+
+    ASSERT_EQ(pts.size(), 1);
+    EXPECT_EQ(pts[0], p);
 }
 
-TEST(SoftBodyTest, ConstructorInitializesParticles) {
-    std::vector<Particle*> particles;
-    particles.push_back(new Particle(Vector2(0.0f, 0.0f), 1.0f));
-    particles.push_back(new Particle(Vector2(1.0f, 0.0f), 2.0f));
+TEST(DivideSegmentTest, ZeroOrNegativeNReturnsEndpoints) {
+    Vector2 a(0, 0);
+    Vector2 b(10, 0);
 
+    auto pts0 = divideSegment(a, b, 0);
+    auto ptsNeg = divideSegment(a, b, -3);
+
+    EXPECT_EQ(pts0.size(), 2);
+    EXPECT_EQ(ptsNeg.size(), 2);
+
+    EXPECT_EQ(pts0[0], a);
+    EXPECT_EQ(pts0[1], b);
+}
+
+TEST(DivideSegmentTest, DividesIntoEqualSegments) {
+    Vector2 a(0, 0);
+    Vector2 b(10, 0);
+
+    auto pts = divideSegment(a, b, 5);
+
+    ASSERT_EQ(pts.size(), 6);
+    EXPECT_EQ(pts.front(), a);
+    EXPECT_EQ(pts.back(), b);
+
+    EXPECT_NEAR(pts[1].x, 2.0, 1e-8);
+    EXPECT_NEAR(pts[2].x, 4.0, 1e-8);
+}
+
+// --------------------------------------------------
+// SoftBody Construction
+// --------------------------------------------------
+
+TEST(SoftBodyTest, ConstructorStoresData) {
+    Particle p1(Vector2(0, 0));
+    Particle p2(Vector2(1, 0));
+    Constraint c(&p1, &p2);
+
+    std::vector<Particle*> particles{ &p1, &p2 };
+    std::vector<Constraint*> constraints{ &c };
+
+    SoftBody body(particles, constraints, 0.3, 0.7);
+
+    EXPECT_EQ(body.getParticles().size(), 2);
+    EXPECT_EQ(body.getConstraints().size(), 1);
+    EXPECT_DOUBLE_EQ(body.getFriction(), 0.3);
+    EXPECT_DOUBLE_EQ(body.getRestitution(), 0.7);
+}
+
+// --------------------------------------------------
+// SoftBody Behavior
+// --------------------------------------------------
+
+TEST(SoftBodyTest, ApplyForceAffectsAllParticles) {
+    Particle p1(Vector2(0, 0));
+    Particle p2(Vector2(0, 0));
+
+    std::vector<Particle*> particles{ &p1, &p2 };
     SoftBody body(particles);
 
-    auto ps = body.getParticles();
-    EXPECT_EQ(ps.size(), 2u);
-    expectVecNear(ps[0]->getPosition(), Vector2(0.0f, 0.0f));
-    expectVecNear(ps[1]->getPosition(), Vector2(1.0f, 0.0f));
-    EXPECT_FLOAT_EQ(body.getFriction(), 0.5f);
-    EXPECT_FLOAT_EQ(body.getRestitution(), 0.5f);
-
-    for (auto p: particles) {
-        delete p;
-    }
-}
-
-TEST(SoftBodyTest, ConstructorWithFrictionAndRestitution) {
-    std::vector<Particle*> particles;
-    particles.push_back(new Particle(Vector2(0.0f, 0.0f), 1.0f));
-
-    SoftBody body(particles, {}, 0.3f, 0.8f);
-
-    EXPECT_FLOAT_EQ(body.getFriction(), 0.3f);
-    EXPECT_FLOAT_EQ(body.getRestitution(), 0.8f);
-
-    for (auto p: particles) {
-        delete p;
-    }
-}
-
-TEST(SoftBodyTest, ApplyForcePropagatesToAllParticles) {
-    std::vector<Particle*> particles;
-    particles.push_back(new Particle(Vector2(0.0f, 0.0f), 1.0f));
-    particles.push_back(new Particle(Vector2(1.0f, 0.0f), 1.0f));
-
-    SoftBody body(particles);
-
-    body.applyForce(Vector2(2.0f, 0.0f));
+    body.applyForce(Vector2(1, 2));
     body.update(1.0);
 
-    auto ps = body.getParticles();
-    expectVecNear(ps[0]->getPosition(), Vector2(2.0f, 0.0f));
-    expectVecNear(ps[1]->getPosition(), Vector2(3.0f, 0.0f));
-
-    for (auto p: particles) {
-        delete p;
-    }
+    EXPECT_EQ(p1.getPosition(), Vector2(1, 2));
+    EXPECT_EQ(p2.getPosition(), Vector2(1, 2));
 }
 
-TEST(SoftBodyTest, UpdateMovesAllParticles) {
-    std::vector<Particle*> particles;
-    particles.emplace_back(new Particle(Vector2(0.0f, 0.0f), 1.0f));
-    particles.emplace_back(new Particle(Vector2(1.0f, 0.0f), 1.0f));
+TEST(SoftBodyTest, SolveConstraintCallsAllConstraints) {
+    Particle p1(Vector2(0, 0));
+    Particle p2(Vector2(10, 0));
 
-    SoftBody body(particles);
+    Constraint c(&p1, &p2, 1.0, 0.0);
 
-    // Apply upward force
-    body.applyForce(Vector2(0.0f, 5.0f));
-    body.update(1.0);
-
-    auto ps = body.getParticles();
-    expectVecNear(ps[0]->getPosition(), Vector2(0.0f, 5.0f));
-    expectVecNear(ps[1]->getPosition(), Vector2(1.0f, 5.0f));
-
-    for (auto p: particles) {
-        delete p;
-    }
-}
-
-TEST(SoftBodyTest, SolveConstraintAppliesCorrections) {
-    // Two particles connected by a constraint
-    Particle* p1 = new Particle(Vector2(0.0f, 0.0f), 1.0f, true);
-    Particle* p2 = new Particle(Vector2(5.0f, 0.0f), 1.0f);
-
-    Constraint* c = new Constraint(p1, p2); // rest length = 5
-    std::vector<Particle*> particles = {p1, p2};
-    std::vector<Constraint*> constraints = {c};
-
+    std::vector<Particle*> particles{ &p1, &p2 };
+    std::vector<Constraint*> constraints{ &c };
     SoftBody body(particles, constraints);
 
-    // Move p2 farther away to break constraint
-    p2->setPosition(Vector2(10.0f, 0.0f));
-    p2->setPrevPosition(Vector2(10.0f, 0.0f));
+    // Disturb constraint
+    p2.setPosition(Vector2(12, 0));
     body.solveConstraint();
-    p2->update(1.0);
-    // After constraint resolution, distance should be closer to rest length
-    double dist = (p1->getPosition() - p2->getPosition()).length();
-    EXPECT_LT(c->getRestLength(), 10.0f);
 
-    delete p1;
-    delete p2;
-    delete c;
+    EXPECT_NEAR(p1.getPosition().x, 1.0, 1e-8);
+    EXPECT_NEAR(p2.getPosition().x, 11.0, 1e-8);
 }
 
-TEST(SoftBodyTest, GetConstraintsReturnsCorrectList) {
-    Particle* p1 = new Particle(Vector2(0.0f, 0.0f), 1.0f);
-    Particle* p2 = new Particle(Vector2(1.0f, 0.0f), 1.0f);
-    Constraint* c = new Constraint(p1, p2);
+TEST(SoftBodyTest, UpdateAdvancesAllParticles) {
+    Particle p1(Vector2(0, 0));
+    Particle p2(Vector2(1, 0));
 
-    SoftBody body({p1, p2}, {c});
+    std::vector<Particle*> particles{ &p1, &p2 };
+    SoftBody body(particles);
 
-    auto cs = body.getConstraints();
-    EXPECT_EQ(cs.size(), 1u);
-    EXPECT_EQ(cs[0], c);
+    body.applyForce(Vector2(1, 0));
+    body.update(1.0);
 
-    delete p1;
-    delete p2;
-    delete c;
+    EXPECT_EQ(p1.getPosition(), Vector2(1, 0));
+    EXPECT_EQ(p2.getPosition(), Vector2(2, 0));
 }
 
-TEST(SoftBodyTest, DestructorPrintsMessage) {
-    testing::internal::CaptureStdout();
-    {
-        Particle* p = new Particle(Vector2(0.0f, 0.0f), 1.0f);
-        SoftBody* body = new SoftBody({p});
-        delete body; // should print message
-        delete p;
+// --------------------------------------------------
+// SoftBody Factory (High-level Sanity Tests)
+// --------------------------------------------------
+
+TEST(SoftBodyFactoryTest, CreateFromTriangle) {
+    std::vector<Vector2> triangle = {
+        Vector2(0, 0),
+        Vector2(100, 0),
+        Vector2(50, 100)
+    };
+
+    SoftBody* body = SoftBody::createFromPolygon(
+        triangle,
+        /*mesh_unit=*/5,
+        /*mass=*/1.0,
+        /*radius=*/1.0
+    );
+
+    ASSERT_NE(body, nullptr);
+    EXPECT_FALSE(body->getParticles().empty());
+    EXPECT_FALSE(body->getConstraints().empty());
+    EXPECT_EQ(body->getBorder().size(), triangle.size());
+
+    for (auto p: body->getParticles()) delete p;
+    for (auto c: body->getConstraints()) delete c;
+    delete body;
+}
+
+TEST(SoftBodyFactoryTest, AllBorderParticlesMatchPolygon) {
+    std::vector<Vector2> square = {
+        Vector2(0, 0),
+        Vector2(10, 0),
+        Vector2(10, 10),
+        Vector2(0, 10)
+    };
+
+    SoftBody* body = SoftBody::createFromPolygon(square, 5);
+
+    auto border = body->getBorder();
+    ASSERT_EQ(border.size(), square.size());
+
+    for (int i = 0; i < square.size(); ++i) {
+        EXPECT_EQ(border[i]->getPosition(), square[i]);
     }
-    std::string output = testing::internal::GetCapturedStdout();
-    EXPECT_NE(output.find("SoftBody destroyed"), std::string::npos);
+
+    for (auto p: body->getParticles()) delete p;
+    for (auto c: body->getConstraints()) delete c;
+    delete body;
 }

@@ -1,84 +1,148 @@
-#include "Constraint.h"
-#include "Particle.h"
-#include "Vector2.h"
 #include <gtest/gtest.h>
 
-using namespace sim;
+#include "Constraint.h"
 
-static void expectVecNear(const Vector2& a, const Vector2& b, float tol = 1e-5f) {
-    EXPECT_NEAR(a.x, b.x, tol);
-    EXPECT_NEAR(a.y, b.y, tol);
-}
+using sim::Constraint;
+using sim::Particle;
+using sim::Vector2;
 
-TEST(ConstraintTest, ConstructorSetsRestLength) {
-    Particle p1(Vector2(0.0f, 0.0f));
-    Particle p2(Vector2(3.0f, 4.0f)); // distance = 5
+// --------------------------------------------------
+// Construction
+// --------------------------------------------------
+
+TEST(ConstraintTest, ConstructorComputesRestLength) {
+    Particle p1(Vector2(0, 0));
+    Particle p2(Vector2(3, 4));
+
     Constraint c(&p1, &p2);
 
-    EXPECT_FLOAT_EQ(c.getRestLength(), 5.0f);
+    EXPECT_DOUBLE_EQ(c.getRestLength(), 5.0);
 }
 
-TEST(ConstraintTest, NoCorrectionWhenAtRestLength) {
-    Particle p1(Vector2(0.0f, 0.0f));
-    Particle p2(Vector2(5.0f, 0.0f)); // distance = 5
-    Constraint c(&p1, &p2);
+TEST(ConstraintTest, InitialPositionsUnchanged) {
+    Particle p1(Vector2(1, 2));
+    Particle p2(Vector2(4, 6));
 
+    Constraint c(&p1, &p2);
     c.applyConstraint();
-    // Positions should remain unchanged
-    expectVecNear(p1.getPosition(), Vector2(0.0f, 0.0f));
-    expectVecNear(p2.getPosition(), Vector2(5.0f, 0.0f));
+
+    EXPECT_EQ(p1.getPosition(), Vector2(1, 2));
+    EXPECT_EQ(p2.getPosition(), Vector2(4, 6));
 }
 
-TEST(ConstraintTest, CorrectionWhenTooFarApart) {
-    Particle p1(Vector2(0.0f, 0.0f));
-    Particle p2(Vector2(10.0f, 0.0f)); // rest length = 10
-    Constraint c(&p1, &p2);
+// --------------------------------------------------
+// Constraint Correction
+// --------------------------------------------------
+
+TEST(ConstraintTest, ConstraintPullsParticlesTogetherWhenTooFar) {
+    Particle p1(Vector2(0, 0));
+    Particle p2(Vector2(10, 0));
+
+    Constraint c(&p1, &p2, 1.0, 0.0);
 
     // Move p2 farther away
-    p2.setPosition(Vector2(15.0f, 0.0f));
-    p2.setPrevPosition(Vector2(15.0f, 0.0f));
-    c.applyConstraint();
-    p2.update(0.1);
+    p2.setPosition(Vector2(12, 0));
 
-    // After correction, p2 should be pulled closer to p1
-    EXPECT_LT(p2.getPosition().x, 15.0f);
+    c.applyConstraint();
+
+    // Expected symmetric correction
+    EXPECT_NEAR(p1.getPosition().x, 1.0, 1e-8);
+    EXPECT_NEAR(p2.getPosition().x, 11.0, 1e-8);
 }
 
-TEST(ConstraintTest, CorrectionWhenTooClose) {
-    Particle p1(Vector2(0.0f, 0.0f));
-    Particle p2(Vector2(10.0f, 0.0f)); // rest length = 10
-    Constraint c(&p1, &p2);
+TEST(ConstraintTest, ConstraintPushesParticlesApartWhenTooClose) {
+    Particle p1(Vector2(0, 0));
+    Particle p2(Vector2(10, 0));
+
+    Constraint c(&p1, &p2, 1.0, 0.0);
 
     // Move p2 closer
-    p2.setPosition(Vector2(5.0f, 0.0f));
-    p2.setPrevPosition(Vector2(5.0f, 0.0f));
+    p2.setPosition(Vector2(8, 0));
+
     c.applyConstraint();
-    p2.update(1);
-    // After correction, p2 should be pushed farther away from p1
-    EXPECT_GT(p2.getPosition().x, 5.0f);
+
+    EXPECT_NEAR(p1.getPosition().x, -1.0, 1e-8);
+    EXPECT_NEAR(p2.getPosition().x, 9.0, 1e-8);
 }
+
+// --------------------------------------------------
+// Pinned Behavior
+// --------------------------------------------------
 
 TEST(ConstraintTest, PinnedParticleDoesNotMove) {
-    Particle p1(Vector2(0.0f, 0.0f), 1.0f, true); // pinned
-    Particle p2(Vector2(10.0f, 0.0f));
-    Constraint c(&p1, &p2);
+    Particle pinned(Vector2(0, 0), 1.0, 1.0, true);
+    Particle free(Vector2(10, 0));
 
-    // Move p2 closer
-    p2.setPosition(Vector2(5.0f, 0.0f));
+    Constraint c(&pinned, &free, 1.0, 0.0);
+
+    free.setPosition(Vector2(12, 0));
     c.applyConstraint();
 
-    // p1 should remain pinned at origin
-    expectVecNear(p1.getPosition(), Vector2(0.0f, 0.0f));
+    EXPECT_EQ(pinned.getPosition(), Vector2(0, 0));
+    EXPECT_NEAR(free.getPosition().x, 11.0, 1e-8);
 }
 
-TEST(ConstraintTest, DestructorPrintsMessage) {
-    testing::internal::CaptureStdout();
-    {
-        Particle p1(Vector2(0.0f, 0.0f));
-        Particle p2(Vector2(1.0f, 0.0f));
-        Constraint* c = new Constraint(&p1, &p2);
-        delete c;
-    }
-    std::string output = testing::internal::GetCapturedStdout();
-    EXPECT_NE(output.find("Constraint destroyed"), std::string::npos);
+TEST(ConstraintTest, BothParticlesPinnedNoMovement) {
+    Particle p1(Vector2(0, 0), 1.0, 1.0, true);
+    Particle p2(Vector2(10, 0), 1.0, 1.0, true);
+
+    Constraint c(&p1, &p2);
+
+    p2.setPosition(Vector2(12, 0));
+    c.applyConstraint();
+
+    EXPECT_EQ(p1.getPosition(), Vector2(0, 0));
+    EXPECT_EQ(p2.getPosition(), Vector2(12, 0));
+}
+
+// --------------------------------------------------
+// Degenerate Case
+// --------------------------------------------------
+
+TEST(ConstraintTest, ZeroDistanceDoesNothing) {
+    Particle p1(Vector2(0, 0));
+    Particle p2(Vector2(1, 0));
+
+    Constraint c(&p1, &p2);
+
+    p2.setPosition(Vector2(0,0));
+    c.applyConstraint();
+
+    EXPECT_EQ(p1.getPosition(), Vector2(0, 0));
+    EXPECT_EQ(p2.getPosition(), Vector2(0, 0));
+}
+
+// --------------------------------------------------
+// Damping
+// --------------------------------------------------
+
+TEST(ConstraintTest, DampingModifiesPreviousPosition) {
+    Particle p1(Vector2(0, 0));
+    Particle p2(Vector2(10, 0));
+
+    // Simulate velocity
+    p1.setPrevPosition(Vector2(-1, 0));
+    p2.setPrevPosition(Vector2(11, 0));
+
+    Constraint c(&p1, &p2, 0.0, 1.0);
+
+    c.applyConstraint();
+
+    // Damping should reduce relative velocity
+    EXPECT_NE(p1.getPrevPosition(), Vector2(-1, 0));
+    EXPECT_NE(p2.getPrevPosition(), Vector2(11, 0));
+}
+
+// --------------------------------------------------
+// Accessors
+// --------------------------------------------------
+
+TEST(ConstraintTest, AccessorsReturnParticlePositions) {
+    Particle p1(Vector2(1, 1));
+    Particle p2(Vector2(2, 2));
+
+    Constraint c(&p1, &p2);
+
+    EXPECT_EQ(c.getPart1(), Vector2(1, 1));
+    EXPECT_EQ(c.getPart2(), Vector2(2, 2));
 }

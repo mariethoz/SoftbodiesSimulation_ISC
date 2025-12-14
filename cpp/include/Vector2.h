@@ -11,7 +11,6 @@ namespace sim {
 
         Vector2 operator+(const Vector2& other) const { return {x + other.x, y + other.y}; }
         Vector2 operator-() const { return {-x, -y}; }
-        Vector2 operator-(double scalar) const { return {x-scalar, y-scalar}; }
         Vector2 operator-(const Vector2& other) const { return {x - other.x, y - other.y}; }
         Vector2 operator*(double scalar) const { return {x * scalar, y * scalar}; }
         Vector2 operator/(double scalar) const { return {x / scalar, y / scalar}; }
@@ -53,24 +52,4 @@ namespace sim {
     static Vector2 interpolate(const Vector2& A, const Vector2& B, double t) {
         return A + (B - A) * t;
     };
-
-    static Vector2 nearestPoint(const Vector2& target, const std::vector<Vector2>& list) {
-        double best = std::numeric_limits<double>::max();
-        Vector2 out = list[0];
-
-        for (const Vector2& p : list) {
-            double d = dist(target, p);
-            if (d < best) {
-                best = d;
-                out = p;
-            }
-        }
-        if (list.empty()) {
-            throw std::invalid_argument("nearestPoint: list is empty");
-        }
-        return out;
-    };
-    inline Vector2 perpendicular(const Vector2& v, bool clockwise = false) {
-        return clockwise ? Vector2(v.y, -v.x) : Vector2(-v.y, v.x);
-    }
 }
