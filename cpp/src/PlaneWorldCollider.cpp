@@ -48,3 +48,12 @@ bool PlaneCollider::collide(Particle* p, double friction, double restitution) {
     }
     return false;
 }
+
+json PlaneCollider::as_json()
+{
+    json data;
+    data["ColliderType"] = COLLIDER_TYPE::PlaneColliderType;
+    data["point"] = normal.as_json();
+    data["distance"] = d;
+    return data;
+}

@@ -1,5 +1,9 @@
 #pragma once
+#include <nlohmann/json.hpp>
+
 #include "Vector2.h"
+
+using json = nlohmann::json;
 
 namespace sim {
     class Particle {
@@ -23,6 +27,10 @@ namespace sim {
         double getInvMass() const { return (mass <= 0.0f) ? 0.0f : (1.0f / mass); }
 
         bool isPinned() const { return pinned; }
+
+        // --- Saver & Loader ----
+        json as_json();
+        static Vector2 from_json(json data);
 
     private:
         Vector2 position;

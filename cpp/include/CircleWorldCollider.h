@@ -1,6 +1,10 @@
 #pragma once
+#include <nlohmann/json.hpp>
+
 #include "WorldCollider.h"
 #include "Vector2.h"
+
+using json = nlohmann::json;
 
 namespace sim {
     class CircleCollider : public WorldCollider {
@@ -19,6 +23,8 @@ namespace sim {
         InnerCircleCollider(Vector2 center, double radius, double friction = 0.9, double restitution = 0.1);
         
         bool collide(Particle* p, double friction, double restitution) override;
+
+        json as_json() override;
     };
 
     class OuterCircleCollider : public CircleCollider {
@@ -26,5 +32,7 @@ namespace sim {
         OuterCircleCollider(Vector2 center, double radius, double friction = 0.9, double restitution = 0.1);
         
         bool collide(Particle* p, double friction, double restitution) override;
+
+        json as_json() override;
     };
 }

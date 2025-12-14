@@ -1,6 +1,10 @@
 #pragma once
+#include <nlohmann/json.hpp>
+
 #include "WorldCollider.h"
 #include "Vector2.h"
+
+using json = nlohmann::json;
 
 namespace sim {
     class PlaneCollider : public WorldCollider {
@@ -9,6 +13,8 @@ namespace sim {
         ~PlaneCollider();
 
         bool collide(Particle* p, double friction, double restitution) override;
+        json as_json() override;
+        
         Vector2 getNormal() { return normal; }
         double getDistance() { return d; }
 

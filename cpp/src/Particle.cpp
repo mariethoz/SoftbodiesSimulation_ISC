@@ -24,3 +24,13 @@ void Particle::update(double dt) {
     prev_position = temp;
     force_accum = Vector2(0,0);
 }
+
+json Particle::as_json()
+{
+    return position.as_json();
+}
+
+Vector2 Particle::from_json(json data)
+{
+    return Vector2::from_json(data);
+}

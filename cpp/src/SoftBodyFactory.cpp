@@ -294,7 +294,9 @@ SoftBody* SoftBody::createFromPolygon(
     const std::vector<Vector2>& polygon, int mesh_unit,
     double mass, double radius,
     double stiffness, double damping,
-    double friction, double restitution)
+    double friction, double restitution,
+    bool is_pinned
+)
 {
     std::vector<Particle*> _particles;
     std::vector<Constraint*> _constraints;
@@ -349,7 +351,7 @@ SoftBody* SoftBody::createFromPolygon(
 
     // 4) Build particles for all pts
     for (auto& p : pts) {
-        _particles.push_back(new Particle(p, mass, radius));
+        _particles.push_back(new Particle(p, mass, radius, is_pinned));
     }
     idmap.set_eps(border_space);
     for (auto& p: polygon) {
@@ -360,5 +362,5 @@ SoftBody* SoftBody::createFromPolygon(
     for (auto e : edgeSet) {
         _constraints.push_back(new Constraint(_particles[e.a], _particles[e.b], stiffness, damping));
     }
-    return new SoftBody(_border, _particles, _constraints, friction, restitution);
+    return new SoftBody(_border, _particles, _constraints, friction, restitution, mesh_unit);
 }

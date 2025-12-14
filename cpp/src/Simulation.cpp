@@ -54,6 +54,27 @@ void Simulation::clear() {
     colliders.clear();
 }
 
+json Simulation::as_json()
+{
+    json data;
+    data["gravity"] = gravity.as_json();
+    for (auto b: bodies)
+        data["bodies"].push_back(b->as_json());
+    for (auto c: colliders)
+        data["colliders"].push_back(c->as_json());
+    return data;
+}
+
+Simulation* Simulation::from_json(json data)
+{
+    Simulation simulation;
+    simulation.setGravity(Vector2::from_json(data["gravity"]));
+    for (auto jb: data["bodies"])
+        simulation.addBody(SoftBody::from_json(jb));
+    for (auto jc: data["colliders"])
+        simulation.addCollider(WorldCollider::from_json(jc));
+    return new Simulation(simulation);
+}
 
 void Simulation::applyGravity() {
     for (auto& body : bodies)

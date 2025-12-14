@@ -25,11 +25,32 @@ add_library(my_lib ${SRC_FILES})
 target_include_directories(my_lib PUBLIC cpp/include)
 
 # ------------------------
+# Include nlohmann_json library
+# ------------------------
+
+include(FetchContent)
+
+FetchContent_Declare(
+  nlohmann_json
+  GIT_REPOSITORY https://github.com/nlohmann/json.git
+  GIT_TAG v3.12.0
+)
+
+FetchContent_MakeAvailable(nlohmann_json)
+
+# Now you can link it to your targets
+target_link_libraries(my_lib PUBLIC nlohmann_json::nlohmann_json)
+
+# ------------------------
 # Build the main executable
 # ------------------------
 
 add_executable(my_project cpp/src/main.cpp)
 target_link_libraries(my_project PRIVATE my_lib)
+add_executable(particles cpp/src/main_particles.cpp)
+target_link_libraries(particles PRIVATE my_lib)
+add_executable(softbody_plot cpp/src/main_constraint_plots.cpp)
+target_link_libraries(softbody_plot PRIVATE my_lib)
 
 # ------------------------
 # Testing

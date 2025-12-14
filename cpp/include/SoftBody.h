@@ -1,8 +1,12 @@
 #pragma once
 #include <vector>
+#include <nlohmann/json.hpp>
+
 #include "Particle.h"
 #include "Constraint.h"
 #include "Vector2.h"
+
+using json = nlohmann::json;
 
 namespace sim {
     class SoftBody {
@@ -15,7 +19,8 @@ namespace sim {
             double stiffness = 0.8,
             double damping = 0.1,
             double friction = 0.5,
-            double restitution = 0.5
+            double restitution = 0.5,
+            bool is_pinned = false
         );
 
         SoftBody(
@@ -28,7 +33,7 @@ namespace sim {
             std::vector<Particle*> border,
             std::vector<Particle*> particles,
             std::vector<Constraint*> constraints,
-            double friction = 0.5, double restitution = 0.5
+            double friction = 0.5, double restitution = 0.5, int unit = 10
         );
 
         ~SoftBody();
@@ -45,12 +50,17 @@ namespace sim {
         double getFriction() { return friction; }
         double getRestitution() { return restitution; }
 
+        // --- Saver & Loader ----
+        json as_json();
+        static SoftBody* from_json(json data);
+
     protected:
         std::vector<Particle*> particles;
         std::vector<Particle*> border;
         std::vector<Constraint*> constraints;
         double friction;    // smooth 0 < 1 rough
         double restitution; // sticky 0 < 1 bounce
+        int mesh_unit;
     };
     
 

@@ -2,6 +2,9 @@
 #include <cmath>
 #include <iostream>
 #include <vector>
+#include <nlohmann/json.hpp>
+
+using json = nlohmann::json;
 
 namespace sim {
     struct Vector2 {
@@ -42,6 +45,17 @@ namespace sim {
         friend Vector2 operator*(double scalar, const Vector2& v) { return {v.x * scalar, v.y * scalar}; }
         friend std::ostream& operator<<(std::ostream& os, const Vector2& v) {
             return os << "(" << v.x << ", " << v.y << ")";
+        }
+
+        // --- Saver & Loader ----
+        json as_json() {
+            json data;
+            data["x"] = x;
+            data["y"] = x;
+            return data;
+        }
+        static Vector2 from_json(json data) {
+            return Vector2(data["x"],data["y"]);
         }
     };
     

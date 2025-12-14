@@ -1,6 +1,10 @@
 #pragma once
+#include <nlohmann/json.hpp>
+
 #include "Particle.h"
 #include "Vector2.h"
+
+using json = nlohmann::json;
 
 namespace sim {
     class Constraint {
@@ -15,6 +19,8 @@ namespace sim {
         Vector2 getPart1() { return part1->getPosition(); }
         Vector2 getPart2() { return part2->getPosition(); }
         double getRestLength() { return restLength; }
+        double getStiffness() { return stiffness; }
+        double getDamping() { return damping; }
 
     private:
         Particle* part1;

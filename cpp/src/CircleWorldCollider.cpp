@@ -49,6 +49,14 @@ bool InnerCircleCollider::collide(Particle *p, double friction, double restituti
     return false;
 }
 
+json InnerCircleCollider::as_json()
+{
+    json data;
+    data["ColliderType"] = COLLIDER_TYPE::InnerCircleCollideTyper;
+    data["point"] = center.as_json();
+    data["distance"] = radius;
+    return data;
+}
 
 OuterCircleCollider::OuterCircleCollider(Vector2 center, double radius, double friction, double restitution)
     : CircleCollider(center, radius, friction, restitution) {}
@@ -87,4 +95,13 @@ bool OuterCircleCollider::collide(Particle* p, double friction, double restituti
         return true;
     }
     return false;
+}
+
+json OuterCircleCollider::as_json()
+{
+    json data;
+    data["ColliderType"] = COLLIDER_TYPE::OuterCircleColliderType;
+    data["point"] = center.as_json();
+    data["distance"] = radius;
+    return data;
 }
