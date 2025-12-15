@@ -4,6 +4,17 @@ import sys
 
 env = SConscript("godot-cpp/SConstruct")
 
+if ARGUMENTS.get("publish"):
+    godot_cpp_lib = env.StaticLibrary(
+        target="lib/godot-cpp",
+        source=Glob("godot-cpp/src/*.cpp")
+    )
+
+    Default(godot_cpp_lib)
+
+if env['platform'] == 'windows':
+    env.Append(LINKFLAGS=['/EXPORT:sim_library_init'])
+
 # tweak this if you want to use different folders, or more folders, to store your source code in.
 env.Append(CPPPATH=[
     "godot-extension/include",
@@ -20,29 +31,27 @@ cpp_sources = [
 
 # Combine
 sources += cpp_sources
-
+output_root = "lib" if ARGUMENTS.get("publish") else "godot_demo/bin"
 
 if env["platform"] == "macos":
     library = env.SharedLibrary(
-        "godot_demo/bin/softbody.isc.{}.{}.framework/libgdexample.{}.{}".format(
-            env["platform"], env["target"], env["platform"], env["target"]
-        ),
+        output_root + "/softbody.isc.{}.{}.framework".format(env["platform"], env["target"]            ),
         source=sources,
     )
 elif env["platform"] == "ios":
     if env["ios_simulator"]:
         library = env.StaticLibrary(
-            "godot_demo/bin/softbody.isc.{}.{}.simulator.a".format(env["platform"], env["target"]),
+            output_root + "/softbody.isc.{}.{}.simulator.a".format(env["platform"], env["target"]),
             source=sources,
         )
     else:
         library = env.StaticLibrary(
-            "godot_demo/bin/softbody.isc.{}.{}.a".format(env["platform"], env["target"]),
+            output_root + "/softbody.isc.{}.{}.a".format(env["platform"], env["target"]),
             source=sources,
         )
 else:
     library = env.SharedLibrary(
-        "godot_demo/bin/softbody.isc{}{}".format(env["suffix"], env["SHLIBSUFFIX"]),
+        output_root + "/softbody.isc{}{}".format(env["suffix"], env["SHLIBSUFFIX"]),
         source=sources,
     )
 

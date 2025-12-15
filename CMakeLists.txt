@@ -38,7 +38,6 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(nlohmann_json)
 
-# Now you can link it to your targets
 target_link_libraries(my_lib PUBLIC nlohmann_json::nlohmann_json)
 
 # ------------------------
