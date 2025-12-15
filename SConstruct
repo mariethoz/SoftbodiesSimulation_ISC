@@ -5,7 +5,10 @@ import sys
 env = SConscript("godot-cpp/SConstruct")
 
 # tweak this if you want to use different folders, or more folders, to store your source code in.
-env.Append(CPPPATH=["godot-extension/include","cpp/include"])
+env.Append(CPPPATH=[
+    "godot-extension/include",
+    "cpp/include",
+    "external/include"])
 # Collect sources from both folders
 sources = Glob("godot-extension/src/*.cpp")
 

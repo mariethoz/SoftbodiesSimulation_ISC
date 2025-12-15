@@ -1,0 +1,67 @@
+[gd_scene load_steps=5 format=3 uid="uid://dogkurnhqppoy"]
+
+[ext_resource type="Script" uid="uid://d1klbqgfeha5d" path="res://gd_soft_body_simulation_btn.gd" id="1_3x2br"]
+[ext_resource type="Script" uid="uid://6qou3ho0gmav" path="res://label.gd" id="2_w8y4s"]
+[ext_resource type="Script" uid="uid://p54ovnvmq676" path="res://label_2.gd" id="3_sw02j"]
+
+[sub_resource type="GDSoftBodyPolygone" id="GDSoftBodyPolygone_6uqi0"]
+border = [Vector2(50, 50), Vector2(50, -100), Vector2(0, -100), Vector2(0, 50)]
+unit = 20.0
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_3x2br")
+
+[node name="GDSoftBodySimulationBtn" type="GDSoftBodySimulationBtn" parent="."]
+bodies = [SubResource("GDSoftBodyPolygone_6uqi0")]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(0.5, 0.5)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="Button" type="Button" parent="CanvasLayer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 50
+text = "Reset"
+
+[node name="Button2" type="Button" parent="CanvasLayer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 50
+text = "Add
+"
+
+[node name="Label" type="Label" parent="CanvasLayer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_override_font_sizes/font_size = 50
+text = "FPS:"
+script = ExtResource("2_w8y4s")
+
+[node name="Label2" type="Label" parent="CanvasLayer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+theme_override_font_sizes/font_size = 50
+text = "Nb"
+script = ExtResource("3_sw02j")
+
+[connection signal="pressed" from="CanvasLayer/MarginContainer/Button" to="GDSoftBodySimulationBtn" method="reset_simulation"]
+[connection signal="pressed" from="CanvasLayer/MarginContainer/Button" to="CanvasLayer/MarginContainer/Label2" method="_on_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/MarginContainer/Button2" to="." method="_on_button_2_pressed"]
+[connection signal="pressed" from="CanvasLayer/MarginContainer/Button2" to="CanvasLayer/MarginContainer/Label2" method="_on_button_2_pressed"]

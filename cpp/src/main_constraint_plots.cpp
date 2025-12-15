@@ -21,7 +21,7 @@ SoftBody* createSquareBody(Vector2 center, double stiffness, double damping) {
     };
 
     for (auto& pos : positions) {
-        particles.push_back(new Particle(pos, 1.0f));
+        particles.push_back(new Particle(pos));
     }
 
     std::vector<Constraint*> constraints;
@@ -50,7 +50,7 @@ SoftBody* createTriangleBody(Vector2 center, double stiffness, double damping) {
     };
 
     for (auto& pos : positions) {
-        particles.push_back(new Particle(pos, 1.0f));
+        particles.push_back(new Particle(pos));
     }
 
     std::vector<Constraint*> constraints;
@@ -66,7 +66,7 @@ int main() {
     double step = 0.01;
     Simulation sim;
     sim.setGravity(Vector2(0,-10));
-    sim.addCollider(new PlaneCollider(Vector2(0,1), -100.0f));
+    sim.addCollider(new PlaneCollider(Vector2(0,1), -100.0f, 0,1.0));
 
     // Add multiple squares with different stiffness/damping
     sim.addBody(createSquareBody(Vector2(0, 0), 0.9, 0.1)); // very rigid, springs back quickly (snappy, little energy loss)

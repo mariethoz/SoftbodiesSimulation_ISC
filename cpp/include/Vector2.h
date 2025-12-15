@@ -1,16 +1,19 @@
 #pragma once
 #include <cmath>
 #include <iostream>
+#include <vector>
+#include <nlohmann/json.hpp>
+
+using json = nlohmann::json;
 
 namespace sim {
     struct Vector2 {
         double x, y;
 
-        Vector2(double x = 0.0f, double y = 0.0f) : x(x), y(y) {}
+        Vector2(double x = 0.0, double y = 0.0) : x(x), y(y) {}
 
         Vector2 operator+(const Vector2& other) const { return {x + other.x, y + other.y}; }
         Vector2 operator-() const { return {-x, -y}; }
-        Vector2 operator-(double scalar) const { return {x-scalar, y-scalar}; }
         Vector2 operator-(const Vector2& other) const { return {x - other.x, y - other.y}; }
         Vector2 operator*(double scalar) const { return {x * scalar, y * scalar}; }
         Vector2 operator/(double scalar) const { return {x / scalar, y / scalar}; }
@@ -36,13 +39,31 @@ namespace sim {
         }
 
         Vector2 abs() const {
-            Vector2 out(std::abs(x),std::abs(y));
-            return out;
+            return {std::abs(x), std::abs(y)};
         }
 
         friend Vector2 operator*(double scalar, const Vector2& v) { return {v.x * scalar, v.y * scalar}; }
         friend std::ostream& operator<<(std::ostream& os, const Vector2& v) {
             return os << "(" << v.x << ", " << v.y << ")";
         }
+
+        // --- Saver & Loader ----
+        json as_json() {
+            json data;
+            data["x"] = x;
+            data["y"] = x;
+            return data;
+        }
+        static Vector2 from_json(json data) {
+            return Vector2(data["x"],data["y"]);
+        }
+    };
+    
+    static double dist(const Vector2& a, const Vector2& b) {
+        return (a-b).length();
+    };
+
+    static Vector2 interpolate(const Vector2& A, const Vector2& B, double t) {
+        return A + (B - A) * t;
     };
 }

@@ -8,9 +8,17 @@
 using namespace sim;
 
 // Helper to build a square soft body
-SoftBody* createSquareBody(Vector2 center, double stiffness, double damping) {
+SoftBody* createSquareBody(Vector2 center, double size,
+            double u = 10,            // triangle edge length
+            double mass = 1,
+            double radius = 1,
+            double stiffness = 0.8,
+            double damping = 0.1,
+            double friction = 0.5,
+            double restitution = 0.5
+        ) {
     std::vector<Particle*> particles;
-    double half = 1.0;
+    double half = size/2;
 
     // Define positions relative to center
     std::vector<Vector2> positions = {
@@ -20,27 +28,21 @@ SoftBody* createSquareBody(Vector2 center, double stiffness, double damping) {
         { center.x - half, center.y + half }  // top-left
     };
 
-    for (auto& pos : positions) {
-        particles.push_back(new Particle(pos, 1.0f));
-    }
-
-    std::vector<Constraint*> constraints;
-    // Edges
-    constraints.push_back(new Constraint(particles[0], particles[1], stiffness, damping));
-    constraints.push_back(new Constraint(particles[1], particles[2], stiffness, damping));
-    constraints.push_back(new Constraint(particles[2], particles[3], stiffness, damping));
-    constraints.push_back(new Constraint(particles[3], particles[0], stiffness, damping));
-    // Diagonals
-    constraints.push_back(new Constraint(particles[0], particles[2], stiffness, damping));
-    constraints.push_back(new Constraint(particles[1], particles[3], stiffness, damping));
-
-    return new SoftBody(particles, constraints);
+    return SoftBody::createFromPolygon(positions,u,mass,radius,stiffness,damping,friction,restitution);
 }
 
 // Helper to build a triangle soft body
-SoftBody* createTriangleBody(Vector2 center, double stiffness, double damping) {
+SoftBody* createTriangleBody(Vector2 center, double size,
+            double u = 10,            // triangle edge length
+            double mass = 1,
+            double radius = 1,
+            double stiffness = 0.8,
+            double damping = 0.1,
+            double friction = 0.5,
+            double restitution = 0.5
+        ) {
     std::vector<Particle*> particles;
-    double half = 2.0;
+    double half = size/2;
 
     // Define positions relative to center
     std::vector<Vector2> positions = {
@@ -49,31 +51,18 @@ SoftBody* createTriangleBody(Vector2 center, double stiffness, double damping) {
         { center.x       , center.y + half }, // top
     };
 
-    for (auto& pos : positions) {
-        particles.push_back(new Particle(pos, 1.0f));
-    }
-
-    std::vector<Constraint*> constraints;
-    // Edges
-    constraints.push_back(new Constraint(particles[0], particles[1], stiffness, damping));
-    constraints.push_back(new Constraint(particles[0], particles[2], stiffness, damping));
-    constraints.push_back(new Constraint(particles[1], particles[2], stiffness, damping));
-
-    return new SoftBody(particles, constraints);
+    return SoftBody::createFromPolygon(positions,u,mass,radius,stiffness,damping,friction,restitution);
 }
 
 int main() {
     double step = 0.01;
     Simulation sim;
     sim.setGravity(Vector2(0,-10));
-    sim.addCollider(new PlaneCollider(Vector2(0,1), -10.0f));
-    sim.addCollider(new OuterCircleCollider( Vector2(0,-10), 5.0f ));
-    sim.addCollider(new InnerCircleCollider( Vector2( 0,0), 15.0f ));
+    sim.addCollider(new PlaneCollider(Vector2(0,1), -100.0f));
 
     // Add multiple squares with different stiffness/damping
-    sim.addBody(createSquareBody(Vector2( 5, 0), 0.9, 0.1)); // very rigid, springs back quickly (snappy, little energy loss)
-    sim.addBody(createSquareBody(Vector2( 0, 5), 0.5, 0.5)); // balanced: moderate rigidity and moderate damping (steady, natural motion)
-    sim.addBody(createSquareBody(Vector2(-5, 0), 0.2, 0.8)); // floppy but heavily damped (soft, sluggish, resists oscillation)
+    sim.addBody(createSquareBody(Vector2(), 50));
+    sim.addBody(createTriangleBody(Vector2(0,100), 50));
 
     std::ofstream out("visuals/positions.csv");
     out << 0;
@@ -86,6 +75,7 @@ int main() {
     out << "\n";
 
     for (int i = 1; i < 1001; i++) {
+        std::cout << "\n";
         sim.step(step);
         out << i;
         for (auto& b: sim.getBodies()) {
@@ -101,6 +91,6 @@ int main() {
     out.close();
 
     std::cout << "Hello from MyProject!" << std::endl;
-    std::cout << "It is the Constraints example for the animation." << std::endl;
+    std::cout << "It is the body example for the animation." << std::endl;
     return 0;
 }

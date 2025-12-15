@@ -17,16 +17,30 @@ void Constraint::applyConstraint() {
     double dist = delta.length();
     if (dist < 1e-8) return;
 
-    // --- positional correction ---
-    double diff = (dist - restLength) / dist;
-    Vector2 corr = delta * 0.5 * diff * stiffness;
+    Vector2 dir = delta / dist;
+    double diff = dist - restLength;
 
-    if (!part1->isPinned()) {
-        part1->corrPosition(corr);
-        part1->corrPosition(- corr * (1 - damping));
-    }
-    if (!part2->isPinned()) {
-        part2->corrPosition(- corr);
-        part2->corrPosition(corr * (1 - damping));
-    }
+    // --- Positional correction (spring-like) ---
+    Vector2 correction = dir * (stiffness * diff * 0.5);
+
+    if (!part1->isPinned())
+        part1->setPosition(part1->getPosition() + correction);
+    if (!part2->isPinned())
+        part2->setPosition(part2->getPosition() - correction);
+
+    // --- Damping (optional, using prevPosition) ---
+    Vector2 vel1 = (part1->getPosition() - part1->getPrevPosition());
+    Vector2 vel2 = (part2->getPosition() - part2->getPrevPosition());
+    Vector2 relVel = vel1 - vel2;
+
+    double dampingForce = damping * relVel.dot(dir);
+    Vector2 dampingImpulse = dir * dampingForce * 0.5;
+
+    if (!part1->isPinned())
+        part1->setPrevPosition(part1->getPrevPosition() + dampingImpulse);
+    if (!part2->isPinned())
+        part2->setPrevPosition(part2->getPrevPosition() - dampingImpulse);
 }
+
+
+

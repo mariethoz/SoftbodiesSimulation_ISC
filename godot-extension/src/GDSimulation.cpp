@@ -9,7 +9,7 @@
 using namespace godot;
 using namespace convert;
 
-const int SCALE_DRAW = 20;
+const int SCALE_DRAW = 5;
 
 
 void GDSimulation::_bind_methods() {
@@ -18,21 +18,21 @@ void GDSimulation::_bind_methods() {
 
 void GDSimulation::draw_simulation() {
     for (auto body : simulation.getBodies()) {
-        for (auto p : body->getParticles()) {
-            Vector2 pos = convert::to_godot(p->getPosition()) * SCALE_DRAW;
-            float radius = p->getRadius() * SCALE_DRAW;
-            draw_circle(pos, radius, Color(1,0,0));
-        }
         for (auto c: body->getConstraints()) {
             Vector2 p1 = convert::to_godot(c->getPart1()) * SCALE_DRAW;
             Vector2 p2 = convert::to_godot(c->getPart2()) * SCALE_DRAW;
             draw_line(p1,p2,Color(1,1,1), 3.0);
         }
+        for (auto p : body->getParticles()) {
+            Vector2 pos = convert::to_godot(p->getPosition()) * SCALE_DRAW;
+            float radius = p->getRadius() * SCALE_DRAW;
+            draw_circle(pos, radius, Color(1,0,0));
+        }
     }
     for (auto* col: simulation.getColliders()) {
         if (auto* plane = dynamic_cast<sim::PlaneCollider*>(col)) {
             Vector2 n = to_godot(plane->getNormal());
-            Vector2 origin = Vector2(0, -plane->getDistance()) * 20;
+            Vector2 origin = Vector2(0, -plane->getDistance()) * SCALE_DRAW;
 
             draw_line(origin - n.rotated(Math_PI/2) * 500,
                     origin + n.rotated(Math_PI/2) * 500,
@@ -130,5 +130,52 @@ void GDSoftBodySimulation::build() {
 }
 
 void GDSoftBodySimulation::_ready() {
+    build();
+}
+
+void GDSoftBodySimulationBtn::_bind_methods() {
+    ClassDB::bind_method(D_METHOD("set_bodies", "bodies"), &GDSoftBodySimulationBtn::set_bodies);
+    ClassDB::bind_method(D_METHOD("get_bodies"), &GDSoftBodySimulationBtn::get_bodies);
+    ClassDB::bind_method(D_METHOD("add_body", "body"), &GDSoftBodySimulationBtn::add_body);
+
+    ADD_PROPERTY(
+        PropertyInfo(Variant::ARRAY, "bodies", PROPERTY_HINT_ARRAY_TYPE,
+            String::num(Variant::OBJECT) + "/" + String::num(PROPERTY_HINT_RESOURCE_TYPE) + ":GDSoftBody"
+        ),
+        "set_bodies","get_bodies"
+    );
+}
+
+void GDSoftBodySimulationBtn::build() {
+    simulation.clear();
+    simulation.setGravity(sim::Vector2(0, -10));
+    simulation.addCollider(new sim::PlaneCollider(sim::Vector2(0,1), -100.0f));
+    simulation.addCollider(new sim::OuterCircleCollider(sim::Vector2(0,-100), 50.0f));
+    simulation.addCollider(new sim::InnerCircleCollider(sim::Vector2(0,0), 150.0f));
+
+    // Load GDSoftBody resources into the simulation
+    for (int i = 0; i < bodies.size(); i++) {
+        Ref<GDSoftBody> sb = bodies[i];
+        if (!sb.is_valid())
+            continue;
+
+        sb->reset();  // clear the previous sim::SoftBody*
+        sb->build();  // creates sim::SoftBody* internally
+
+        if (sb->get_sim_softbody()){
+            simulation.addBody(sb->take_sim_softbody());
+        }
+    }
+}
+
+void GDSoftBodySimulationBtn::add_body(Ref<GDSoftBodyPolygone> body) {
+    body->reset();
+    body->build();
+    if (body->get_sim_softbody())
+        simulation.addBody(body->take_sim_softbody());
+}
+
+void GDSoftBodySimulationBtn::_ready()
+{
     build();
 }

@@ -1,10 +1,14 @@
 #pragma once
+#include <nlohmann/json.hpp>
+
 #include "Vector2.h"
+
+using json = nlohmann::json;
 
 namespace sim {
     class Particle {
     public:
-        Particle(Vector2 pos, double mass = 1.0f, bool pinned = false);
+        Particle(Vector2 pos, double mass = 1.0, double radius = 1.0, bool pinned = false);
         ~Particle();
 
         // Core function
@@ -17,8 +21,6 @@ namespace sim {
         void setPosition(const Vector2& p) { position = p; }
         void setPrevPosition(const Vector2& p) { prev_position = p; }
 
-        void corrPosition(const Vector2& p) { corr_position += p; }
-
         double getRadius() const { return radius; }
         double getMass() const { return mass; }
         // inverse mass: 0 means immovable
@@ -26,10 +28,13 @@ namespace sim {
 
         bool isPinned() const { return pinned; }
 
+        // --- Saver & Loader ----
+        json as_json();
+        static Vector2 from_json(json data);
+
     private:
         Vector2 position;
         Vector2 prev_position;
-        Vector2 corr_position;
         Vector2 force_accum;
         double radius;
         double mass;

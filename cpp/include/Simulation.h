@@ -1,8 +1,12 @@
 #pragma once
+#include <vector>
+#include <nlohmann/json.hpp>
+
 #include "SoftBody.h"
 #include "Vector2.h"
 #include "WorldCollider.h"
-#include <vector>
+
+using json = nlohmann::json;
 
 namespace sim {
     class Simulation {
@@ -17,6 +21,11 @@ namespace sim {
         std::vector<SoftBody*> getBodies() { return bodies; }
         std::vector<WorldCollider*> getColliders() { return colliders; }
         void setGravity(const Vector2 gravity) { this->gravity = gravity; }
+        Vector2 getGravity() { return gravity; }
+
+        // --- Saver & Loader ----
+        json as_json();
+        Simulation* from_json(json data);
 
     private:
         std::vector<SoftBody*> bodies;
@@ -27,9 +36,9 @@ namespace sim {
         void applyGravity();
         void updateObjects(double dt);
         void applyConstraints();
-        void resolveCollisions();
+        void resolveCollisions(double dt);
         void collisionsWorld();
-        void collisionsBodies();
+        void collisionsBodies(double dt);
 
     };
 }

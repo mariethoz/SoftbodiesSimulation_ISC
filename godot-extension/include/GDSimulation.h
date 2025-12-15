@@ -1,5 +1,6 @@
 //GDSimulation.h
 #pragma once
+#include <godot_cpp/classes/engine.hpp>
 #include <godot_cpp/classes/node2d.hpp>
 #include <godot_cpp/core/binder_common.hpp>
 
@@ -7,6 +8,7 @@
 #include "PlaneWorldCollider.h"
 
 #include "Simulation.h"
+#include "SoftBody.h"
 
 #include "GDSoftBody.h"
 
@@ -31,6 +33,11 @@ namespace godot {
         void reset_simulation() { build(); }
 
         void _process(double delta) override {
+            if (Engine::get_singleton()->is_editor_hint()) {
+                // Running inside the editor → skip gameplay logic
+                queue_redraw();
+                return;
+            }
             step_simulation(delta);
             queue_redraw();
         }
@@ -76,6 +83,28 @@ namespace godot {
 
         void set_bodies(const Array &p_bodies) { bodies = p_bodies; }
         Array get_bodies() const { return bodies; }
+
+        void _ready() override;
+    };
+
+    class GDSoftBodySimulationBtn : public GDSimulation {
+        GDCLASS(GDSoftBodySimulationBtn, GDSimulation);
+
+    private:
+        Array bodies;
+
+    protected:
+        static void _bind_methods();
+        void build();
+
+    public:
+        GDSoftBodySimulationBtn() {}
+        ~GDSoftBodySimulationBtn() {}
+
+        void set_bodies(const Array &p_bodies) { bodies = p_bodies; }
+        Array get_bodies() const { return bodies; }
+
+        void add_body(Ref<GDSoftBodyPolygone> body);
 
         void _ready() override;
     };
