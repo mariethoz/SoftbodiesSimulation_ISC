@@ -18,22 +18,22 @@ namespace sim {
             double radius = 1,
             double stiffness = 0.8,
             double damping = 0.1,
-            double friction = 0.5,
-            double restitution = 0.5,
+            double friction = 0.1,
+            double restitution = 0.9,
             bool is_pinned = false
         );
 
         SoftBody(
             std::vector<Particle*> particles,
             std::vector<Constraint*> constraints = std::vector<Constraint*> {},
-            double friction = 0.5, double restitution = 0.5
+            double friction = 0.1, double restitution = 0.9
         );
 
         SoftBody(
             std::vector<Particle*> border,
             std::vector<Particle*> particles,
             std::vector<Constraint*> constraints,
-            double friction = 0.5, double restitution = 0.5, int unit = 10
+            double friction = 0.1, double restitution = 0.9, int unit = 10
         );
 
         ~SoftBody();

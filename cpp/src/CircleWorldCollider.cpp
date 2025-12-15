@@ -21,8 +21,8 @@ bool InnerCircleCollider::collide(Particle *p, double friction, double restituti
     double maxDist = radius - p->getRadius();
 
     if (dist == 0) {
-        toP = Vector2(0, 1e-8);
-        dist = 1e-8;
+        toP = Vector2(0, 1);
+        dist = 1;
     }
 
     if (dist > maxDist) {
@@ -41,8 +41,8 @@ bool InnerCircleCollider::collide(Particle *p, double friction, double restituti
         Vector2 correctedNormal = effectiveRestitution * velAlongNormal * n;
         Vector2 correctedTangent = (1.0 - effectiveFriction) * tangentVel;
 
-        Vector2 correctedVel = correctedNormal + correctedTangent;
-        p->setPrevPosition(p->getPosition() - correctedVel);
+        Vector2 correctedVel = correctedNormal - correctedTangent;
+        p->setPrevPosition(p->getPosition() + correctedVel);
 
         return true;
     }
@@ -69,8 +69,8 @@ bool OuterCircleCollider::collide(Particle* p, double friction, double restituti
     double maxDist = radius + p->getRadius();
 
     if (dist == 0) {
-        toP = Vector2(0, 1e-8);
-        dist = 1e-8;
+        toP = Vector2(0, 1);
+        dist = 1;
     }
 
     if (dist < maxDist) {
@@ -89,8 +89,8 @@ bool OuterCircleCollider::collide(Particle* p, double friction, double restituti
         Vector2 correctedNormal = effectiveRestitution * velAlongNormal * n;
         Vector2 correctedTangent = (1.0 - effectiveFriction) * tangentVel;
 
-        Vector2 correctedVel = correctedNormal + correctedTangent;
-        p->setPrevPosition(p->getPosition() - correctedVel);
+        Vector2 correctedVel = correctedNormal - correctedTangent;
+        p->setPrevPosition(p->getPosition() + correctedVel);
 
         return true;
     }

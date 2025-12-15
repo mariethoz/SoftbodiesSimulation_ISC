@@ -39,10 +39,10 @@ bool PlaneCollider::collide(Particle* p, double friction, double restitution) {
         Vector2 correctedTangent = (1.0 - effectiveFriction) * tangentVel;
 
         // --- New corrected velocity ---
-        Vector2 correctedVel = correctedNormal + correctedTangent;
+        Vector2 correctedVel = correctedNormal - correctedTangent;
 
         // --- Update prevPosition with corrected velocity ---
-        p->setPrevPosition(p->getPosition() - correctedVel);
+        p->setPrevPosition(p->getPosition() + correctedVel);
 
         return true;
     }

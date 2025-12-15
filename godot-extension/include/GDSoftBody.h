@@ -17,8 +17,8 @@ namespace godot {
         // Editor-facing parameters
         Array particles;
         Array constraints;
-        double friction = 0.5;
-        double restitution = 0.5;
+        double friction = 0.1;
+        double restitution = 0.9;
         double stiffness = 0.8;
         double damping = 0.1;
 
@@ -150,34 +150,4 @@ namespace godot {
         void set_damping(const double d) { damping = d; }
         double get_damping() const { return damping; }
     };
-    //  {
-    //     GDCLASS(GDSoftBodyPolygone, GDSoftBody)
-    
-    // private:
-    //     Array border;
-    //     int unit = 10;
-    //     double particles_radius = 1.;
-    //     double mass = 1.; 
-    //     double stiffness = 0.8;
-    //     double damping = 0.1;   
-
-    // protected:
-    //     static void _bind_methods();
-
-    // public:
-    //     void build() override;
-
-    //     void set_border(const Array &b) { border = b; }
-    //     Array get_border() const { return border; }
-    //     void set_unit(const double u) { unit = u; }
-    //     double get_unit() const { return unit; }
-    //     void set_radius(const double r) { particles_radius = r; }
-    //     double get_radius() const { return particles_radius; }
-    //     void set_mass(const double m) { mass = m; }
-    //     double get_mass() const { return mass; }
-    //     void set_stiffness(const double s) { stiffness = s; }
-    //     double get_stiffness() const { return stiffness; }
-    //     void set_damping(const double d) { damping = d; }
-    //     double get_damping() const { return damping; }
-    // };
 }

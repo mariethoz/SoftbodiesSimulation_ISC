@@ -9,7 +9,7 @@ using json = nlohmann::json;
 namespace sim {
     class PlaneCollider : public WorldCollider {
     public:
-        PlaneCollider(Vector2 normal, double d, double friction = 0.9, double restitution = 0.1);
+        PlaneCollider(Vector2 normal, double d, double friction = 0.1, double restitution = 0.9);
         ~PlaneCollider();
 
         bool collide(Particle* p, double friction, double restitution) override;

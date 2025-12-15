@@ -193,9 +193,9 @@ void Simulation::collisionsBodies(double dt) {
                             Vector2 correctedVel = correctedNormal + correctedTangent;
 
                             if (!part1->isPinned())
-                                part1->setPrevPosition(part1->getPosition() - correctedVel * invMass1 * dt);
+                                part1->setPrevPosition(part1->getPrevPosition() - correctedVel * invMass1 * dt);
                             if (!part2->isPinned())
-                                part2->setPrevPosition(part2->getPosition() + correctedVel * invMass2 * dt);
+                                part2->setPrevPosition(part2->getPrevPosition() + correctedVel * invMass2 * dt);
                         }
                     }
                 }

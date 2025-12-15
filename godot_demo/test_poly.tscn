@@ -1,11 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://dogkurnhqppoy"]
+[gd_scene load_steps=5 format=3 uid="uid://dogkurnhqppoy"]
 
 [ext_resource type="Script" uid="uid://d1klbqgfeha5d" path="res://gd_soft_body_simulation_btn.gd" id="1_3x2br"]
 [ext_resource type="Script" uid="uid://6qou3ho0gmav" path="res://label.gd" id="2_w8y4s"]
 [ext_resource type="Script" uid="uid://p54ovnvmq676" path="res://label_2.gd" id="3_sw02j"]
-
-[sub_resource type="GDSoftBodyPolygone" id="GDSoftBodyPolygone_ppyta"]
-border = [Vector2(50, 0), Vector2(0, -60), Vector2(-50, 0)]
 
 [sub_resource type="GDSoftBodyPolygone" id="GDSoftBodyPolygone_6uqi0"]
 border = [Vector2(50, 50), Vector2(50, -100), Vector2(0, -100), Vector2(0, 50)]
@@ -13,7 +10,6 @@ unit = 20.0
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_3x2br")
-default = SubResource("GDSoftBodyPolygone_ppyta")
 
 [node name="GDSoftBodySimulationBtn" type="GDSoftBodySimulationBtn" parent="."]
 bodies = [SubResource("GDSoftBodyPolygone_6uqi0")]
@@ -64,9 +60,6 @@ size_flags_vertical = 8
 theme_override_font_sizes/font_size = 50
 text = "Nb"
 script = ExtResource("3_sw02j")
-
-[node name="Polygon2D" type="Polygon2D" parent="."]
-polygon = PackedVector2Array(-278, -237, 319, -389, 547, -25, 15, 523, -761, 187, -267, 51)
 
 [connection signal="pressed" from="CanvasLayer/MarginContainer/Button" to="GDSoftBodySimulationBtn" method="reset_simulation"]
 [connection signal="pressed" from="CanvasLayer/MarginContainer/Button" to="CanvasLayer/MarginContainer/Label2" method="_on_button_pressed"]
