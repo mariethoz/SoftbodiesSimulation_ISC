@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.13)
-project(SoftbodiesSimulation_ISC VERSION 0.1.0 LANGUAGES CXX)
+project(SoftbodiesSimulation_ISC VERSION 1.0.0 LANGUAGES CXX)
 
 # Require C++17
 set(CMAKE_CXX_STANDARD 17)
