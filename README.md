@@ -52,6 +52,13 @@ The engine can be used:
 - As a **Godot 2D plugin** via GDExtension
 
 ## How to build
+
+__Note__: Since this project uses Git submodules, downloading it as a `.zip` will omit some components. It is recommended to clone the repository instead.
+
+```bash
+git clone --recursive <repository-url>
+```
+
 ### C++ (Standalone)
 #### Build instruction
 
