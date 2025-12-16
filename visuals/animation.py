@@ -9,6 +9,7 @@ df = pd.read_csv("visuals/positions.csv", header=None)
 
 # Simulation parameters
 delta_time = 0.01  # seconds per step
+df = df[:(int)(1/delta_time)]  # limit to 1 second for demo
 steps = len(df)
 
 fig, ax = plt.subplots()

@@ -1,0 +1,15 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" href="$class_node2_d.html" title=" " alt="" coords="5,56,75,83"/>
+<area shape="rect" id="Node000001" href="$classgodot_1_1_g_d_collider.html" title="A Node2D representing a collider in the soft body simulation." alt="" coords="138,5,264,32"/>
+<area shape="poly" id="edge1_Node000000_Node000001" title=" " alt="" coords="88,52,158,31,154,35,90,56"/>
+<area shape="rect" id="Node000002" href="$classgodot_1_1_g_d_simulation.html" title="GDSimulation is the Godot wrapper for the Simulation class." alt="" coords="130,56,272,83"/>
+<area shape="poly" id="edge2_Node000000_Node000002" title=" " alt="" coords="90,67,132,68,127,71,91,72"/>
+<area shape="rect" id="Node000006" href="$classgodot_1_1_g_d_simulation__2.html" title="A Node2D representing the soft body simulation." alt="" coords="123,107,279,133"/>
+<area shape="poly" id="edge6_Node000000_Node000006" title=" " alt="" coords="90,82,158,105,154,107,89,87"/>
+<area shape="rect" id="Node000003" href="$classgodot_1_1_g_d_particle_simulation.html" title="GDParticleSimulation is a GDSimulation that simulates particles." alt="" coords="342,5,528,32"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="280,50,373,32,368,33,282,55"/>
+<area shape="rect" id="Node000004" href="$classgodot_1_1_g_d_soft_body_simulation.html" title="GDSoftBodySimulation is a GDSimulation that simulates soft bodies." alt="" coords="337,56,533,83"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="287,67,339,69,334,70,288,72"/>
+<area shape="rect" id="Node000005" href="$classgodot_1_1_g_d_soft_body_simulation_btn.html" title="GDSoftBodySimulationBtn is a GDSimulation that simulates soft bodies defined as polygons." alt="" coords="327,107,543,133"/>
+<area shape="poly" id="edge5_Node000002_Node000005" title=" " alt="" coords="281,84,373,106,367,106,281,89"/>
+</map>

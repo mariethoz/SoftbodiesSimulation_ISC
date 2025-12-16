@@ -1,0 +1,17 @@
+<map id="Resource" name="Resource">
+<area shape="rect" id="Node000001" title=" " alt="" coords="212,5,278,75"/>
+<area shape="rect" id="Node000002" href="$classgodot_1_1_g_d_constraint.html" title="A Resource representing a constraint between two particles in the simulation." alt="" coords="5,187,154,555"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="200,83,169,124,136,188,131,186,164,121,202,78"/>
+<area shape="rect" id="Node000003" href="$classgodot_1_1_g_d_particle.html" title="A Resource representing a particle in the soft body simulation." alt="" coords="178,187,312,555"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="246,87,248,187,243,186,245,92"/>
+<area shape="rect" id="Node000004" href="$classgodot_1_1_g_d_soft_body.html" title="A Resource representing a soft body in the simulation." alt="" coords="337,123,479,619"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="289,77,326,121,340,146,334,146,322,124,289,82"/>
+<area shape="rect" id="Node000005" href="$classgodot_1_1_g_d_soft_body_custom.html" title="GDSoftBodyCustom is a GDSoftBody that allows custom definition of particles and constraints." alt="" coords="25,763,196,917"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="326,617,326,621,311,633,296,641,268,647,239,652,225,658,210,669,189,690,171,714,142,764,138,762,167,711,185,686,206,665,222,653,237,647,267,641,295,636,308,629,322,617,329,613"/>
+<area shape="rect" id="Node000006" href="$classgodot_1_1_g_d_soft_body_polygone.html" title="GDSoftBodyPolygone is a GDSoftBody that represents a polygonal soft body." alt="" coords="220,667,398,1013"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="354,631,348,668,343,665,351,636"/>
+<area shape="rect" id="Node000007" href="$classgodot_1_1_g_d_soft_body_square.html" title="GDSoftBodySquare is a GDSoftBody that represents a square soft body." alt="" coords="422,709,588,971"/>
+<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="464,631,481,711,476,709,461,636"/>
+<area shape="rect" id="Node000008" href="$classgodot_1_1_g_d_soft_body_triange.html" title="GDSoftBodyTriange is a GDSoftBody that represents a triangular soft body." alt="" coords="612,731,780,949"/>
+<area shape="poly" id="edge7_Node000004_Node000008" title=" " alt="" coords="488,487,602,665,640,732,635,731,598,668,486,492"/>
+</map>

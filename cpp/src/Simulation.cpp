@@ -42,6 +42,7 @@ void Simulation::clear() {
             delete p;
         }
         b->getParticles().clear();
+        b->getConstraints().clear();
         delete b;
     }
     bodies.clear();

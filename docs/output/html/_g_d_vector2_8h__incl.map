@@ -1,0 +1,15 @@
+<map id="godot&#45;extension/include/GDVector2.h" name="godot&#45;extension/include/GDVector2.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="129,5,366,32"/>
+<area shape="rect" id="Node000002" href="$_vector2_8h.html" title=" " alt="" coords="128,80,204,107"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="235,31,193,72,190,68,231,34"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="228,80,429,107"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="262,30,306,70,301,70,261,35"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="5,155,63,181"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="144,109,71,149,69,145,142,105"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="86,155,158,181"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="161,106,139,143,136,139,156,109"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="181,155,239,181"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="175,105,197,142,192,141,172,110"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="262,155,392,181"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="195,105,288,147,283,148,194,110"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="godot::GDConstraint" name="godot::GDConstraint">
+<area shape="rect" id="Node000001" title="A Resource representing a constraint between two particles in the simulation." alt="" coords="5,123,154,491"/>
+<area shape="rect" id="Node000002" href="$class_resource.html" title=" " alt="" coords="46,5,113,75"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="80,87,82,123,77,123,80,92"/>
+</map>
