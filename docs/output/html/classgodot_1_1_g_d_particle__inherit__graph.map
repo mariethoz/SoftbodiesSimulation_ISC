@@ -1,0 +1,5 @@
+<map id="godot::GDParticle" name="godot::GDParticle">
+<area shape="rect" id="Node000001" title="A Resource representing a particle in the soft body simulation." alt="" coords="5,123,139,491"/>
+<area shape="rect" id="Node000002" href="$class_resource.html" title=" " alt="" coords="39,5,106,75"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="73,87,75,123,70,123,72,92"/>
+</map>

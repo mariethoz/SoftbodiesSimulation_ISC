@@ -1,0 +1,5 @@
+<map id="godot::GDCollider" name="godot::GDCollider">
+<area shape="rect" id="Node000001" title="A Node2D representing a collider in the soft body simulation." alt="" coords="5,123,138,661"/>
+<area shape="rect" id="Node000002" href="$class_node2_d.html" title=" " alt="" coords="42,5,101,75"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="72,87,74,123,69,123,72,92"/>
+</map>

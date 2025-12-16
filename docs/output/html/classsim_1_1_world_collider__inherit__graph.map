@@ -1,0 +1,11 @@
+<map id="sim::WorldCollider" name="sim::WorldCollider">
+<area shape="rect" id="Node000001" title="Abstract base class for world boundary colliders." alt="" coords="176,5,294,181"/>
+<area shape="rect" id="Node000002" href="$classsim_1_1_circle_collider.html" title="Abstarct collider representing a circle in 2D space." alt="" coords="105,240,223,395"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="204,193,191,241,186,239,201,198"/>
+<area shape="rect" id="Node000005" href="$classsim_1_1_plane_collider.html" title="A collider representing an infinite plane in 2D space." alt="" coords="247,229,364,405"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="267,193,280,230,275,229,266,198"/>
+<area shape="rect" id="Node000003" href="$classsim_1_1_inner_circle_collider.html" title="Collider representing an inner circle." alt="" coords="5,453,152,565"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="125,406,106,455,101,452,122,410"/>
+<area shape="rect" id="Node000004" href="$classsim_1_1_outer_circle_collider.html" title="Collider representing an outer circle." alt="" coords="176,453,326,565"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="206,406,228,454,223,453,204,411"/>
+</map>

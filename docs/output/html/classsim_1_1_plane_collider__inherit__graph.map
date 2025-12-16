@@ -1,0 +1,5 @@
+<map id="sim::PlaneCollider" name="sim::PlaneCollider">
+<area shape="rect" id="Node000001" title="A collider representing an infinite plane in 2D space." alt="" coords="6,229,123,405"/>
+<area shape="rect" id="Node000002" href="$classsim_1_1_world_collider.html" title="Abstract base class for world boundary colliders." alt="" coords="5,5,123,181"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="65,193,67,230,62,229,64,199"/>
+</map>

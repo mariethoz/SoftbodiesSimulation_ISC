@@ -1,0 +1,5 @@
+<map id="godot::GDSoftBody_2" name="godot::GDSoftBody_2">
+<area shape="rect" id="Node000001" title="A Polygon2D representing a soft body in the simulation." alt="" coords="5,123,147,811"/>
+<area shape="rect" id="Node000002" href="$class_polygon2_d.html" title=" " alt="" coords="39,5,114,75"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="76,87,79,123,74,123,76,92"/>
+</map>

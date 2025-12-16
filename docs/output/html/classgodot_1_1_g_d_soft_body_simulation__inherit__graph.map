@@ -1,0 +1,7 @@
+<map id="godot::GDSoftBodySimulation" name="godot::GDSoftBodySimulation">
+<area shape="rect" id="Node000001" title="GDSoftBodySimulation is a GDSimulation that simulates soft bodies." alt="" coords="5,389,191,587"/>
+<area shape="rect" id="Node000002" href="$classgodot_1_1_g_d_simulation.html" title="GDSimulation is the Godot wrapper for the Simulation class." alt="" coords="32,123,164,341"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="99,354,101,390,96,389,97,359"/>
+<area shape="rect" id="Node000003" href="$class_node2_d.html" title=" " alt="" coords="69,5,128,75"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="98,87,101,123,96,123,98,92"/>
+</map>

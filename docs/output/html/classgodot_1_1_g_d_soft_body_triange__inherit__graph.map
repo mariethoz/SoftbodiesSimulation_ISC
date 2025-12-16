@@ -1,0 +1,7 @@
+<map id="godot::GDSoftBodyTriange" name="godot::GDSoftBodyTriange">
+<area shape="rect" id="Node000001" title="GDSoftBodyTriange is a GDSoftBody that represents a triangular soft body." alt="" coords="5,667,173,885"/>
+<area shape="rect" id="Node000002" href="$classgodot_1_1_g_d_soft_body.html" title="A Resource representing a soft body in the simulation." alt="" coords="18,123,160,619"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="90,631,92,667,87,667,89,636"/>
+<area shape="rect" id="Node000003" href="$class_resource.html" title=" " alt="" coords="56,5,122,75"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="89,87,92,123,87,123,89,92"/>
+</map>
