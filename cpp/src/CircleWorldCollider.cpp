@@ -6,9 +6,7 @@ using namespace sim;
 CircleCollider::CircleCollider(Vector2 center, double radius, double friction, double restitution)
     : WorldCollider(friction, restitution), center(center), radius(radius) {}
 
-CircleCollider::~CircleCollider() {
-    std::cout << "CircleCollider destroyed\n";
-}
+CircleCollider::~CircleCollider() {}
 
 InnerCircleCollider::InnerCircleCollider(Vector2 center, double radius, double friction, double restitution)
     : CircleCollider(center, radius, friction, restitution) {}

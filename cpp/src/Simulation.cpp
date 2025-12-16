@@ -15,7 +15,6 @@ void Simulation::addCollider(WorldCollider* col) {
 
 Simulation::~Simulation(){
     clear();
-    std::cout << "Simulation destroyed\n";
 }
 
 void Simulation::step(double dt)
@@ -25,8 +24,7 @@ void Simulation::step(double dt)
     applyGravity();
 
     // 2. Satisfy constraints (distance constraints, springs, etc.)
-    for (int i = 0; i < 5; i++)
-        applyConstraints();
+    applyConstraints();
 
     // 3. Resolve collisions (world boundaries, objects, etc.)
     resolveCollisions(dt);
@@ -65,15 +63,14 @@ json Simulation::as_json()
     return data;
 }
 
-Simulation* Simulation::from_json(json data)
+void Simulation::from_json(json data)
 {
-    Simulation simulation;
-    simulation.setGravity(Vector2::from_json(data["gravity"]));
+    this->clear();
+    this->setGravity(Vector2::from_json(data["gravity"]));
     for (auto jb: data["bodies"])
-        simulation.addBody(SoftBody::from_json(jb));
+        this->addBody(SoftBody::from_json(jb));
     for (auto jc: data["colliders"])
-        simulation.addCollider(WorldCollider::from_json(jc));
-    return new Simulation(simulation);
+        this->addCollider(WorldCollider::from_json(jc));
 }
 
 void Simulation::applyGravity() {
@@ -96,6 +93,7 @@ void Simulation::applyConstraints() {
 void Simulation::resolveCollisions(double dt) {
     collisionsWorld();
     collisionsBodies(dt); // body vs body collisions (particle-particle cross-body)
+    collisionsWorld();
 }
 
 void Simulation::collisionsWorld() {

@@ -6,9 +6,7 @@ using namespace sim;
 PlaneCollider::PlaneCollider(Vector2 normal, double d, double friction, double restitution)
     : WorldCollider(friction, restitution), normal(normal.normalized()), d(d){}
 
-PlaneCollider::~PlaneCollider() {
-    std::cout << "PlaneCollider destroyed\n";
-}
+PlaneCollider::~PlaneCollider() {}
 
 bool PlaneCollider::collide(Particle* p, double friction, double restitution) {
     if (p->isPinned()) return false;

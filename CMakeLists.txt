@@ -50,6 +50,8 @@ add_executable(particles cpp/src/main_particles.cpp)
 target_link_libraries(particles PRIVATE my_lib)
 add_executable(softbody_plot cpp/src/main_constraint_plots.cpp)
 target_link_libraries(softbody_plot PRIVATE my_lib)
+add_executable(softbody_animation cpp/src/main_constraint_animation.cpp)
+target_link_libraries(softbody_animation PRIVATE my_lib)
 
 # ------------------------
 # Testing

@@ -175,7 +175,6 @@ static void meshPolygone(
         std::vector<Vector2> nextRing;
         std::vector<int> nextRingIdx;
         int N = ring.size();
-        std::cout << "Ring size " << N << "\n";
 
         Vector2 AB;
         Vector2 CB;
@@ -229,7 +228,7 @@ static void meshPolygone(
                 nextRingIdx.push_back(j);
             }
         }
-        std::cout << "nRing size " << nextRing.size() << "\n";
+
         if (ring.size() < 3) break;
         // ---- 3. add edges between rings ----
         int nN = nextRingIdx.size();
@@ -282,7 +281,6 @@ static void meshPolygone(
             idmap.set_eps(grid_spacing);
         }
     }
-    std::cout << "Ring size " << ring.size() << " end\n";
 }
 
 

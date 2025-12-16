@@ -8,9 +8,7 @@ Constraint::Constraint(Particle *part1, Particle *part2, double stiffness, doubl
         restLength((part1->getPosition()-part2->getPosition()).length()),
         stiffness(stiffness), damping(damping) {}
 
-Constraint::~Constraint() {
-    std::cout << "Constraint destroyed\n";
-}
+Constraint::~Constraint() {}
 
 void Constraint::applyConstraint() {
     Vector2 delta = part2->getPosition() - part1->getPosition();

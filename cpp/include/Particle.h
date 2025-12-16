@@ -6,13 +6,27 @@
 using json = nlohmann::json;
 
 namespace sim {
+    /**
+     * @brief A particle in 2D space with position, mass, radius, and pinned state.
+     * 
+     * The base element for physics simulations. Particles can have forces applied to them
+     * and can be updated over time. They can also be pinned to remain stationary.
+     */
     class Particle {
     public:
         Particle(Vector2 pos, double mass = 1.0, double radius = 1.0, bool pinned = false);
         ~Particle();
 
         // Core function
+        /**
+         * @brief Apply a force to the particle.
+         * @param f The force vector to apply.
+         */
         void applyForce(const Vector2& f);
+        /**
+         * @brief Update the particle's position based on accumulated forces and elapsed time.
+         * @param dt The time step for the update.
+         */
         void update(double dt);
 
         // --- Accessors & mutators ----
@@ -33,11 +47,11 @@ namespace sim {
         static Vector2 from_json(json data);
 
     private:
-        Vector2 position;
-        Vector2 prev_position;
-        Vector2 force_accum;
-        double radius;
-        double mass;
-        bool pinned;
+        Vector2 position;       /// Current position of the particle
+        Vector2 prev_position;  /// Previous position of the particle (for velocity calculation)
+        Vector2 force_accum;    /// Accumulated forces acting on the particle
+        double radius;          /// Radius of the particle
+        double mass;            /// Mass of the particle
+        bool pinned;            /// Whether the particle is pinned (immovable)
     };
 }
