@@ -2,8 +2,6 @@
 .venv
 *.csv
 
-godot-cpp
-
 # Godot project files
 .import/
 export.cfg

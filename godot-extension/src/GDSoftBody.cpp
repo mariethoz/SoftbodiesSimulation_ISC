@@ -1,7 +1,7 @@
 #include "GDSoftBody.h"
 #include "GDVector2.h"
 #include <vector>
-#include <corecrt_math_defines.h>
+#include <cmath>
 using namespace godot;
 
 void GDSoftBody::_bind_methods() {
@@ -242,47 +242,3 @@ void GDSoftBodyPolygone::build() {
     else
         soft_body = nullptr;
 }
-
-
-// void GDSoftBodyPolygone::_bind_methods() {
-//     ClassDB::bind_method(D_METHOD("set_border", "border"), &GDSoftBodyPolygone::set_border);
-//     ClassDB::bind_method(D_METHOD("get_border"), &GDSoftBodyPolygone::get_border);
-//     ClassDB::bind_method(D_METHOD("set_unit","double"), &GDSoftBodyPolygone::set_unit);
-//     ClassDB::bind_method(D_METHOD("get_unit"), &GDSoftBodyPolygone::get_unit);
-//     ClassDB::bind_method(D_METHOD("set_radius","double"), &GDSoftBodyPolygone::set_radius);
-//     ClassDB::bind_method(D_METHOD("get_radius"), &GDSoftBodyPolygone::get_radius);
-//     ClassDB::bind_method(D_METHOD("set_mass","double"), &GDSoftBodyPolygone::set_mass);
-//     ClassDB::bind_method(D_METHOD("get_mass"), &GDSoftBodyPolygone::get_mass);
-//     ClassDB::bind_method(D_METHOD("set_stiffness","double"), &GDSoftBodyPolygone::set_stiffness);
-//     ClassDB::bind_method(D_METHOD("get_stiffness"), &GDSoftBodyPolygone::get_stiffness);
-//     ClassDB::bind_method(D_METHOD("set_damping","double"), &GDSoftBodyPolygone::set_damping);
-//     ClassDB::bind_method(D_METHOD("get_damping"), &GDSoftBodyPolygone::get_damping);
-
-//     ADD_PROPERTY(
-//         PropertyInfo(
-//             Variant::ARRAY,
-//             "border",
-//             PROPERTY_HINT_ARRAY_TYPE,
-//             "Vector2"
-//         ),
-//         "set_border",
-//         "get_border"
-//     );
-//     ADD_PROPERTY(PropertyInfo(Variant::INT, "unit"), "set_unit", "get_unit");
-//     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "particles_radius"), "set_radius", "get_radius");
-//     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "mass"), "set_mass", "get_mass");
-//     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "stiffness"), "set_stiffness", "get_stiffness");
-//     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "damping"), "set_damping", "get_damping");
-// }
-
-// godot::Array border;
-// void GDSoftBodyPolygone::build() {
-//     std::vector<sim::Vector2> polygone;
-
-//     for (int i = 0; i < border.size(); i++) {
-//         Vector2 v = border[i];
-//         polygone.push_back(convert::from_godot(v));
-//     }
-
-//     soft_body = sim::SoftBody::createFromPolygon(polygone, unit, mass, particles_radius, damping, friction, restitution);
-// }

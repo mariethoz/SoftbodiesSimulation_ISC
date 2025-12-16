@@ -1,10 +1,10 @@
 name: Build GDExtension
 
 on:
-  push:
-    branches: main
-    tags:
-      - "V*"
+  pull_request:
+    branches: 
+      - main
+
 
 permissions:
   contents: write
@@ -24,6 +24,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Init and update submodules
+        run: |
+          git submodule init
+          git submodule update --recursive --remote
+
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
@@ -32,16 +37,11 @@ jobs:
       - name: Install SCons
         run: pip install scons
 
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          submodules: recursive
-
       - name: Build debug with SCons
-        run: scons platform=${{ matrix.name }} target="template_debug" publish=1
+        run: scons platform=${{ matrix.name }} target=template_debug demo_only=0
 
       - name: Build release with SCons
-        run: scons platform=${{ matrix.name }} target="template_release" publish=1
+        run: scons platform=${{ matrix.name }} target=template_release demo_only=0
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4

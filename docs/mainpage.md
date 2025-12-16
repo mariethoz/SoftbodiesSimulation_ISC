@@ -112,6 +112,20 @@ You can configure gravity and debug visualization directly from the `GDSimulatio
 
 `GDCollider` have 3 options depending of the desired world interaction.
 
+## Resources & Documentation
+
+### Sources & References
+
+- [Computer Science and Communication Systems (ISC Bachelor Program)](https://www.hevs.ch/en/schools/school-of-engineering/computer-science-and-communication/bachelor-s-degree-programme-in-computer-science-and-communication-systems-201140)
+- [Verlet Integration Example (GitHub)](https://github.com/johnBuffer/VerletSFML) - VerletSFML by johnBuffer
+- [Verlet Integration Tutorial (YouTube)](https://www.youtube.com/watch?v=kyQP4t_wOGI) - Soft Body Physics Explained by Gonkee
+- [Godot GDExtension C++ Example](https://docs.godotengine.org/en/4.4/tutorials/scripting/gdextension/gdextension_cpp_example.html) - Official Godot Documentation
+
+### Acknowledgements
+
+- [Doxygen](https://www.doxygen.nl/) – Documentation generation tool  
+- [nlohmann/json](https://github.com/nlohmann/json/tree/v3.12.0?tab=readme-ov-file) – JSON library for C++  
+- GPT & Copilot – AI assistance for code review, comments generation, and explanation
 
 ## Contributing
 

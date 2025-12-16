@@ -6,7 +6,6 @@
 
 using json = nlohmann::json;
 
-
 namespace sim {
     /**
      * @brief Saves the simulation state to a file.

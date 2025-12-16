@@ -1,0 +1,29 @@
+name: Doxygen Docs
+
+on:
+  push:
+    branches: [gh-pages]
+    paths:
+      - 'docs/**'
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install Doxygen
+      run: sudo apt-get install -y doxygen graphviz
+
+    - name: Generate docs
+      run: doxygen docs/Doxyfile
+
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: docs/output/html
+        publish_branch: gh-pages
+        user_name: 'github-actions[bot]'
+        commit_message: 'Deploy Doxygen docs'
