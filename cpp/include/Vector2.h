@@ -7,8 +7,15 @@
 using json = nlohmann::json;
 
 namespace sim {
+    /**
+     * @brief A 2D vector class providing basic arithmetic, geometric operations, and JSON serialization.
+     *
+     * This struct represents a mathematical vector in 2D space with components (x, y).
+     * It supports vector arithmetic, normalization, dot/cross products, and serialization
+     * to/from JSON for persistence.
+     */
     struct Vector2 {
-        double x, y;
+        double x, y;    /// The x and y components of the vector.
 
         Vector2(double x = 0.0, double y = 0.0) : x(x), y(y) {}
 
@@ -58,11 +65,24 @@ namespace sim {
             return Vector2(data["x"],data["y"]);
         }
     };
-    
+
+    /**
+     * @brief Compute Euclidean distance between two vectors.
+     * @param a First vector.
+     * @param b Second vector.
+     * @return Distance between a and b.
+     */
     static double dist(const Vector2& a, const Vector2& b) {
-        return (a-b).length();
+        return (a - b).length();
     };
 
+    /**
+     * @brief Linearly interpolate between two vectors.
+     * @param A Start vector.
+     * @param B End vector.
+     * @param t Interpolation factor (0.0 = A, 1.0 = B).
+     * @return Interpolated vector.
+     */
     static Vector2 interpolate(const Vector2& A, const Vector2& B, double t) {
         return A + (B - A) * t;
     };

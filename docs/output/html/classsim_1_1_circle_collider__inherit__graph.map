@@ -1,0 +1,9 @@
+<map id="sim::CircleCollider" name="sim::CircleCollider">
+<area shape="rect" id="Node000001" title="Abstarct collider representing a circle in 2D space." alt="" coords="105,229,223,384"/>
+<area shape="rect" id="Node000003" href="$classsim_1_1_inner_circle_collider.html" title="Collider representing an inner circle." alt="" coords="5,432,152,544"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="123,395,107,434,102,431,120,399"/>
+<area shape="rect" id="Node000004" href="$classsim_1_1_outer_circle_collider.html" title="Collider representing an outer circle." alt="" coords="176,432,326,544"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="208,395,227,433,222,432,206,400"/>
+<area shape="rect" id="Node000002" href="$classsim_1_1_world_collider.html" title="Abstract base class for world boundary colliders." alt="" coords="105,5,223,181"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="165,194,167,230,161,229,163,199"/>
+</map>

@@ -21,9 +21,7 @@ SoftBody::SoftBody(
     : border(border), particles(particles), constraints(constraints),
       friction(friction), restitution(restitution), mesh_unit(unit) {}
 
-SoftBody::~SoftBody() {
-    std::cout << "SoftBody destroyed\n";
-};
+SoftBody::~SoftBody() {};
 
 void SoftBody::applyForce(const Vector2 &f) {
     for (auto& p : particles) {

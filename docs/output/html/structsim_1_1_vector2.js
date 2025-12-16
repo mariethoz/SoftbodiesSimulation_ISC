@@ -1,0 +1,27 @@
+var structsim_1_1_vector2 =
+[
+    [ "Vector2", "structsim_1_1_vector2.html#a3d06555f83d06d6eda923c025d2b2f11", null ],
+    [ "abs", "structsim_1_1_vector2.html#a67e33857fedbbcc9ff64e53b616294a7", null ],
+    [ "as_json", "structsim_1_1_vector2.html#a1e63d16130564447285dc1c24b8a8a43", null ],
+    [ "cross", "structsim_1_1_vector2.html#ad4137680671e0646fd69c469d31f7818", null ],
+    [ "dot", "structsim_1_1_vector2.html#a46e0e488d88084419e54327edfd0f1c4", null ],
+    [ "from_json", "structsim_1_1_vector2.html#adf1e015889c4d8062c66d56fdc9165ca", null ],
+    [ "length", "structsim_1_1_vector2.html#a646de6c29e2f58a88b47dce830512b40", null ],
+    [ "lengthSquared", "structsim_1_1_vector2.html#acdabdf26a0308619115adc2566ade73f", null ],
+    [ "normalized", "structsim_1_1_vector2.html#a47aa497bdbed6b6d824ec0e6fef312ae", null ],
+    [ "operator!=", "structsim_1_1_vector2.html#a245db2093a6fdcba4f26f75b5c716e1a", null ],
+    [ "operator*", "structsim_1_1_vector2.html#a69c501f9234eb48f4ecb19d9861dabc5", null ],
+    [ "operator*=", "structsim_1_1_vector2.html#a456c09cb8b5b7635beca77c5c953418f", null ],
+    [ "operator+", "structsim_1_1_vector2.html#ae0fe770248f7ed23d8135bc900da14bb", null ],
+    [ "operator+=", "structsim_1_1_vector2.html#a97db924b95d369c92fca9c37d3fe5c8e", null ],
+    [ "operator-", "structsim_1_1_vector2.html#a7d8a0aadff4a964ed08682c99da6bb4a", null ],
+    [ "operator-", "structsim_1_1_vector2.html#a4a7c1448bb2ef8573bbc78d06de42aab", null ],
+    [ "operator-=", "structsim_1_1_vector2.html#aeebfbb99020a00817840b33e7959f7c0", null ],
+    [ "operator/", "structsim_1_1_vector2.html#aaf697c4c79829a5988ae19968f8e997b", null ],
+    [ "operator/=", "structsim_1_1_vector2.html#a75fb0f59a288d4ae7db96d71070c9b3a", null ],
+    [ "operator==", "structsim_1_1_vector2.html#ac3724856b49bf4e314655aed10d38b29", null ],
+    [ "operator*", "structsim_1_1_vector2.html#aebdab48efd17175d41140da079a5188f", null ],
+    [ "operator<<", "structsim_1_1_vector2.html#a28edb4fc52df274552ad9e41d0038fe6", null ],
+    [ "x", "structsim_1_1_vector2.html#a60b776b7704fad0fa3973fc3be5c03cc", null ],
+    [ "y", "structsim_1_1_vector2.html#a6aa2156c35d00ace72e0570a3d352859", null ]
+];

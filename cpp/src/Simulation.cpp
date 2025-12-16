@@ -15,7 +15,6 @@ void Simulation::addCollider(WorldCollider* col) {
 
 Simulation::~Simulation(){
     clear();
-    std::cout << "Simulation destroyed\n";
 }
 
 void Simulation::step(double dt)
@@ -25,8 +24,7 @@ void Simulation::step(double dt)
     applyGravity();
 
     // 2. Satisfy constraints (distance constraints, springs, etc.)
-    for (int i = 0; i < 5; i++)
-        applyConstraints();
+    applyConstraints();
 
     // 3. Resolve collisions (world boundaries, objects, etc.)
     resolveCollisions(dt);
@@ -44,6 +42,7 @@ void Simulation::clear() {
             delete p;
         }
         b->getParticles().clear();
+        b->getConstraints().clear();
         delete b;
     }
     bodies.clear();
@@ -65,15 +64,14 @@ json Simulation::as_json()
     return data;
 }
 
-Simulation* Simulation::from_json(json data)
+void Simulation::from_json(json data)
 {
-    Simulation simulation;
-    simulation.setGravity(Vector2::from_json(data["gravity"]));
+    this->clear();
+    this->setGravity(Vector2::from_json(data["gravity"]));
     for (auto jb: data["bodies"])
-        simulation.addBody(SoftBody::from_json(jb));
+        this->addBody(SoftBody::from_json(jb));
     for (auto jc: data["colliders"])
-        simulation.addCollider(WorldCollider::from_json(jc));
-    return new Simulation(simulation);
+        this->addCollider(WorldCollider::from_json(jc));
 }
 
 void Simulation::applyGravity() {
@@ -96,6 +94,7 @@ void Simulation::applyConstraints() {
 void Simulation::resolveCollisions(double dt) {
     collisionsWorld();
     collisionsBodies(dt); // body vs body collisions (particle-particle cross-body)
+    collisionsWorld();
 }
 
 void Simulation::collisionsWorld() {
@@ -108,6 +107,9 @@ void Simulation::collisionsWorld() {
     }
 }
 
+/**
+ * Axis-Aligned Bounding Box (AABB) structure
+ */
 struct AABB {
     Vector2 min;
     Vector2 max;
@@ -115,6 +117,12 @@ struct AABB {
 
 double INF = 1e300;
 
+/**
+ * @brief Computes the Axis-Aligned Bounding Box (AABB) for a set of particles.
+ * 
+ * @param particles The particles to compute the AABB for.
+ * @return AABB The computed AABB.
+ */
 AABB computeAABB(std::vector<Particle*> particles) {
     AABB aabb;
     aabb.min = { INF,  INF};
@@ -129,6 +137,13 @@ AABB computeAABB(std::vector<Particle*> particles) {
     return aabb;
 }
 
+/**
+ * @brief Checks if two AABBs overlap.
+ * 
+ * @param a The first AABB.
+ * @param b The second AABB.
+ * @return true If the AABBs overlap.
+ */
 bool aabbOverlap(const AABB& a, const AABB& b) {
     return !(a.max.x < b.min.x || a.min.x > b.max.x ||
              a.max.y < b.min.y || a.min.y > b.max.y);

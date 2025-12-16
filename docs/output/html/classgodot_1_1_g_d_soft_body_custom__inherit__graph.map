@@ -1,0 +1,7 @@
+<map id="godot::GDSoftBodyCustom" name="godot::GDSoftBodyCustom">
+<area shape="rect" id="Node000001" title="GDSoftBodyCustom is a GDSoftBody that allows custom definition of particles and constraints." alt="" coords="5,667,176,821"/>
+<area shape="rect" id="Node000002" href="$classgodot_1_1_g_d_soft_body.html" title="A Resource representing a soft body in the simulation." alt="" coords="20,123,162,619"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="91,631,93,667,88,666,90,636"/>
+<area shape="rect" id="Node000003" href="$class_resource.html" title=" " alt="" coords="57,5,124,75"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="91,87,93,123,88,123,90,92"/>
+</map>

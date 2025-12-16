@@ -45,7 +45,7 @@ for group_name, particles in grouped_particles.items():
     fig, axes = plt.subplots(len(particles), 2, figsize=(10, 2*len(particles)))
     fig.suptitle(group_name, fontsize=16)
 
-    # If only one particle, axes is 1D → normalize to 2D
+    # If only one particle, axes is 1D -> normalize to 2D
     if len(particles) == 1:
         axes = [axes]
 

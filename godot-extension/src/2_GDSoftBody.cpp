@@ -41,7 +41,6 @@ GDSoftBody_2::~GDSoftBody_2() {
 }
 
 void GDSoftBody_2::build() {
-    std::cout << "Build SoftBody; ";
     if (soft_body) return;
     if (backed_ploygon.is_empty())
         backed_ploygon = get_polygon();
@@ -49,7 +48,6 @@ void GDSoftBody_2::build() {
 
     std::vector<sim::Vector2> border;
 
-    std::cout << backed_ploygon.size() << " Convert Godot to C++ ";
     for (int i = 0; i < backed_ploygon.size(); i++) {
         sim::Vector2 v1 = convert::from_godot(backed_ploygon[i] + global_position);
         sim::Vector2 v2 = convert::from_godot(backed_ploygon[(i+1)%backed_ploygon.size()] + global_position);
@@ -73,12 +71,9 @@ void GDSoftBody_2::build() {
         backed_ploygon = get_polygon();
     }
 
-    std::cout << " Create SoftBody ";
     if (border.size() >= 1) {
-        std::cout << " Factory\n";
         soft_body = sim::SoftBody::createFromPolygon(border, unit, mass, particles_radius, stiffness, damping, friction, restitution);
     } else {
-        std::cout << " nullptr\n";
         soft_body = nullptr;
     }
 }

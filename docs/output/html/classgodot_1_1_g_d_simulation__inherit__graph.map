@@ -1,0 +1,11 @@
+<map id="godot::GDSimulation" name="godot::GDSimulation">
+<area shape="rect" id="Node000001" title="GDSimulation is the Godot wrapper for the Simulation class." alt="" coords="233,123,364,341"/>
+<area shape="rect" id="Node000003" href="$classgodot_1_1_g_d_particle_simulation.html" title="GDParticleSimulation is a GDSimulation that simulates particles." alt="" coords="5,400,181,597"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="225,328,171,402,167,399,222,332"/>
+<area shape="rect" id="Node000004" href="$classgodot_1_1_g_d_soft_body_simulation.html" title="GDSoftBodySimulation is a GDSimulation that simulates soft bodies." alt="" coords="206,400,391,597"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="300,354,301,401,296,399,297,359"/>
+<area shape="rect" id="Node000005" href="$classgodot_1_1_g_d_soft_body_simulation_btn.html" title="GDSoftBodySimulationBtn is a GDSimulation that simulates soft bodies defined as polygons." alt="" coords="416,389,621,608"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="375,321,431,390,426,390,373,326"/>
+<area shape="rect" id="Node000002" href="$class_node2_d.html" title=" " alt="" coords="269,5,328,75"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="299,87,301,123,296,122,298,92"/>
+</map>

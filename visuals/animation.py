@@ -9,6 +9,7 @@ df = pd.read_csv("visuals/positions.csv", header=None)
 
 # Simulation parameters
 delta_time = 0.01  # seconds per step
+df = df[:(int)(1/delta_time)]  # limit to 1 second for demo
 steps = len(df)
 
 fig, ax = plt.subplots()
@@ -18,7 +19,7 @@ circle = patches.Circle((0, -10), 5, edgecolor='black', facecolor='none', linewi
 circleI = patches.Circle((0, 0), 15, edgecolor='green', facecolor='none', linewidth=2)
 ax.add_patch(circle)
 ax.add_patch(circleI)
-ax.plot([-30, 30], [-10, -10], color='black', linewidth=2)  # extend line across x-range
+ax.plot([-50, 50], [-10, -10], color='black', linewidth=2)  # extend line across x-range
 
 # Skip first column (step index)
 coord_cols = df.columns[1:]

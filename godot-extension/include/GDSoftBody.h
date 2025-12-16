@@ -7,20 +7,30 @@
 #include "GDConstraint.h"
 
 namespace godot {
+    /**
+     * @warning This file is deprecated and will be removed in future versions. It will not be replaced.
+     * Please use the new GDSoftBody_2 classes instead.
+     * 
+     * @brief A Resource representing a soft body in the simulation
+     * 
+     * This resource defines a soft body composed of particles and constraints,
+     * along with physical properties such as friction, restitution, stiffness,
+     * and damping.
+     */
 
     class GDSoftBody : public Resource {
         GDCLASS(GDSoftBody, Resource)
 
     protected:
         // Internal simulation object (allocated on build)
-        sim::SoftBody* soft_body = nullptr;
+        sim::SoftBody* soft_body = nullptr; /// Pointer to the simulation soft body
         // Editor-facing parameters
-        Array particles;
-        Array constraints;
-        double friction = 0.1;
-        double restitution = 0.9;
-        double stiffness = 0.8;
-        double damping = 0.1;
+        Array particles;                    /// Array of GDParticle resources
+        Array constraints;                  /// Array of GDConstraint resources
+        double friction = 0.1;              /// Friction coefficient of the soft body
+        double restitution = 0.9;           /// Restitution (bounciness) coefficient of the soft body
+        double stiffness = 0.8;             /// Stiffness of the constraints
+        double damping = 0.1;               /// Damping factor for the constraints
 
         static void _bind_methods();
 
@@ -28,19 +38,18 @@ namespace godot {
         GDSoftBody() {}
         ~GDSoftBody();
 
+        // core function
         virtual void build();
         void reset();
 
         // getters / setters
         void set_friction(double f) { friction = f; }
         double get_friction() const { return friction; }
-
         void set_restitution(double r) { restitution = r; }
         double get_restitution() const { return restitution; }
         
         void set_Stiffness(double s) { stiffness = s; }
         double get_stiffness() const { return stiffness; }
-
         void set_damping(double d) { damping = d; }
         double get_damping() const { return damping; }
 
@@ -53,6 +62,11 @@ namespace godot {
         }
     };
 
+    /**
+     * @brief GDSoftBodyCustom is a GDSoftBody that allows custom definition of particles and constraints.
+     * 
+     * It enables users to define their own particles and constraints for the soft body.
+     */
     class GDSoftBodyCustom : public GDSoftBody {
         GDCLASS(GDSoftBodyCustom, GDSoftBody)
     
@@ -68,6 +82,11 @@ namespace godot {
         Array get_constraints() const { return constraints; }
     };
 
+    /**
+     * @brief GDSoftBodyTriange is a GDSoftBody that represents a triangular soft body.
+     * 
+     * It allows users to define a soft body in the shape of a triangle by specifying its three corners.
+     */
     class GDSoftBodyTriange : public GDSoftBody {
         GDCLASS(GDSoftBodyTriange, GDSoftBody)
     
@@ -92,6 +111,11 @@ namespace godot {
         Vector2 get_corner_3() const { return corner_3; }
     };
 
+    /**
+     * @brief GDSoftBodySquare is a GDSoftBody that represents a square soft body.
+     * 
+     * It allows users to define a soft body in the shape of a square by specifying its four corners.
+     */
     class GDSoftBodySquare : public GDSoftBody {
         GDCLASS(GDSoftBodySquare, GDSoftBody)
     
@@ -119,16 +143,21 @@ namespace godot {
         Vector2 get_corner_4() const { return corner_4; }
     };
 
+    /**
+     * @brief GDSoftBodyPolygone is a GDSoftBody that represents a polygonal soft body.
+     * 
+     * It allows users to define a soft body in the shape of a polygon by specifying its border points.
+     */
     class GDSoftBodyPolygone : public GDSoftBody {
         GDCLASS(GDSoftBodyPolygone, GDSoftBody)
     
     private:
-        PackedVector2Array border;
-        int unit = 10;
-        double particles_radius = 1.;
-        double mass = 1.; 
-        double stiffness = 0.8;
-        double damping = 0.1;     
+        PackedVector2Array border;      /// Array of border points defining the polygon
+        int unit = 10;                  /// Unit size for particle placement
+        double particles_radius = 1.;   /// Radius of the particles
+        double mass = 1.;               /// Mass of each particle
+        double stiffness = 0.8;         /// Stiffness of the constraints
+        double damping = 0.1;           /// Damping factor for the constraints
 
     protected:
         static void _bind_methods();
@@ -136,7 +165,7 @@ namespace godot {
     public:
         void build() override;
 
-        
+        // getters / setters
         void set_border(const Array &b) { border = b; }
         Array get_border() const { return border; }
         void set_unit(const double u) { unit = u; }

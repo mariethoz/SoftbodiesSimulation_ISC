@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.13)
-project(SoftbodiesSimulation_ISC VERSION 0.1.0 LANGUAGES CXX)
+project(SoftbodiesSimulation_ISC VERSION 1.0.0 LANGUAGES CXX)
 
 # Require C++17
 set(CMAKE_CXX_STANDARD 17)
@@ -38,7 +38,6 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(nlohmann_json)
 
-# Now you can link it to your targets
 target_link_libraries(my_lib PUBLIC nlohmann_json::nlohmann_json)
 
 # ------------------------
@@ -51,6 +50,8 @@ add_executable(particles cpp/src/main_particles.cpp)
 target_link_libraries(particles PRIVATE my_lib)
 add_executable(softbody_plot cpp/src/main_constraint_plots.cpp)
 target_link_libraries(softbody_plot PRIVATE my_lib)
+add_executable(softbody_animation cpp/src/main_constraint_animation.cpp)
+target_link_libraries(softbody_animation PRIVATE my_lib)
 
 # ------------------------
 # Testing

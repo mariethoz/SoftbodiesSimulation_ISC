@@ -3,34 +3,11 @@
 [ext_resource type="Script" uid="uid://6qou3ho0gmav" path="res://label.gd" id="2_8uh7m"]
 [ext_resource type="Texture2D" uid="uid://ddnmrjfx4pt60" path="res://icon.svg" id="2_ppyta"]
 [ext_resource type="Script" uid="uid://p54ovnvmq676" path="res://label_2.gd" id="3_6uqi0"]
-[ext_resource type="Script" uid="uid://y3j4nw6bmuw0" path="res://camera_2d.gd" id="4_ppyta"]
+[ext_resource type="Script" uid="uid://bqsd3he8ha5mb" path="res://camera_2d.gd" id="4_ppyta"]
 
 [node name="Node2D" type="Node2D"]
 
-[node name="GDSimulation_2" type="GDSimulation_2" parent="."]
-gravity = Vector2(0, 10)
-
-[node name="GDSoftBody_2" type="GDSoftBody_2" parent="GDSimulation_2"]
-unit = 20
-particles_radius = 20.0
-modulate = Color(1, 1, 1, 0.301961)
-position = Vector2(-216, -8)
-color = Color(1, 0, 0, 1)
-polygon = PackedVector2Array(0, 88, 0, 0, 128, 0, 128, 88)
-
-[node name="GDSoftBody_3" type="GDSoftBody_2" parent="GDSimulation_2"]
-unit = 20
-particles_radius = 20.0
-modulate = Color(1, 1, 1, 0.2)
-position = Vector2(-216, -184)
-polygon = PackedVector2Array(64, -112, 104, -184, 128, -240, 48, -360, -32, -256)
-
-[node name="GDCollider" type="GDCollider" parent="GDSimulation_2"]
-center/normal = Vector2(0, -1)
-radius/distance = -100.0
-
 [node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(2, 2)
 script = ExtResource("4_ppyta")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
@@ -86,6 +63,38 @@ size_flags_vertical = 8
 theme_override_font_sizes/font_size = 50
 text = "Nb"
 script = ExtResource("3_6uqi0")
+
+[node name="GDSimulation_2" type="GDSimulation_2" parent="."]
+gravity = Vector2(0, 20)
+
+[node name="GDSoftBody_2_0" type="GDSoftBody_2" parent="GDSimulation_2"]
+unit = 10
+particles_radius = 5.0
+modulate = Color(1, 1, 1, 0.301961)
+position = Vector2(-216, -8)
+color = Color(1, 0, 0, 1)
+polygon = PackedVector2Array(0, 88, 0, 0, 128, 0, 128, 88)
+
+[node name="GDSoftBody_2_1" type="GDSoftBody_2" parent="GDSimulation_2"]
+unit = 10
+stiffness = 0.2
+damping = 0.5
+particles_radius = 5.0
+modulate = Color(1, 1, 1, 0.2)
+position = Vector2(-200, -88)
+polygon = PackedVector2Array(64, -112, 104, -264, 272, -352, 80, -448, -96, -192)
+
+[node name="GDSoftBody_2_2" type="GDSoftBody_2" parent="GDSimulation_2"]
+unit = 10
+particles_radius = 5.0
+modulate = Color(1, 1, 1, 0.301961)
+position = Vector2(-208, -136)
+color = Color(1, 0, 0, 1)
+polygon = PackedVector2Array(0, 88, 0, 0, 128, 0, 128, 88)
+
+[node name="GDCollider" type="GDCollider" parent="GDSimulation_2"]
+center = Vector2(0, -1)
+distance = 100.0
 
 [connection signal="pressed" from="CanvasLayer/MarginContainer/Button" to="CanvasLayer/MarginContainer/Label2" method="_on_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/MarginContainer/Button" to="GDSimulation_2" method="reset_simulation"]

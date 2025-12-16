@@ -69,15 +69,15 @@ int main() {
     sim.addCollider(new PlaneCollider(Vector2(0,1), -100.0f, 0,1.0));
 
     // Add multiple squares with different stiffness/damping
-    sim.addBody(createSquareBody(Vector2(0, 0), 0.9, 0.1)); // very rigid, springs back quickly (snappy, little energy loss)
-    sim.addBody(createSquareBody(Vector2(0, 0), 0.5, 0.5)); // balanced: moderate rigidity and moderate damping (steady, natural motion)
-    sim.addBody(createSquareBody(Vector2(0, 0), 0.2, 0.8)); // floppy but heavily damped (soft, sluggish, resists oscillation)
-    sim.addBody(createSquareBody(Vector2(0, 0), 0.9, 0.8)); // rigid but heavily damped (stiff, settles quickly without bouncing)
-    sim.addBody(createSquareBody(Vector2(0, 0), 0.5, 0.1)); // medium rigidity, low damping (springy, tends to oscillate)
-    sim.addBody(createSquareBody(Vector2(0, 0), 0.2, 0.5)); // soft with medium damping (loose, but doesn’t wobble too much)
-    sim.addBody(createSquareBody(Vector2(0, 0), 0.9, 0.5)); // rigid with medium damping (firm, settles after a few oscillations)
-    sim.addBody(createSquareBody(Vector2(0, 0), 0.5, 0.8)); // medium rigidity, high damping (steady, resists bouncing)
-    sim.addBody(createSquareBody(Vector2(0, 0), 0.2, 0.1)); // very soft, low damping (floppy, jiggles a lot before settling)
+    sim.addBody(createSquareBody(Vector2(0, 0), 0.9, 0.1));  // very rigid, springs back quickly (snappy, little energy loss)
+    sim.addBody(createSquareBody(Vector2(10, 0), 0.5, 0.5)); // balanced: moderate rigidity and moderate damping (steady, natural motion)
+    sim.addBody(createSquareBody(Vector2(20, 0), 0.2, 0.8)); // floppy but heavily damped (soft, sluggish, resists oscillation)
+    sim.addBody(createSquareBody(Vector2(30, 0), 0.9, 0.8)); // rigid but heavily damped (stiff, settles quickly without bouncing)
+    sim.addBody(createSquareBody(Vector2(40, 0), 0.5, 0.1)); // medium rigidity, low damping (springy, tends to oscillate)
+    sim.addBody(createSquareBody(Vector2(50, 0), 0.2, 0.5)); // soft with medium damping (loose, but doesn’t wobble too much)
+    sim.addBody(createSquareBody(Vector2(60, 0), 0.9, 0.5)); // rigid with medium damping (firm, settles after a few oscillations)
+    sim.addBody(createSquareBody(Vector2(70, 0), 0.5, 0.8)); // medium rigidity, high damping (steady, resists bouncing)
+    sim.addBody(createSquareBody(Vector2(80, 0), 0.2, 0.1)); // very soft, low damping (floppy, jiggles a lot before settling)
 
 
 

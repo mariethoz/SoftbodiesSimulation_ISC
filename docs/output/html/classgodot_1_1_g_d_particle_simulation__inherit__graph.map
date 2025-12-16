@@ -1,0 +1,7 @@
+<map id="godot::GDParticleSimulation" name="godot::GDParticleSimulation">
+<area shape="rect" id="Node000001" title="GDParticleSimulation is a GDSimulation that simulates particles." alt="" coords="5,389,181,587"/>
+<area shape="rect" id="Node000002" href="$classgodot_1_1_g_d_simulation.html" title="GDSimulation is the Godot wrapper for the Simulation class." alt="" coords="27,123,159,341"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="94,354,96,390,91,389,93,359"/>
+<area shape="rect" id="Node000003" href="$class_node2_d.html" title=" " alt="" coords="64,5,122,75"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="93,87,96,123,91,123,93,92"/>
+</map>
