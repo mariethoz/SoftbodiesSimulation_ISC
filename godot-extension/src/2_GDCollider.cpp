@@ -3,7 +3,7 @@
 using namespace godot;
 
 void GDCollider::_bind_methods() {
-    ClassDB::bind_method(D_METHOD("set_point", "point"), &GDCollider::set_point);
+    ClassDB::bind_method(D_METHOD("set_point", "center"), &GDCollider::set_point);
     ClassDB::bind_method(D_METHOD("get_point"), &GDCollider::get_point);
     ClassDB::bind_method(D_METHOD("set_distance", "distance"), &GDCollider::set_distance);
     ClassDB::bind_method(D_METHOD("get_distance"), &GDCollider::get_distance);
@@ -15,8 +15,8 @@ void GDCollider::_bind_methods() {
     ClassDB::bind_method(D_METHOD("set_restitution", "restitution"), &GDCollider::set_restitution);
     ClassDB::bind_method(D_METHOD("get_restitution"), &GDCollider::get_restitution);
 
-    ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "center/normal"), "set_point", "get_point");
-    ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "radius/distance"), "set_distance", "get_distance");
+    ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "center"), "set_point", "get_point");
+    ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "distance"), "set_distance", "get_distance");
     ADD_PROPERTY(
         PropertyInfo(Variant::INT, "collider_type",
         PROPERTY_HINT_ENUM, "PLANE,INNERCIRCLE,OUTERCIRCLE"),
@@ -57,7 +57,7 @@ void GDCollider::reset() {
     }
 }
 
-void godot::GDCollider::_draw() {
+void GDCollider::_draw() {
     switch (collider_type)
     {
     case INNERCIRCLE:
@@ -67,12 +67,13 @@ void godot::GDCollider::_draw() {
         draw_circle(point, distance, Color(0,0,1), true);
         break;
     case PLANE:
-    default:
-        Vector2 n = point;
-        Vector2 origin = Vector2(0, -distance);
+        Vector2 n = point.normalized();
+        Vector2 origin = n * distance;
+        Vector2 perp = Vector2(-n.y, n.x);
 
-        draw_line(origin - n.rotated(Math_PI/2) * 500,
-                origin + n.rotated(Math_PI/2) * 500,
+        draw_line(origin, origin + perp * 1000,
+                Color(0,0,1), 2);
+        draw_line(origin, origin - perp * 1000,
                 Color(0,0,1), 2);
         break;
     }

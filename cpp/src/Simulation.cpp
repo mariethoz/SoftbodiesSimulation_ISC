@@ -106,6 +106,9 @@ void Simulation::collisionsWorld() {
     }
 }
 
+/**
+ * Axis-Aligned Bounding Box (AABB) structure
+ */
 struct AABB {
     Vector2 min;
     Vector2 max;
@@ -113,6 +116,12 @@ struct AABB {
 
 double INF = 1e300;
 
+/**
+ * @brief Computes the Axis-Aligned Bounding Box (AABB) for a set of particles.
+ * 
+ * @param particles The particles to compute the AABB for.
+ * @return AABB The computed AABB.
+ */
 AABB computeAABB(std::vector<Particle*> particles) {
     AABB aabb;
     aabb.min = { INF,  INF};
@@ -127,6 +136,13 @@ AABB computeAABB(std::vector<Particle*> particles) {
     return aabb;
 }
 
+/**
+ * @brief Checks if two AABBs overlap.
+ * 
+ * @param a The first AABB.
+ * @param b The second AABB.
+ * @return true If the AABBs overlap.
+ */
 bool aabbOverlap(const AABB& a, const AABB& b) {
     return !(a.max.x < b.min.x || a.min.x > b.max.x ||
              a.max.y < b.min.y || a.min.y > b.max.y);

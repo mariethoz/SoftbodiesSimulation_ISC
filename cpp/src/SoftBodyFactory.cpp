@@ -13,6 +13,9 @@ static double PI = 3.14;
 // Hashing for deduplication
 // ---------------------------------------------------------------------------
 
+/**
+ * @brief Node structure for linked list to store unique Vector2 points with tolerance
+ */
 struct VecNode {
     Vector2 point;
     int id;
@@ -20,6 +23,9 @@ struct VecNode {
     VecNode(Vector2 p, int i): point(p), id(i) {}
 };
 
+/**
+ * @brief Linked list to manage unique Vector2 points with tolerance
+ */
 class VecList {
     double eps;
     VecNode* root = nullptr;
@@ -69,7 +75,15 @@ public:
     }
 };
 
-
+/**
+ * @brief Get unique ID for a Vector2 point, adding it to the list if not present
+ * 
+ * @param p The Vector2 point
+ * @param idmap The VecList managing unique points
+ * @param pts The vector of unique points
+ * @return The unique ID of the point int pts
+ * 
+ */
 static int getID(
     const Vector2& p,
     VecList& idmap,
@@ -81,6 +95,13 @@ static int getID(
     return it;
 }
 
+/**
+ * @brief Check if a Vector2 point exists in the VecList
+ * 
+ * @param p The Vector2 point
+ * @param idmap The VecList managing unique points
+ * @return True if the point exists, false otherwise
+ */
 static bool existId(
     const Vector2& p,
     VecList& idmap)
@@ -88,12 +109,17 @@ static bool existId(
     return idmap.exist(p);
 }
 
-
+/**
+ * @brief Structure to represent an edge between two point IDs
+ */
 struct Edge {
     int a, b;
     bool operator==(const Edge& o) const { return a == o.a && b == o.b; }
 };
 
+/**
+ * @brief Hash function for Edge structure
+ */
 struct EdgeHash {
     size_t operator()(const Edge& e) const noexcept {
         size_t h1 = std::hash<int>()(e.a);
@@ -105,6 +131,13 @@ struct EdgeHash {
 // ---------------------------------------------------------------------------
 // Convex polygon point-in-test (fast): check if always same sign
 // ---------------------------------------------------------------------------
+/**
+ * @brief Check if point p is inside the convex polygon defined by poly vertices
+ * 
+ * @param p The point to test
+ * @param poly The vertices of the convex polygon
+ * @return True if point is inside the polygon, false otherwise
+ */
 static bool pointInConvexPolygon(const Vector2& p, const std::vector<Vector2>& poly) {
     int n = (int)poly.size();
     if (n < 3) return false;
@@ -128,6 +161,12 @@ static bool pointInConvexPolygon(const Vector2& p, const std::vector<Vector2>& p
 // ---------------------------------------------------------------------------
 // Check if polygon vertices are ordered clockwise
 // ---------------------------------------------------------------------------
+/**
+ * @brief Check if the polygon defined by poly vertices is ordered clockwise
+ * 
+ * @param poly The vertices of the polygon
+ * @return True if polygon is clockwise, false otherwise
+ */
 inline bool isClockwise(const std::vector<Vector2>& poly) {
     double sum = 0.0;
     int n = (int)poly.size();
@@ -149,6 +188,18 @@ inline bool isClockwise(const std::vector<Vector2>& poly) {
 // ---------------------------------------------------------------------------
 // Create mesh of predefined point
 // ---------------------------------------------------------------------------
+/**
+ * @brief Create a mesh of points inside the polygon by generating inward rings
+ * 
+ * @param idmap The VecList managing unique points
+ * @param pts The vector of unique points
+ * @param edgeSet The set of edges to populate
+ * @param polygon The vertices of the polygon
+ * @param segments The subdivided segments along the polygon edges
+ * @param spacing The spacing between inward rings
+ * @param grid_spacing The grid spacing for point deduplication
+ * @param border_spacing The border spacing for point deduplication
+ */
 static void meshPolygone(
     VecList& idmap,
     std::vector<Vector2>& pts,

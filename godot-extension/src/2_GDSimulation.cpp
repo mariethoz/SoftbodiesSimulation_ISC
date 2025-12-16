@@ -30,24 +30,12 @@ void GDSimulation_2::draw_simulation() {
             }
         }
     }
-    for (auto* col: simulation.getColliders()) {
-        if (auto* plane = dynamic_cast<sim::PlaneCollider*>(col)) {
-            Vector2 n = convert::to_godot(plane->getNormal());
-            Vector2 origin = Vector2(0, -plane->getDistance());
-
-            draw_line(origin - n.rotated(Math_PI/2) * 500,
-                    origin + n.rotated(Math_PI/2) * 500,
-                    Color(0,0,1), 2);
-        }
-        if (auto* c = dynamic_cast<sim::CircleCollider*>(col)) {
-            Vector2 center = convert::to_godot(c->getCenter());
-            float radius = c->getRadius();
-
-            draw_arc(center, radius, 0, Math_TAU, 64, Color(0,0,1), 2);
-        }
+    for (auto* col: colliders) {
+        col->_draw();
     }
 }
 
+/// @brief Binds the methods and properties of the GDSimulation_2 class to Godot.
 void godot::GDSimulation_2::_bind_methods() {
     ClassDB::bind_method(D_METHOD("reset_simulation"), &GDSimulation_2::reset_simulation);
 
@@ -61,13 +49,11 @@ void godot::GDSimulation_2::_bind_methods() {
 }
 
 void godot::GDSimulation_2::build() {
-    std::cout << "Build simulation; ";
     simulation.clear();
     simulation.setGravity(convert::from_godot(gravity));
 
     bodies.clear();
     TypedArray<Node> childs = get_children();
-    std::cout << " Explore children;\n";
     for (int i = 0; i < childs.size(); i++) {
         Node *child = Object::cast_to<Node>(childs[i]);
         if (!child) continue;
@@ -87,8 +73,8 @@ void godot::GDSimulation_2::build() {
             wc->build();
             if (wc->get_sim_collider()){
                 simulation.addCollider(wc->take_sim_collider());
+                colliders.push_back(wc);
             }
         }
     }
-    std::cout << "\n-- End --\n";
 }

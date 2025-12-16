@@ -77,10 +77,10 @@ TEST(ParticleTest, VerletIntegrationUsesPreviousPosition) {
     // Simulate initial velocity by modifying prev_position
     p.setPrevPosition(Vector2(0, 0));
 
-    // No force applied → constant velocity
+    // No force applied -> constant velocity
     p.update(1.0);
 
-    // position += (1 - 0) = 1 → new position = 2
+    // position += (1 - 0) = 1 -> new position = 2
     EXPECT_EQ(p.getPosition(), Vector2(2, 0));
     EXPECT_EQ(p.getPrevPosition(), Vector2(1, 0));
 }
@@ -92,7 +92,7 @@ TEST(ParticleTest, ForceIsClearedAfterUpdate) {
     p.update(1.0);
     Vector2 posAfterFirst = p.getPosition();
 
-    // No more force → continues with same velocity
+    // No more force -> continues with same velocity
     p.update(1.0);
 
     EXPECT_EQ(p.getPosition(), posAfterFirst + (posAfterFirst - Vector2(0, 0)));

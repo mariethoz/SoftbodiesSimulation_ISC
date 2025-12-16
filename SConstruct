@@ -4,13 +4,12 @@ import sys
 
 env = SConscript("godot-cpp/SConstruct")
 
-if ARGUMENTS.get("publish"):
-    godot_cpp_lib = env.StaticLibrary(
-        target="lib/godot-cpp",
-        source=Glob("godot-cpp/src/*.cpp")
-    )
+godot_cpp_lib = env.StaticLibrary(
+    target="lib/godot-cpp",
+    source=Glob("godot-cpp/src/*.cpp")
+)
 
-    Default(godot_cpp_lib)
+Default(godot_cpp_lib)
 
 if env['platform'] == 'windows':
     env.Append(LINKFLAGS=['/EXPORT:sim_library_init'])
@@ -31,7 +30,7 @@ cpp_sources = [
 
 # Combine
 sources += cpp_sources
-output_root = "lib" if ARGUMENTS.get("publish") else "godot_demo/bin"
+output_root = "lib" if not ARGUMENTS.get("demo_only") else "godot_demo/bin"
 
 if env["platform"] == "macos":
     library = env.SharedLibrary(
