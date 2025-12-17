@@ -51,7 +51,7 @@ classDiagram
     SoftBody --> Particle
     SoftBody --> Constraint
 
-    Constraint --*> Particle
+    Constraint --> Particle
 
     WorldCollider <|-- PlaneCollider
     WorldCollider <|-- InnerCircleCollider
