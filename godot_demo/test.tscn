@@ -8,6 +8,7 @@
 [node name="Node2D" type="Node2D"]
 
 [node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(656, -320)
 script = ExtResource("4_ppyta")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
@@ -41,6 +42,7 @@ theme_override_font_sizes/font_size = 50
 text = "Reset"
 
 [node name="Button2" type="Button" parent="CanvasLayer/MarginContainer"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
@@ -57,6 +59,7 @@ text = "FPS:"
 script = ExtResource("2_8uh7m")
 
 [node name="Label2" type="Label" parent="CanvasLayer/MarginContainer"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 8
@@ -65,36 +68,265 @@ text = "Nb"
 script = ExtResource("3_6uqi0")
 
 [node name="GDSimulation_2" type="GDSimulation_2" parent="."]
-gravity = Vector2(0, 20)
+position = Vector2(-2, -9)
 
 [node name="GDSoftBody_2_0" type="GDSoftBody_2" parent="GDSimulation_2"]
 unit = 10
 particles_radius = 5.0
 modulate = Color(1, 1, 1, 0.301961)
-position = Vector2(-216, -8)
+position = Vector2(448, -1056)
 color = Color(1, 0, 0, 1)
 polygon = PackedVector2Array(0, 88, 0, 0, 128, 0, 128, 88)
 
 [node name="GDSoftBody_2_1" type="GDSoftBody_2" parent="GDSimulation_2"]
 unit = 10
-stiffness = 0.2
-damping = 0.5
-particles_radius = 5.0
-modulate = Color(1, 1, 1, 0.2)
-position = Vector2(-200, -88)
-polygon = PackedVector2Array(64, -112, 104, -264, 272, -352, 80, -448, -96, -192)
-
-[node name="GDSoftBody_2_2" type="GDSoftBody_2" parent="GDSimulation_2"]
-unit = 10
 particles_radius = 5.0
 modulate = Color(1, 1, 1, 0.301961)
-position = Vector2(-208, -136)
+position = Vector2(616, -1336)
 color = Color(1, 0, 0, 1)
 polygon = PackedVector2Array(0, 88, 0, 0, 128, 0, 128, 88)
 
 [node name="GDCollider" type="GDCollider" parent="GDSimulation_2"]
 center = Vector2(0, -1)
-distance = 100.0
+distance = -100.0
+
+[node name="GDSoftBody_2" type="GDSoftBody_2" parent="GDSimulation_2"]
+unit = 30
+stiffness = 1.0
+damping = 0.3
+particles_radius = 5.0
+position = Vector2(637, -608)
+color = Color(1, 1, 0, 0.509804)
+polygon = PackedVector2Array(-316.5, 121, -256, 336, 192, 336, 304, 232, 312, 176, 280, 128, 240, 128, 208, 120, 168, 104, 144, 64, 120, 24, 136, 0, 152, -8, 216, -16, 200, -40, 168, -40, 136, -64, 120, -88, 96, -104, 64, -112, 32, -104, 0, -88, -16, -64, -16, -32, 0, 0, 32, 16, 48, 88, 8, 120, -64, 112, -160, 112, -216, 128, -328, 48)
+
+[node name="GDSoftBody_2_2" type="GDSoftBody_2" parent="GDSimulation_2"]
+unit = 10
+particles_radius = 5.0
+modulate = Color(1, 1, 1, 0.301961)
+position = Vector2(296, -192)
+color = Color(1, 0, 0, 1)
+polygon = PackedVector2Array(0, 88, 0, 0, 128, 0, 128, 88)
+
+[node name="GDSoftBody_2_3" type="GDSoftBody_2" parent="GDSimulation_2"]
+unit = 10
+particles_radius = 5.0
+modulate = Color(1, 1, 1, 0.301961)
+position = Vector2(432, -192)
+color = Color(1, 0, 0, 1)
+polygon = PackedVector2Array(0, 88, 0, 0, 128, 0, 128, 88)
+
+[node name="GDSoftBody_2_4" type="GDSoftBody_2" parent="GDSimulation_2"]
+unit = 10
+particles_radius = 5.0
+modulate = Color(1, 1, 1, 0.301961)
+position = Vector2(704, -200)
+color = Color(1, 0, 0, 1)
+polygon = PackedVector2Array(0, 88, 0, 0, 128, 0, 128, 88)
+
+[node name="GDSoftBody_2_5" type="GDSoftBody_2" parent="GDSimulation_2"]
+unit = 10
+particles_radius = 5.0
+modulate = Color(1, 1, 1, 0.301961)
+position = Vector2(840, -200)
+color = Color(1, 0, 0, 1)
+polygon = PackedVector2Array(0, 88, 0, 0, 128, 0, 128, 88)
+
+[node name="GDSoftBody_2_6" type="GDSoftBody_2" parent="GDSimulation_2"]
+unit = 10
+particles_radius = 5.0
+modulate = Color(1, 1, 1, 0.301961)
+position = Vector2(568, -192)
+color = Color(1, 0, 0, 1)
+polygon = PackedVector2Array(0, 88, 0, 0, 128, 0, 128, 88)
+
+[node name="GDSoftBody_3" type="GDSoftBody_2" parent="GDSimulation_2"]
+unit = 30
+stiffness = 1.0
+damping = 0.3
+particles_radius = 5.0
+position = Vector2(-7840, -5832)
+color = Color(1, 1, 0, 0.509804)
+polygon = PackedVector2Array(-316.5, 121, -256, 336, 192, 336, 304, 232, 312, 176, 280, 128, 240, 128, 208, 120, 168, 104, 144, 64, 120, 24, 136, 0, 152, -8, 216, -16, 200, -40, 168, -40, 136, -64, 120, -88, 96, -104, 64, -112, 32, -104, 0, -88, -16, -64, -16, -32, 0, 0, 32, 16, 48, 88, 8, 120, -64, 112, -160, 112, -216, 128, -328, 48)
+
+[node name="GDSoftBody_11" type="GDSoftBody_2" parent="GDSimulation_2"]
+unit = 30
+stiffness = 1.0
+damping = 0.3
+particles_radius = 5.0
+position = Vector2(-7056, -5248)
+color = Color(1, 1, 0, 0.509804)
+polygon = PackedVector2Array(-316.5, 121, -256, 336, 192, 336, 304, 232, 312, 176, 280, 128, 240, 128, 208, 120, 168, 104, 144, 64, 120, 24, 136, 0, 152, -8, 216, -16, 200, -40, 168, -40, 136, -64, 120, -88, 96, -104, 64, -112, 32, -104, 0, -88, -16, -64, -16, -32, 0, 0, 32, 16, 48, 88, 8, 120, -64, 112, -160, 112, -216, 128, -328, 48)
+
+[node name="GDSoftBody_10" type="GDSoftBody_2" parent="GDSimulation_2"]
+unit = 30
+stiffness = 1.0
+damping = 0.3
+particles_radius = 5.0
+position = Vector2(-6272, -4664)
+color = Color(1, 1, 0, 0.509804)
+polygon = PackedVector2Array(-316.5, 121, -256, 336, 192, 336, 304, 232, 312, 176, 280, 128, 240, 128, 208, 120, 168, 104, 144, 64, 120, 24, 136, 0, 152, -8, 216, -16, 200, -40, 168, -40, 136, -64, 120, -88, 96, -104, 64, -112, 32, -104, 0, -88, -16, -64, -16, -32, 0, 0, 32, 16, 48, 88, 8, 120, -64, 112, -160, 112, -216, 128, -328, 48)
+
+[node name="GDSoftBody_9" type="GDSoftBody_2" parent="GDSimulation_2"]
+unit = 30
+stiffness = 1.0
+damping = 0.3
+particles_radius = 5.0
+position = Vector2(-5488, -4080)
+color = Color(1, 1, 0, 0.509804)
+polygon = PackedVector2Array(-316.5, 121, -256, 336, 192, 336, 304, 232, 312, 176, 280, 128, 240, 128, 208, 120, 168, 104, 144, 64, 120, 24, 136, 0, 152, -8, 216, -16, 200, -40, 168, -40, 136, -64, 120, -88, 96, -104, 64, -112, 32, -104, 0, -88, -16, -64, -16, -32, 0, 0, 32, 16, 48, 88, 8, 120, -64, 112, -160, 112, -216, 128, -328, 48)
+
+[node name="GDSoftBody_8" type="GDSoftBody_2" parent="GDSimulation_2"]
+unit = 30
+stiffness = 1.0
+damping = 0.3
+particles_radius = 5.0
+position = Vector2(-4704, -3496)
+color = Color(1, 1, 0, 0.509804)
+polygon = PackedVector2Array(-316.5, 121, -256, 336, 192, 336, 304, 232, 312, 176, 280, 128, 240, 128, 208, 120, 168, 104, 144, 64, 120, 24, 136, 0, 152, -8, 216, -16, 200, -40, 168, -40, 136, -64, 120, -88, 96, -104, 64, -112, 32, -104, 0, -88, -16, -64, -16, -32, 0, 0, 32, 16, 48, 88, 8, 120, -64, 112, -160, 112, -216, 128, -328, 48)
+
+[node name="GDSoftBody_7" type="GDSoftBody_2" parent="GDSimulation_2"]
+unit = 30
+stiffness = 1.0
+damping = 0.3
+particles_radius = 5.0
+position = Vector2(-3920, -2912)
+color = Color(1, 1, 0, 0.509804)
+polygon = PackedVector2Array(-316.5, 121, -256, 336, 192, 336, 304, 232, 312, 176, 280, 128, 240, 128, 208, 120, 168, 104, 144, 64, 120, 24, 136, 0, 152, -8, 216, -16, 200, -40, 168, -40, 136, -64, 120, -88, 96, -104, 64, -112, 32, -104, 0, -88, -16, -64, -16, -32, 0, 0, 32, 16, 48, 88, 8, 120, -64, 112, -160, 112, -216, 128, -328, 48)
+
+[node name="GDSoftBody_6" type="GDSoftBody_2" parent="GDSimulation_2"]
+unit = 30
+stiffness = 1.0
+damping = 0.3
+particles_radius = 5.0
+position = Vector2(-3136, -2328)
+color = Color(1, 1, 0, 0.509804)
+polygon = PackedVector2Array(-316.5, 121, -256, 336, 192, 336, 304, 232, 312, 176, 280, 128, 240, 128, 208, 120, 168, 104, 144, 64, 120, 24, 136, 0, 152, -8, 216, -16, 200, -40, 168, -40, 136, -64, 120, -88, 96, -104, 64, -112, 32, -104, 0, -88, -16, -64, -16, -32, 0, 0, 32, 16, 48, 88, 8, 120, -64, 112, -160, 112, -216, 128, -328, 48)
+
+[node name="GDSoftBody_5" type="GDSoftBody_2" parent="GDSimulation_2"]
+unit = 30
+stiffness = 1.0
+damping = 0.3
+particles_radius = 5.0
+position = Vector2(-2352, -1744)
+color = Color(1, 1, 0, 0.509804)
+polygon = PackedVector2Array(-316.5, 121, -256, 336, 192, 336, 304, 232, 312, 176, 280, 128, 240, 128, 208, 120, 168, 104, 144, 64, 120, 24, 136, 0, 152, -8, 216, -16, 200, -40, 168, -40, 136, -64, 120, -88, 96, -104, 64, -112, 32, -104, 0, -88, -16, -64, -16, -32, 0, 0, 32, 16, 48, 88, 8, 120, -64, 112, -160, 112, -216, 128, -328, 48)
+
+[node name="GDSoftBody_12" type="GDSoftBody_2" parent="GDSimulation_2"]
+unit = 30
+stiffness = 1.0
+damping = 0.3
+particles_radius = 5.0
+position = Vector2(-784, -576)
+color = Color(1, 1, 0, 0.509804)
+polygon = PackedVector2Array(-316.5, 121, -256, 336, 192, 336, 304, 232, 312, 176, 280, 128, 240, 128, 208, 120, 168, 104, 144, 64, 120, 24, 136, 0, 152, -8, 216, -16, 200, -40, 168, -40, 136, -64, 120, -88, 96, -104, 64, -112, 32, -104, 0, -88, -16, -64, -16, -32, 0, 0, 32, 16, 48, 88, 8, 120, -64, 112, -160, 112, -216, 128, -328, 48)
+
+[node name="GDSoftBody_4" type="GDSoftBody_2" parent="GDSimulation_2"]
+unit = 30
+stiffness = 1.0
+damping = 0.3
+particles_radius = 5.0
+position = Vector2(-1568, -1160)
+color = Color(1, 1, 0, 0.509804)
+polygon = PackedVector2Array(-316.5, 121, -256, 336, 192, 336, 304, 232, 312, 176, 280, 128, 240, 128, 208, 120, 168, 104, 144, 64, 120, 24, 136, 0, 152, -8, 216, -16, 200, -40, 168, -40, 136, -64, 120, -88, 96, -104, 64, -112, 32, -104, 0, -88, -16, -64, -16, -32, 0, 0, 32, 16, 48, 88, 8, 120, -64, 112, -160, 112, -216, 128, -328, 48)
+
+[node name="GDSoftBody_22" type="GDSoftBody_2" parent="GDSimulation_2"]
+unit = 30
+stiffness = 1.0
+damping = 0.3
+particles_radius = 5.0
+position = Vector2(7879, -6151)
+color = Color(1, 1, 0, 0.509804)
+polygon = PackedVector2Array(-316.5, 121, -256, 336, 192, 336, 304, 232, 312, 176, 280, 128, 240, 128, 208, 120, 168, 104, 144, 64, 120, 24, 136, 0, 152, -8, 216, -16, 200, -40, 168, -40, 136, -64, 120, -88, 96, -104, 64, -112, 32, -104, 0, -88, -16, -64, -16, -32, 0, 0, 32, 16, 48, 88, 8, 120, -64, 112, -160, 112, -216, 128, -328, 48)
+
+[node name="GDSoftBody_21" type="GDSoftBody_2" parent="GDSimulation_2"]
+unit = 30
+stiffness = 1.0
+damping = 0.3
+particles_radius = 5.0
+position = Vector2(7242, -5543)
+color = Color(1, 1, 0, 0.509804)
+polygon = PackedVector2Array(-316.5, 121, -256, 336, 192, 336, 304, 232, 312, 176, 280, 128, 240, 128, 208, 120, 168, 104, 144, 64, 120, 24, 136, 0, 152, -8, 216, -16, 200, -40, 168, -40, 136, -64, 120, -88, 96, -104, 64, -112, 32, -104, 0, -88, -16, -64, -16, -32, 0, 0, 32, 16, 48, 88, 8, 120, -64, 112, -160, 112, -216, 128, -328, 48)
+
+[node name="GDSoftBody_20" type="GDSoftBody_2" parent="GDSimulation_2"]
+unit = 30
+stiffness = 1.0
+damping = 0.3
+particles_radius = 5.0
+position = Vector2(6605, -4935)
+color = Color(1, 1, 0, 0.509804)
+polygon = PackedVector2Array(-316.5, 121, -256, 336, 192, 336, 304, 232, 312, 176, 280, 128, 240, 128, 208, 120, 168, 104, 144, 64, 120, 24, 136, 0, 152, -8, 216, -16, 200, -40, 168, -40, 136, -64, 120, -88, 96, -104, 64, -112, 32, -104, 0, -88, -16, -64, -16, -32, 0, 0, 32, 16, 48, 88, 8, 120, -64, 112, -160, 112, -216, 128, -328, 48)
+
+[node name="GDSoftBody_19" type="GDSoftBody_2" parent="GDSimulation_2"]
+unit = 30
+stiffness = 1.0
+damping = 0.3
+particles_radius = 5.0
+position = Vector2(5968, -4327)
+color = Color(1, 1, 0, 0.509804)
+polygon = PackedVector2Array(-316.5, 121, -256, 336, 192, 336, 304, 232, 312, 176, 280, 128, 240, 128, 208, 120, 168, 104, 144, 64, 120, 24, 136, 0, 152, -8, 216, -16, 200, -40, 168, -40, 136, -64, 120, -88, 96, -104, 64, -112, 32, -104, 0, -88, -16, -64, -16, -32, 0, 0, 32, 16, 48, 88, 8, 120, -64, 112, -160, 112, -216, 128, -328, 48)
+
+[node name="GDSoftBody_18" type="GDSoftBody_2" parent="GDSimulation_2"]
+unit = 30
+stiffness = 1.0
+damping = 0.3
+particles_radius = 5.0
+position = Vector2(5331, -3719)
+color = Color(1, 1, 0, 0.509804)
+polygon = PackedVector2Array(-316.5, 121, -256, 336, 192, 336, 304, 232, 312, 176, 280, 128, 240, 128, 208, 120, 168, 104, 144, 64, 120, 24, 136, 0, 152, -8, 216, -16, 200, -40, 168, -40, 136, -64, 120, -88, 96, -104, 64, -112, 32, -104, 0, -88, -16, -64, -16, -32, 0, 0, 32, 16, 48, 88, 8, 120, -64, 112, -160, 112, -216, 128, -328, 48)
+
+[node name="GDSoftBody_17" type="GDSoftBody_2" parent="GDSimulation_2"]
+unit = 30
+stiffness = 1.0
+damping = 0.3
+particles_radius = 5.0
+position = Vector2(4694, -3111)
+color = Color(1, 1, 0, 0.509804)
+polygon = PackedVector2Array(-316.5, 121, -256, 336, 192, 336, 304, 232, 312, 176, 280, 128, 240, 128, 208, 120, 168, 104, 144, 64, 120, 24, 136, 0, 152, -8, 216, -16, 200, -40, 168, -40, 136, -64, 120, -88, 96, -104, 64, -112, 32, -104, 0, -88, -16, -64, -16, -32, 0, 0, 32, 16, 48, 88, 8, 120, -64, 112, -160, 112, -216, 128, -328, 48)
+
+[node name="GDSoftBody_16" type="GDSoftBody_2" parent="GDSimulation_2"]
+unit = 30
+stiffness = 1.0
+damping = 0.3
+particles_radius = 5.0
+position = Vector2(4057, -2503)
+color = Color(1, 1, 0, 0.509804)
+polygon = PackedVector2Array(-316.5, 121, -256, 336, 192, 336, 304, 232, 312, 176, 280, 128, 240, 128, 208, 120, 168, 104, 144, 64, 120, 24, 136, 0, 152, -8, 216, -16, 200, -40, 168, -40, 136, -64, 120, -88, 96, -104, 64, -112, 32, -104, 0, -88, -16, -64, -16, -32, 0, 0, 32, 16, 48, 88, 8, 120, -64, 112, -160, 112, -216, 128, -328, 48)
+
+[node name="GDSoftBody_15" type="GDSoftBody_2" parent="GDSimulation_2"]
+unit = 30
+stiffness = 1.0
+damping = 0.3
+particles_radius = 5.0
+position = Vector2(3420, -1895)
+color = Color(1, 1, 0, 0.509804)
+polygon = PackedVector2Array(-316.5, 121, -256, 336, 192, 336, 304, 232, 312, 176, 280, 128, 240, 128, 208, 120, 168, 104, 144, 64, 120, 24, 136, 0, 152, -8, 216, -16, 200, -40, 168, -40, 136, -64, 120, -88, 96, -104, 64, -112, 32, -104, 0, -88, -16, -64, -16, -32, 0, 0, 32, 16, 48, 88, 8, 120, -64, 112, -160, 112, -216, 128, -328, 48)
+
+[node name="GDSoftBody_23" type="GDSoftBody_2" parent="GDSimulation_2"]
+unit = 30
+stiffness = 1.0
+damping = 0.3
+particles_radius = 5.0
+position = Vector2(8516, -6759)
+color = Color(1, 1, 0, 0.509804)
+polygon = PackedVector2Array(-316.5, 121, -256, 336, 192, 336, 304, 232, 312, 176, 280, 128, 240, 128, 208, 120, 168, 104, 144, 64, 120, 24, 136, 0, 152, -8, 216, -16, 200, -40, 168, -40, 136, -64, 120, -88, 96, -104, 64, -112, 32, -104, 0, -88, -16, -64, -16, -32, 0, 0, 32, 16, 48, 88, 8, 120, -64, 112, -160, 112, -216, 128, -328, 48)
+
+[node name="GDSoftBody_14" type="GDSoftBody_2" parent="GDSimulation_2"]
+unit = 30
+stiffness = 1.0
+damping = 0.3
+particles_radius = 5.0
+position = Vector2(2783, -1287)
+color = Color(1, 1, 0, 0.509804)
+polygon = PackedVector2Array(-316.5, 121, -256, 336, 192, 336, 304, 232, 312, 176, 280, 128, 240, 128, 208, 120, 168, 104, 144, 64, 120, 24, 136, 0, 152, -8, 216, -16, 200, -40, 168, -40, 136, -64, 120, -88, 96, -104, 64, -112, 32, -104, 0, -88, -16, -64, -16, -32, 0, 0, 32, 16, 48, 88, 8, 120, -64, 112, -160, 112, -216, 128, -328, 48)
+
+[node name="GDSoftBody_13" type="GDSoftBody_2" parent="GDSimulation_2"]
+unit = 30
+stiffness = 1.0
+damping = 0.3
+particles_radius = 5.0
+position = Vector2(2146, -679)
+color = Color(1, 1, 0, 0.509804)
+polygon = PackedVector2Array(-316.5, 121, -256, 336, 192, 336, 304, 232, 312, 176, 280, 128, 240, 128, 208, 120, 168, 104, 144, 64, 120, 24, 136, 0, 152, -8, 216, -16, 200, -40, 168, -40, 136, -64, 120, -88, 96, -104, 64, -112, 32, -104, 0, -88, -16, -64, -16, -32, 0, 0, 32, 16, 48, 88, 8, 120, -64, 112, -160, 112, -216, 128, -328, 48)
 
 [connection signal="pressed" from="CanvasLayer/MarginContainer/Button" to="CanvasLayer/MarginContainer/Label2" method="_on_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/MarginContainer/Button" to="GDSimulation_2" method="reset_simulation"]
