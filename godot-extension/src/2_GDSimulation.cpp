@@ -30,9 +30,6 @@ void GDSimulation_2::draw_simulation() {
             }
         }
     }
-    for (auto* col: colliders) {
-        col->_draw();
-    }
 }
 
 /// @brief Binds the methods and properties of the GDSimulation_2 class to Godot.
